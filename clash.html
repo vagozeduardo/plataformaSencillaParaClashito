@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale - Fases del Torneo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
+
+    <!-- HEADER / MENÚ -->
+    <header class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue overflow-hidden">
+                    <img src="juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
+                </div>
+                <h1 class="font-orbitron text-xl md:text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff2a85]">
+                    Torneo de videojuegos
+                </h1>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold uppercase tracking-wider text-slate-300">
+                <a href="index.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
+                <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
+            </nav>
+            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
+                <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL: CLASH ROYALE -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <!-- Título del Juego -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <span class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded uppercase">
+                    Modalidad 1v1
+                </span>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-black mt-2 text-slate-100 uppercase">
+                    Torneo <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span>
+                </h2>
+            </div>
+            <i class="fa-solid fa-crown text-4xl text-amber-400 neon-text-gold"></i>
+        </div>
+
+        <!-- CONTENEDOR DE FASES -->
+        <div class="bg-[#121a2d] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+            
+            <!-- 1. Menú de Pestañas (Fases) -->
+            <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
+                <button data-fase="1" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-[#00d2ff] border-b-2 border-[#00d2ff] bg-[#00d2ff]/10 whitespace-nowrap">
+                    F1: TODOS VS TODOS
+                </button>
+                <button data-fase="2" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    F2: X3 ELIXIR
+                </button>
+                <button data-fase="3" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    F3: MODO DIOS
+                </button>
+                <button data-fase="4" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    F4: MEJOR DE 3
+                </button>
+                <button data-fase="5" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-amber-500 hover:text-amber-400 transition-colors whitespace-nowrap">
+                    F5: GRAN FINAL <i class="fa-solid fa-trophy ml-1"></i>
+                </button>
+            </div>
+
+            <!-- 2. Cabecera y Controles de la Fase Actual -->
+            <div class="p-4 md:p-6 bg-[#121a2d]">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <!-- Título y descripción dinámicos -->
+                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100">Fase 1: Todos vs Todos</h3>
+                        <p id="desc-fase" class="text-slate-400 text-sm">Combate general. <span class="text-amber-400 font-bold">Solo los primeros 15 avanzan a F2.</span></p>
+                    </div>
+
+                    <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                        <i class="fa-solid fa-filter"></i> Ocultar Eliminados
+                    </button>
+                </div>
+
+                <!-- 3. Lista de Jugadores -->
+                <div id="lista-jugadores" class="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                    <!-- El JavaScript inyectará los jugadores aquí -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- LLAMADA AL ARCHIVO JAVASCRIPT EXTERNO -->
+    <script src="clashito/clashito.js"></script>
+</body>
+</html>

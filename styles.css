@@ -1,0 +1,95 @@
+
+/* ==========================================================================
+   ARENA STITCH - ESTILOS BASE Y TEMA GAMER
+   ========================================================================== */
+
+/* Importación de tipografías estilo Esports */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+    --color-bg-dark: #0a0f1d;
+    --color-card-bg: #121a2d;
+    --color-stitch-blue: #00d2ff;
+    --color-stitch-pink: #ff2a85;
+    --color-accent-blue: #2563eb;
+    --color-text-main: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+}
+
+body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-main);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Efectos Neón de Stitch */
+.neon-border-blue {
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    border: 2px solid var(--color-stitch-blue);
+}
+
+.neon-border-pink {
+    box-shadow: 0 0 15px rgba(255, 42, 133, 0.3);
+    border: 2px solid var(--color-stitch-pink);
+}
+
+.neon-text-blue {
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.7);
+}
+
+.neon-text-pink {
+    text-shadow: 0 0 10px rgba(255, 42, 133, 0.7);
+}
+
+/* Tipografías */
+.font-orbitron {
+    font-family: var(--font-heading);
+}
+
+/* Transiciones globales */
+a, button {
+    transition: all 0.2s ease-in-out;
+}
+
+/* ==========================================================================
+   ESTILOS ESPECÍFICOS - CLASH ROYALE
+   ========================================================================== */
+.neon-border-gold {
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+    border: 1px solid #fbbf24;
+}
+
+.neon-text-gold {
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+}
+
+/* Scrollbar personalizada para la lista de jugadores */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #0a0f1d; 
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #00d2ff; 
+    border-radius: 10px;
+}
+
+/* Scrollbar personalizada para Brawl Stars (Rosa) */
+.custom-scrollbar-pink::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar-pink::-webkit-scrollbar-track {
+    background: #0a0f1d; 
+}
+.custom-scrollbar-pink::-webkit-scrollbar-thumb {
+    background: #ff2a85; 
+    border-radius: 10px;
+}

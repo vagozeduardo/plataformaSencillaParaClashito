@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Arena Stitch - Registro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
+
+    <!-- MENÚ -->
+    <header class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue overflow-hidden">
+                    <img src="juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
+                </div>
+                <h1 class="font-orbitron text-xl md:text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff2a85]">
+                    Torneo de videojuegos
+                </h1>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold uppercase tracking-wider text-slate-300">
+                <a href="index.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
+                <a href="registro.html" class="text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
+            </nav>
+            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
+                <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
+            </a>
+        </div>
+    </header>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <main class="max-w-3xl mx-auto px-4 py-12 flex-grow w-full">
+        <div class="bg-[#121a2d] rounded-2xl p-6 md:p-8 border border-slate-800 neon-border-blue">
+            <h3 class="font-orbitron text-2xl font-bold uppercase mb-2 text-[#00d2ff]">REGISTRO DE PARTICIPANTE</h3>
+            <p class="text-slate-400 text-xs mb-6">Ingresa tus datos de jugador para unirte al torneo activo.</p>
+            
+            <form id="form-registro" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">NOMBRE</label>
+                    <input type="text" id="nombre" placeholder="Ej. Hugo" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-sm text-slate-100 focus:outline-none focus:border-[#00d2ff]">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">GamerTag</label>
+                    <input type="text" id="gamertag" placeholder="Ej. THETROOPER_JE" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-sm text-slate-100 focus:outline-none focus:border-[#00d2ff]">
+                </div>  
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">ID Jugador (#TAG)</label>
+                    <input type="text" id="id_jugador" placeholder="Ej. #UGLVUPVVQ" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-sm text-slate-100 focus:outline-none focus:border-[#00d2ff]">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Seleccionar Torneo</label>
+                    <select id="torneo_select" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-sm text-slate-100 focus:outline-none focus:border-[#00d2ff]">
+                        <option value="cr">Clash Royale (1v1)</option>
+                        <option value="bs">Brawl Stars (3v3)</option>
+                    </select>
+                </div>
+                
+                <!-- CONTENEDOR DINÁMICO PARA EQUIPOS (BRAWL STARS) -->
+                <div id="equipo_container" class="hidden pb-2">
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1 text-[#ff2a85]">
+                        <i class="fa-solid fa-users mr-1"></i> Nombre del Equipo (Brawl Stars)
+                    </label>
+                    <!-- Usamos datalist para que pueda escribir uno nuevo o elegir uno existente -->
+                    <input list="lista_equipos" id="equipo_input" placeholder="Escribe para crear uno o selecciona existente" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-sm text-slate-100 focus:outline-none focus:border-[#ff2a85]">
+                    <datalist id="lista_equipos">
+                        <!-- Se llenará dinámicamente con JS -->
+                    </datalist>
+                </div>
+
+                <!-- BOTÓN CON ESTADOS (Deshabilitado por defecto) -->
+                <button type="submit" id="btn_submit" disabled class="w-full bg-gradient-to-r from-[#00d2ff] to-[#ff2a85] text-slate-900 font-orbitron font-bold py-3 rounded mt-4 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-cyan-500/30">
+                    CONFIRMAR INSCRIPCIÓN
+                </button>
+            </form>
+
+            <!-- MENSAJE DE ÉXITO -->
+            <div id="mensaje_exito" class="hidden mt-4 p-3 bg-emerald-500/20 border border-emerald-500 text-emerald-400 rounded text-center text-sm font-bold">
+                <i class="fa-solid fa-circle-check mr-2"></i> ¡Jugador registrado con éxito!
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-800 bg-[#121a2d] py-4 text-center text-xs text-slate-500 font-orbitron">
+        <p>© 2026 ARENA STITCH</p>
+    </footer>
+
+    <!-- LLAMADA AL ARCHIVO JAVASCRIPT EXTERNO -->
+    <script src="registro.js"></script>
+</body>
+</html>
