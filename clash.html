@@ -33,7 +33,7 @@
     </header>
 
     <!-- CONTENIDO PRINCIPAL: CLASH ROYALE -->
-    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
         
         <!-- Título del Juego -->
         <div class="flex items-center justify-between mb-8">
@@ -79,9 +79,31 @@
                         <p id="desc-fase" class="text-slate-400 text-sm">Combate general. <span class="text-amber-400 font-bold">Solo los primeros 15 avanzan a F2.</span></p>
                     </div>
 
-                    <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
-                        <i class="fa-solid fa-filter"></i> Ocultar Eliminados
-                    </button>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <!-- CONTROL SWITCH EN CURSO / CONCLUIDA -->
+                        <div class="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-lg">
+                            <!-- Luz LED Indicadora -->
+                            <span id="led-fase" class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+
+                            <!-- Texto de Estado -->
+                            <span id="texto-estado-fase" class="font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider">EN CURSO</span>
+
+                            <!-- Switch Toggle Neón -->
+                            <label class="relative inline-flex items-center cursor-pointer ml-1">
+                                <input type="checkbox" id="switch-estado-fase" class="sr-only peer" checked>
+                                <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00d2ff] peer-checked:shadow-[0_0_10px_#00d2ff]"></div>
+                            </label>
+                        </div>
+
+                        <button id="btn-avanzar-fase" disabled class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md disabled:bg-none disabled:bg-transparent disabled:border disabled:border-slate-700/60 disabled:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                            <i class="fa-solid fa-forward font-bold"></i> Avanzar de Fase
+                        </button>
+
+                        <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                            <i class="fa-solid fa-filter"></i> Ocultar Eliminados
+                        </button>
+                    </div>
+                    
                 </div>
 
                 <!-- 3. Lista de Jugadores -->

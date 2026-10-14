@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFiltrar = document.getElementById('btn-filtrar');
     let mostrarEliminados = true;
 
+
+
+    const btnAvanzarFase = document.getElementById('btn-avanzar-fase');
+    // Límite de jugadores que califican a la siguiente fase
+    const limitesClasificados = {
+        "1": 15, // Pasan los mejores 15 a Fase 2
+        "2": 10, // Pasan los mejores 10 a Fase 3
+        "3": 4,  // Pasan los mejores 4 a Fase 4
+        "4": 2   // Pasan los mejores 2 a la Final (Fase 5)
+    };
+
     
     // --- LÓGICA DE NAVEGACIÓN ENTRE FASES ---
     
@@ -210,6 +221,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     });
+
+    // --- LÓGICA PARA AVANZAR A LA SIGUIENTE FASE ---
+    btnAvanzarFase.addEventListener('click', () => {
+        const numFaseActual = parseInt(faseActual);
+    
+        if (numFaseActual >= 5) {
+            alert("¡Ya estás en la Fase Final!");
+            return;
+        }
+
+        const limite = limitesClasificados[faseActual];
+        const siguienteFase = numFaseActual + 1;
+
+        if (!confirm(`¿Confirmar avance? Solo los primeros ${limite} jugadores activos con más victorias avanzarán a la Fase ${siguienteFase}.`)) {
+            return;
+        }
+
+        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        const claveFase = `f${faseActual}`;
+
+        // 1. Filtrar jugadores activos que pertenecen a la fase actual y ordenarlos por victorias
+        const clasificados = jugadores
+            .filter(j => j.fase_maxima >= numFaseActual && j.estado !== 'eliminado')
+            .sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0))
+            .slice(0, limite); // Tomar solo los mejores según el límite
+
+        if (clasificados.length === 0) {
+            alert("No hay jugadores elegibles para avanzar en esta fase.");
+            return;
+        }
+
+        // 2. Actualizar fase_maxima a los que clasificaron
+        const idsClasificados = new Set(clasificados.map(c => c.id));
+        jugadores = jugadores.map(j => {
+            if (idsClasificados.has(j.id)) {
+                return { ...j, fase_maxima: Math.max(j.fase_maxima, siguienteFase) };
+            }
+            return j;
+        });
+
+        // 3. Guardar cambios
+        localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
+
+        // 4. Hacer clic automáticamente en la pestaña de la siguiente fase para refrescar la vista
+        const tabSiguiente = document.querySelector(`.tab-fase[data-fase="${siguienteFase}"]`);
+        if (tabSiguiente) tabSiguiente.click();
+    });
+
+    // --- LÓGICA DEL SWITCH DE ESTADO DE FASE ---
+    const switchEstado = document.getElementById('switch-estado-fase');
+    const ledFase = document.getElementById('led-fase');
+    const textoEstadoFase = document.getElementById('texto-estado-fase');
+    const btnAvanzar = document.getElementById('btn-avanzar-fase');
+
+    function actualizarEstadoFaseUI() {
+        const enCurso = switchEstado.checked;
+
+        if (enCurso) {
+            // Fase Activa / En Curso
+            ledFase.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse";
+            textoEstadoFase.textContent = "EN CURSO";
+            textoEstadoFase.className = "font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider";
+            btnAvanzar.disabled = true; // Bloquea el botón
+        } else {
+            // Fase Finalizada / Lista para avanzar
+            ledFase.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
+            textoEstadoFase.textContent = "CONCLUIDA";
+            textoEstadoFase.className = "font-orbitron text-xs font-bold text-rose-400 uppercase tracking-wider";
+            btnAvanzar.disabled = false; // Habilita el botón
+        }
+    }
+
+    // Escuchar el click en el Switch
+    switchEstado.addEventListener('change', actualizarEstadoFaseUI);
+
+    // Inicializar estado al cargar la página
+    actualizarEstadoFaseUI();
 
     // Renderizar inicialmente al cargar la página
     renderizarJugadores();
