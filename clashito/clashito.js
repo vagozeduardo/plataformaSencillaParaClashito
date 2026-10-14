@@ -3,6 +3,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFiltrar = document.getElementById('btn-filtrar');
     let mostrarEliminados = true;
 
+    
+    // --- LÓGICA DE NAVEGACIÓN ENTRE FASES ---
+    
+    const tabs = document.querySelectorAll('.tab-fase');
+    const tituloFase = document.getElementById('titulo-fase');
+    const descFase = document.getElementById('desc-fase');
+
+    let faseActual = "1"; // Empezamos en la fase 1
+
+    // Textos correspondientes a cada fase
+    const infoFases = {
+        "1": {
+            titulo: "Fase 1: Todos vs Todos",
+            desc: "Combate general. <span class='text-amber-400 font-bold'>Solo los primeros 15 avanzan a F2.</span>"
+        },
+        "2": {
+            titulo: "Fase 2: X3 Elixir",
+            desc: "Locura de elixir. <span class='text-amber-400 font-bold'>Solo los 10 mejores sobreviven y avanzan a F3.</span>"
+        },
+        "3": {
+            titulo: "Fase 3: Modo Dios",
+            desc: "Todos contra todos extremo. <span class='text-amber-400 font-bold'>Pasan los 4 con más victorias.</span>"
+        },
+        "4": {
+            titulo: "Fase 4: Semifinal (Mejor de 3)",
+            desc: "Enfrentamiento directo entre los 4 mejores. <span class='text-amber-400 font-bold'>Los 2 ganadores van a la final.</span>"
+        },
+        "5": {
+            titulo: "Fase 5: Gran Final",
+            desc: "El duelo definitivo por la corona galáctica. <span class='text-amber-400 font-bold'>Al mejor de 5.</span>"
+        }
+    };
+
     // Función principal para renderizar la lista
     function renderizarJugadores() {
         // Obtenemos los datos de localStorage
@@ -11,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Limpiamos el contenedor
         listaJugadoresContainer.innerHTML = '';
+
+        const claveFase = `f${faseActual}`;
+        const jugadoresEnFase = jugadores.filter(j => j.fase_maxima >= parseInt(faseActual));
 
         // Si no hay jugadores, mostramos el estado vacío
         if (jugadores.length === 0) {
@@ -24,10 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Ordenar jugadores por victorias (descendente)
-        jugadores.sort((a, b) => b.victorias - a.victorias);
+        jugadoresEnFase.sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0));
 
         // Generar el HTML para cada jugador
-        jugadores.forEach((jugador, index) => {
+        jugadoresEnFase.forEach((jugador, index) => {
             // Lógica del filtro: Si mostrarEliminados es falso y el jugador está eliminado, no lo renderizamos
             if (!mostrarEliminados && jugador.estado === 'eliminado') {
                 return; 
@@ -35,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const esEliminado = jugador.estado === 'eliminado';
             const posicion = index + 1;
+            const victoriasActuales = jugador.victorias[claveFase] || 0;
 
             // Clases CSS dinámicas dependiendo del estado
             const divClases = esEliminado 
@@ -58,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="flex items-center gap-6">
                         <div class="text-center">
                             <p class="text-xs text-slate-400">Victorias</p>
-                            <p class="font-bold text-${esEliminado ? 'slate-500' : '[#00d2ff]'}">${jugador.victorias}</p>
+                            <p class="font-bold text-${esEliminado ? 'slate-500' : '[#00d2ff]'}">${victoriasActuales}</p>
                         </div>
                         <div class="flex gap-2">
 
@@ -88,7 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado') {
-            jugadores[jugadorIndex].victorias += 1;
+            const claveFase = `f${faseActual}`;
+            if (!jugadores[jugadorIndex].victorias) jugadores[jugadorIndex].victorias = {};
+            
+            jugadores[jugadorIndex].victorias[claveFase] = (jugadores[jugadorIndex].victorias[claveFase] || 0) + 1;
             localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
             renderizarJugadores();
         }
@@ -99,9 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado') {
+            const claveFase = `f${faseActual}`;
             // Evitar que las victorias sean números negativos
-            if (jugadores[jugadorIndex].victorias > 0) {
-                jugadores[jugadorIndex].victorias -= 1;
+            if (jugadores[jugadorIndex].victorias && jugadores[jugadorIndex].victorias[claveFase] > 0) {
+                jugadores[jugadorIndex].victorias[claveFase] -= 1;
                 localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
                 renderizarJugadores();
             }
@@ -136,53 +177,26 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarJugadores();
     });
 
-    // --- LÓGICA DE NAVEGACIÓN ENTRE FASES ---
-    
-    const tabs = document.querySelectorAll('.tab-fase');
-    const tituloFase = document.getElementById('titulo-fase');
-    const descFase = document.getElementById('desc-fase');
 
-    // Textos correspondientes a cada fase
-    const infoFases = {
-        "1": {
-            titulo: "Fase 1: Todos vs Todos",
-            desc: "Combate general. <span class='text-amber-400 font-bold'>Solo los primeros 15 avanzan a F2.</span>"
-        },
-        "2": {
-            titulo: "Fase 2: X3 Elixir",
-            desc: "Locura de elixir. <span class='text-amber-400 font-bold'>Solo los 10 mejores sobreviven y avanzan a F3.</span>"
-        },
-        "3": {
-            titulo: "Fase 3: Modo Dios",
-            desc: "Todos contra todos extremo. <span class='text-amber-400 font-bold'>Pasan los 4 con más victorias.</span>"
-        },
-        "4": {
-            titulo: "Fase 4: Semifinal (Mejor de 3)",
-            desc: "Enfrentamiento directo entre los 4 mejores. <span class='text-amber-400 font-bold'>Los 2 ganadores van a la final.</span>"
-        },
-        "5": {
-            titulo: "Fase 5: Gran Final",
-            desc: "El duelo definitivo por la corona galáctica. <span class='text-amber-400 font-bold'>Al mejor de 5.</span>"
-        }
-    };
-
-    let faseActual = "1"; // Empezamos en la fase 1
 
     tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
-            // 1. Quitar estilos activos a TODAS las pestañas
-            tabs.forEach(t => {
-                t.classList.remove('text-[#00d2ff]', 'border-b-2', 'border-[#00d2ff]', 'bg-[#00d2ff]/10');
-                if(!t.classList.contains('text-amber-500')){ // No quitarle el dorado a la final
-                    t.classList.add('text-slate-500');
-                }
-            });
-
             // 2. Poner estilo activo a la pestaña que fue clickeada
             const tabClickeada = e.currentTarget;
             faseActual = tabClickeada.getAttribute('data-fase'); // Obtenemos si es la 1, 2, 3...
+
+            // 1. Quitar estilos activos a TODAS las pestañas
+            tabs.forEach(t => {
+                t.classList.remove('text-[#00d2ff]', 'border-b-2', 'border-[#00d2ff]', 'bg-[#00d2ff]/10');
+                if (t.getAttribute('data-fase') === "5") {
+                    t.classList.add('text-amber-500');
+                } else {
+                    t.classList.add('text-slate-500');
+                }
+            });
+            faseActual = tabClickeada.getAttribute('data-fase');
             
-            tabClickeada.classList.remove('text-slate-500');
+            tabClickeada.classList.remove('text-slate-500', 'text-amber-500');
             tabClickeada.classList.add('text-[#00d2ff]', 'border-b-2', 'border-[#00d2ff]', 'bg-[#00d2ff]/10');
 
             // 3. Cambiar los textos de la cabecera dinámicamente
@@ -192,6 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 4. Volver a renderizar los jugadores (Aquí a futuro pondremos un filtro para que solo salgan los que pasaron)
             renderizarJugadores();
         });
+
+
+
     });
 
     // Renderizar inicialmente al cargar la página
