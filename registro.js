@@ -1,4 +1,26 @@
 // registro.js
+
+/*
+
+datos de jugadores de Clashito
+{
+    id: "1",
+    nombre: "Sofía",
+    gamertag: "ValkyrieCR",
+    tag_jugador: "#90PLQ112X",
+    fase_maxima: 1, // Indica hasta qué fase ha llegado (1, 2, 3, 4 o 5)
+    estado: "activo", // "activo" o "eliminado"
+    victorias: {
+        f1: 0,
+        f2: 0,
+        f3: 0,
+        f4: 0,
+        f5: 0
+    }
+}
+
+*/
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-registro");
     const btnSubmit = document.getElementById("btn_submit");
@@ -69,8 +91,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (juegoSeleccionado === "cr") {
             // Lógica Clash Royale
-            nuevoJugador.victorias = 0;
+            nuevoJugador.fase_maxima = 1;
             nuevoJugador.estado = "activo"; // activo o eliminado
+            nuevoJugador.victorias = {
+                f1: 0,
+                f2: 0,
+                f3: 0,
+                f4: 0,
+                f5: 0
+            };
             
             const jugadoresCR = JSON.parse(localStorage.getItem("jugadores_cr")) || [];
             jugadoresCR.push(nuevoJugador);
