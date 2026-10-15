@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmisión en Vivo - Clash Royale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        .jugador-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .ganador { box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); transform: scale(1.05); z-index: 10; }
+        .perdedor { opacity: 0.4; filter: grayscale(80%); transform: scale(0.95); }
+        .rotacion-anim { animation: fadeSlide 0.5s ease-in-out; }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[#050811] text-slate-100 font-sans min-h-screen overflow-hidden flex flex-col">
+
+    <!-- HEADER: Pestañas para cambiar entre F3 y F4 en la pantalla pública -->
+    <header class="p-4 border-b border-cyan-900/50 flex justify-between items-center bg-[#0a0f1d]/80">
+        <h1 class="text-2xl font-orbitron font-black text-cyan-400 tracking-widest">
+            <i class="fa-solid fa-satellite-dish animate-pulse text-red-500 mr-2"></i> LIVE MATCH
+        </h1>
+        <div class="flex gap-4">
+            <button id="tab-f3" class="px-6 py-2 rounded font-orbitron font-bold bg-cyan-600 text-white shadow-[0_0_10px_rgba(8,145,178,0.5)] transition-all">FASE 3: MODO DIOS</button>
+            <button id="tab-f4" class="px-6 py-2 rounded font-orbitron font-bold bg-slate-800 text-slate-400 hover:text-white transition-all">FASE 4: SEMIFINAL</button>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DEL ESTADIO -->
+    <main class="flex-1 flex flex-col justify-center p-8 relative">
+        
+        <!-- ZONA A (Lado Superior) -->
+        <div id="zona-a" class="flex justify-around items-end h-40 mb-4 z-10">
+            <!-- Tarjetas inyectadas por JS -->
+        </div>
+
+        <!-- PISTA CENTRAL (Mesa) -->
+        <div class="relative w-full h-48 bg-gradient-to-r from-slate-900 via-[#121a2d] to-slate-900 border-4 border-cyan-800/50 rounded-[100px] shadow-[inset_0_0_50px_rgba(0,0,0,0.8)] flex items-center justify-center">
+            <div class="absolute inset-0 border border-cyan-500/20 rounded-[100px] m-2"></div>
+            <div class="text-center">
+                <h2 id="texto-ronda" class="text-5xl font-orbitron font-black text-white tracking-widest drop-shadow-[0_0_15px_rgba(0,210,255,0.8)]">
+                    RONDA 1
+                </h2>
+                <p id="texto-estado" class="text-cyan-400 font-mono mt-2 uppercase tracking-[0.3em]">Enfrentamientos Activos</p>
+            </div>
+        </div>
+
+        <!-- ZONA B (Lado Inferior) -->
+        <div id="zona-b" class="flex justify-around items-start h-40 mt-4 z-10">
+            <!-- Tarjetas inyectadas por JS -->
+        </div>
+
+    </main>
+
+    <script type="module" src="clashito/espectadorMatchController.js"></script>
+</body>
+</html>
