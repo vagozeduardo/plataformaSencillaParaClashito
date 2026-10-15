@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale - Vista En Vivo</title>
+    <!-- Tailwind CSS y FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0f1d] text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- BOTÓN FLOTANTE HEADER (OPCIONAL) -->
+    <button id="btn-toggle-header" class="fixed top-3 right-4 z-50 bg-[#121a2d]/80 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-orbitron font-bold transition-all flex items-center gap-2">
+        <i class="fa-solid fa-eye-slash" id="icono-toggle"></i> <span id="texto-toggle">Ocultar Menú</span>
+    </button>
+
+    <!-- HEADER / MENÚ -->
+    <header id="main-header" class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff]">
+                    <i class="fa-solid fa-trophy text-[#00d2ff]"></i>
+                </div>
+                <h1 class="font-orbitron text-3xl md:text-4xl font-black mt-2 text-slate-100 uppercase">
+                    Torneo <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span>
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 py-4 flex-grow w-full">
+        <div class="bg-[#121a2d]/80 border border-cyan-500/30 rounded-2xl p-6 shadow-[0_0_20px_rgba(0,210,255,0.1)]">
+            
+            <!-- Encabezado de Fase y Pestañas Read-Only -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-slate-800">
+                <div>
+                    <h2 id="titulo-fase" class="text-2xl font-orbitron font-bold text-[#00d2ff]">Fase 1: Todos vs Todos</h2>
+                    <p id="desc-fase" class="text-xs text-slate-400 mt-1">Combate general.</p>
+                </div>
+                <!-- Badge de Estado En Vivo -->
+                <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 px-4 py-2 rounded-full">
+                    <span id="espectador-led" class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+                    <span id="espectador-texto" class="font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider">Torneo en curso</span>
+                </div>
+            </div>
+
+            <!-- Pestañas de Navegación de Fases (Read-Only) -->
+            <div class="flex border-b border-slate-800 mb-6 overflow-x-auto custom-scrollbar">
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-[#00d2ff] border-b-2 border-[#00d2ff] bg-[#00d2ff]/10" data-fase="1">F1: TODOS VS TODOS</button>
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="2">F2: X3 ELIXIR</button>
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="3">F3: MODO DIOS</button>
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="4">F4: MEJOR DE 3</button>
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-amber-500" data-fase="5">F5: GRAN FINAL 🏆</button>
+                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-amber-500" data-fase="6">🏆 CAMPEÓN 🏆</button>
+            </div>
+
+            <!-- LISTA DE JUGADORES / TABLA DE POSICIONES -->
+            <div id="lista-jugadores" class="space-y-2 max-h-[680px] overflow-y-auto custom-scrollbar pr-2">
+                <!-- Se inyectará automáticamente por JS -->
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="clashito/spectator.js"></script>
+</body>
+</html>

@@ -32,6 +32,8 @@ export function inicializarSwitchEstadoFase(btnAvanzar) {
         if (!switchEstado) return;
         const enCurso = switchEstado.checked;
 
+        localStorage.setItem('torneo_estado_cr', enCurso ? 'en_curso' : 'concluida');
+
         if (enCurso) {
             if (ledFase) ledFase.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse";
             if (textoEstadoFase) {
