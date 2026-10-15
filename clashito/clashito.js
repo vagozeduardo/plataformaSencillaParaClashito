@@ -1,3 +1,6 @@
+import {obtenerJugadores, guardarJugadores, inicializarRespaldoJSON} from './storage-utils.js';
+import { inicializarToggleHeader, inicializarSwitchEstadoFase } from './ui-utils.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const listaJugadoresContainer = document.getElementById('lista-jugadores');
     const btnFiltrar = document.getElementById('btn-filtrar');
@@ -46,8 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función principal para renderizar la lista
     function renderizarJugadores() {
-        const jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        const jugadores = obtenerJugadores();
         listaJugadoresContainer.innerHTML = '';
+
+        const campeon = jugadores.find(j => j.fase_maxima >= 6);
+
+        // codigo para campeon
+        if (faseActual === "5" && campeon) {
+            listaJugadoresContainer.innerHTML = `
+                <div class="py-12 px-6 rounded-2xl bg-gradient-to-b from-amber-500/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col items-center justify-center my-4">
+                    <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center border-2 border-amber-400 mb-4 shadow-[0_0_20px_#fbbf24]">
+                        <i class="fa-solid fa-trophy text-4xl text-amber-400"></i>
+                    </div>
+                    <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">¡CAMPEÓN ABSOLUTO DEL TORNEO!</span>
+                    <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 uppercase tracking-wider mb-2">${campeon.gamertag}</h2>
+                    <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60 mb-6">
+                        <i class="fa-solid fa-user text-amber-400 mr-1.5"></i>${campeon.nombre} <span class="text-slate-500">|</span> ${campeon.tag_jugador}
+                    </p>
+                    <div class="flex items-center gap-6 text-xs font-orbitron text-slate-400 border-t border-slate-800 pt-4">
+                        <div>
+                            <span class="block text-slate-500 text-[10px]">VICTORIAS FINAL</span>
+                            <span class="text-emerald-400 font-bold text-base">${campeon.victorias.f5 || 0}</span>
+                        </div>
+                        <div class="h-6 w-[1px] bg-slate-800"></div>
+                        <div>
+                            <span class="block text-slate-500 text-[10px]">ESTADO</span>
+                            <span class="text-amber-400 font-bold text-base"><i class="fa-solid fa-crown text-xs"></i> VICTORIOSO</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
 
         const claveFase = `f${faseActual}`;
         const jugadoresEnFase = jugadores.filter(j => j.fase_maxima >= parseInt(faseActual));
@@ -71,24 +104,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!mostrarEliminados && jugador.estado === 'eliminado') {
                 return; 
             }
-
+            const esCampeon = jugador.fase_maxima >= 6;
             const esEliminado = jugador.estado === 'eliminado';
             const estaDeshabilitado = jugador.habilitado === false || esEliminado;
             const posicion = index + 1;
             const victoriasActuales = jugador.victorias[claveFase] || 0;
 
-            // Clases CSS dinámicas
-            const divClases = estaDeshabilitado 
-                ? 'flex items-center justify-between p-3 rounded-lg border border-rose-500/30 bg-rose-500/5 opacity-60'
-                : 'flex items-center justify-between p-3 rounded-lg border border-[#00d2ff]/30 bg-[#00d2ff]/5';
+            // Clases CSS dinámicas  segun el estado del jugador
+            let divClases = 'flex items-center justify-between p-3 rounded-lg border border-[#00d2ff]/30 bg-[#00d2ff]/5';
+            
+            if (esCampeon) {
+                divClases = 'flex items-center justify-between p-3 rounded-lg border-2 border-amber-400/80 bg-amber-500/10 shadow-[0_0_15px_rgba(251,191,36,0.2)] cursor-pointer hover:bg-amber-500/20 transition-all';
+            } else if (estaDeshabilitado) {
+                divClases = 'flex items-center justify-between p-3 rounded-lg border border-rose-500/30 bg-rose-500/5 opacity-60';
+            }
 
-            const textoNombreClases = estaDeshabilitado ? 'font-bold text-slate-400 line-through' : 'font-bold text-slate-100';
-            const badgeClases = estaDeshabilitado ? 'text-xs text-rose-500 font-bold uppercase' : 'text-xs text-slate-500 font-mono';
+            const textoNombreClases = esCampeon 
+                ? 'font-bold text-amber-300 font-orbitron text-lg' 
+                : (estaDeshabilitado ? 'font-bold text-slate-400 line-through' : 'font-bold text-slate-100');
+
+            const badgeClases = esCampeon 
+                ? 'text-xs text-amber-400 font-bold uppercase tracking-wider' 
+                : (estaDeshabilitado ? 'text-xs text-rose-500 font-bold uppercase' : 'text-xs text-slate-500 font-mono');
             
             // CORREGIDO: Declarado como let para permitir reasignación
             let badgeTexto = jugador.tag_jugador;
 
-            if (jugador.estado === 'eliminado') {
+            if(esCampeon){
+                badgeTexto = '🏆 1° LUGAR - CAMPEÓN ABSOLUTO (Clic para ver trofeo)';
+            }else if (jugador.estado === 'eliminado') {
                 if(jugador.fase_maxima === 5){
                     badgeTexto = '🥈 2° LUGAR - SUBCAMPEÓN';
                 }else{
@@ -138,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Funciones Globales para los botones ---
     window.sumarVictoria = function(id) {
-        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        let jugadores = obtenerJugadores();
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado' && jugadores[jugadorIndex].habilitado !== false) {
@@ -146,34 +190,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!jugadores[jugadorIndex].victorias) jugadores[jugadorIndex].victorias = {};
             
             jugadores[jugadorIndex].victorias[claveFase] = (jugadores[jugadorIndex].victorias[claveFase] || 0) + 1;
-            localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
+            guardarJugadores(jugadores);
             renderizarJugadores();
         }
     };
 
+    
     window.restarVictoria = function(id) {
-        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        let jugadores = obtenerJugadores();
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado' && jugadores[jugadorIndex].habilitado !== false) {
             const claveFase = `f${faseActual}`;
             if (jugadores[jugadorIndex].victorias && jugadores[jugadorIndex].victorias[claveFase] > 0) {
                 jugadores[jugadorIndex].victorias[claveFase] -= 1;
-                localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
+                guardarJugadores(jugadores);
                 renderizarJugadores();
             }
         }
     };
 
     window.eliminarJugador = function(id) {
-        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        let jugadores = obtenerJugadores();
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1) {
             // Alternar variable habilitado
             const estaHabilitado = jugadores[jugadorIndex].habilitado !== false;
             jugadores[jugadorIndex].habilitado = !estaHabilitado;
-            localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
+            guardarJugadores(jugadores);
             renderizarJugadores();
         }
     };
@@ -219,47 +264,40 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAvanzarFase.addEventListener('click', () => {
         
         const numFaseActual = parseInt(faseActual);
-        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        let jugadores = obtenerJugadores();
         const claveFase = `f${faseActual}`;
-        listaJugadoresContainer.innerHTML = '';
 
-        const campeon = jugadores.find(j => j.fase_maxima >= 6);
-
-        // codigo para campeon
-        if (numFaseActual === 5 && campeon) {
-            listaJugadoresContainer.innerHTML = `
-                <div class="py-12 px-6 rounded-2xl bg-gradient-to-b from-amber-500/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col items-center justify-center my-4">
-                    <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center border-2 border-amber-400 mb-4 shadow-[0_0_20px_#fbbf24]">
-                        <i class="fa-solid fa-trophy text-4xl text-amber-400"></i>
-                    </div>
-
-                    <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">
-                        ¡CAMPEÓN ABSOLUTO DEL TORNEO!
-                    </span>
-
-                    <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 uppercase tracking-wider mb-2">
-                        ${campeon.gamertag}
-                    </h2>
-
-                    <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60 mb-6">
-                        <i class="fa-solid fa-user text-amber-400 mr-1.5"></i>${campeon.nombre} <span class="text-slate-500">|</span> ${campeon.tag_jugador}
-                    </p>
-
-                    <div class="flex items-center gap-6 text-xs font-orbitron text-slate-400 border-t border-slate-800 pt-4">
-                        <div>
-                            <span class="block text-slate-500 text-[10px]">VICTORIAS FINAL</span>
-                            <span class="text-emerald-400 font-bold text-base">${campeon.victorias.f5 || 0}</span>
-                        </div>
-                        <div class="h-6 w-[1px] bg-slate-800"></div>
-                        <div>
-                            <span class="block text-slate-500 text-[10px]">ESTADO</span>
-                            <span class="text-amber-400 font-bold text-base"><i class="fa-solid fa-crown text-xs"></i> VICTORIOSO</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            return;
-        }
+        // verificar si hay campeon
+        if (numFaseActual === 5) {
+                    const yaHayCampeon = jugadores.some(j => j.fase_maxima >= 6);
+                    if (yaHayCampeon) {
+                        alert("El torneo de Clash Royale ya ha concluido.");
+                        return;
+                    }
+                    const finalistas = jugadores.filter(j => j.fase_maxima >= 5 && j.estado !== 'eliminado');
+                    if (finalistas.length === 0) return alert("No hay finalistas activos en la Fase 5.");
+        
+                    finalistas.sort((a, b) => (b.victorias.f5 || 0) - (a.victorias.f5 || 0));
+        
+                    const ganador = finalistas[0];
+                    const subcampeon = finalistas[1];
+        
+                    if (subcampeon && (ganador.victorias.f5 || 0) === (subcampeon.victorias.f5 || 0)) {
+                        return alert(`Hay un empate entre ${ganador.gamertag} y ${subcampeon.gamertag}. Desempata antes de finalizar.`);
+                    }
+        
+                    if (!confirm(`¿Deseas finalizar el torneo y proclamar CAMPEÓN a ${ganador.gamertag}?`)) return;
+        
+                    jugadores = jugadores.map(j => {
+                        if (j.id === ganador.id) return { ...j, fase_maxima: 6, habilitado: false };
+                        if (subcampeon && j.id === subcampeon.id) return { ...j, estado: 'eliminado', habilitado: false };
+                        return j;
+                    });
+        
+                    guardarJugadores(jugadores);
+                    renderizarJugadores();
+                    return;
+                }
 
         // loggica de la fase 1 a la 4
         const limite = limitesClasificados[faseActual];
@@ -296,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return j;
         });
 
-        localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
+        guardarJugadores(jugadores);
 
         // 3. Cambiar a la pestaña siguiente y apagar el switch
         const tabSiguiente = document.querySelector(`.tab-fase[data-fase="${siguienteFase}"]`);
@@ -309,102 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- LÓGICA DEL SWITCH DE ESTADO DE FASE ---
-    const switchEstado = document.getElementById('switch-estado-fase');
-    const ledFase = document.getElementById('led-fase');
-    const textoEstadoFase = document.getElementById('texto-estado-fase');
-    const btnAvanzar = document.getElementById('btn-avanzar-fase');
-
-    function actualizarEstadoFaseUI() {
-        if (!switchEstado) return;
-        const enCurso = switchEstado.checked;
-
-        if (enCurso) {
-            ledFase.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse";
-            textoEstadoFase.textContent = "EN CURSO";
-            textoEstadoFase.className = "font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider";
-            btnAvanzar.disabled = true;
-        } else {
-            ledFase.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
-            textoEstadoFase.textContent = "CONCLUIDA";
-            textoEstadoFase.className = "font-orbitron text-xs font-bold text-rose-400 uppercase tracking-wider";
-            btnAvanzar.disabled = false;
-        }
-    }
-
-    // --- CONTROL DE OCULTAR / MOSTRAR HEADER ---
-    const btnToggleHeader = document.getElementById('btn-toggle-header');
-    const mainHeader = document.getElementById('main-header');
-    const iconoToggle = document.getElementById('icono-toggle');
-    const textoToggle = document.getElementById('texto-toggle');
-
-    btnToggleHeader.addEventListener('click', () => {
-        const estaOculto = mainHeader.classList.contains('hidden');
-
-        if (estaOculto) {
-            mainHeader.classList.remove('hidden');
-            iconoToggle.className = 'fa-solid fa-eye-slash';
-            textoToggle.textContent = 'Ocultar Menú';
-        } else {
-            mainHeader.classList.add('hidden');
-            iconoToggle.className = 'fa-solid fa-bars';
-            textoToggle.textContent = 'Menú';
-        }
-    });
-
-    if (switchEstado) {
-        switchEstado.addEventListener('change', actualizarEstadoFaseUI);
-        actualizarEstadoFaseUI();
-    }
-
-    // --- LÓGICA DE EXPORTAR E IMPORTAR RESPALDOS (JSON) ---
-    const btnExportar = document.getElementById('btn-exportar-json');
-    const inputImportar = document.getElementById('input-importar-json');
-
-    if (btnExportar) {
-        btnExportar.addEventListener('click', () => {
-            const jugadoresRaw = localStorage.getItem('jugadores_cr');
-            if (!jugadoresRaw || jugadoresRaw === '[]') {
-                alert("No hay datos para exportar.");
-                return;
-            }
-            const jugadoresFormateados = JSON.stringify(JSON.parse(jugadoresRaw), null, 2);
-
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jugadoresFormateados);
-            const downloadAnchor = document.createElement('a');
-            const fecha = new Date().toISOString().slice(0, 10);
-            
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `Torneo_ClashRoyale_${fecha}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        });
-    }
-
-    if (inputImportar) {
-        inputImportar.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const datosValidados = JSON.parse(event.target.result);
-                    if (Array.isArray(datosValidados)) {
-                        localStorage.setItem('jugadores_cr', JSON.stringify(datosValidados));
-                        alert("¡Datos del torneo cargados exitosamente!");
-                        renderizarJugadores();
-                    } else {
-                        alert("El archivo JSON no tiene la estructura correcta.");
-                    }
-                } catch (err) {
-                    alert("Error al leer el archivo JSON.");
-                }
-            };
-            reader.readAsText(file);
-        });
-    }
+    inicializarToggleHeader();
+    inicializarSwitchEstadoFase(btnAvanzarFase);
+    inicializarRespaldoJSON(() => renderizarJugadores());
 
     renderizarJugadores();
 });
