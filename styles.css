@@ -75,11 +75,14 @@ a, button {
     width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #0a0f1d; 
+    background: #0d1527; 
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #00d2ff; 
     border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ff2a85; /* Cambia a rosa neón al pasar el mouse */
 }
 
 /* Scrollbar personalizada para Brawl Stars (Rosa) */
@@ -93,3 +96,4 @@ a, button {
     background: #ff2a85; 
     border-radius: 10px;
 }
+

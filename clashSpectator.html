@@ -8,20 +8,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-[#0a0f1d] text-slate-100 font-sans min-h-screen flex flex-col justify-between">
-
-    <!-- BOTÓN FLOTANTE HEADER (OPCIONAL) -->
-    <button id="btn-toggle-header" class="fixed top-3 right-4 z-50 bg-[#121a2d]/80 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-orbitron font-bold transition-all flex items-center gap-2">
-        <i class="fa-solid fa-eye-slash" id="icono-toggle"></i> <span id="texto-toggle">Ocultar Menú</span>
-    </button>
-
     <!-- HEADER / MENÚ -->
     <header id="main-header" class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff]">
-                    <i class="fa-solid fa-trophy text-[#00d2ff]"></i>
+                    <img src="media/iconoCoronaClashito.png" alt="Logo de corona" class="w-full h-full object-cover">
                 </div>
                 <h1 class="font-orbitron text-3xl md:text-4xl font-black mt-2 text-slate-100 uppercase">
                     Torneo <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span>
@@ -58,7 +53,7 @@
             </div>
 
             <!-- LISTA DE JUGADORES / TABLA DE POSICIONES -->
-            <div id="lista-jugadores" class="space-y-2 max-h-[680px] overflow-y-auto custom-scrollbar pr-2">
+            <div id="lista-jugadores" class="space-y-2 max-h-[680px] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pr-2">
                 <!-- Se inyectará automáticamente por JS -->
             </div>
         </div>

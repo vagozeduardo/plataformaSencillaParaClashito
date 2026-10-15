@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (estado === 'en_curso') {
             led.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse";
-            texto.textContent = "TRANSMISIÓN EN VIVO";
+            texto.textContent = "FASE EN CURSO";
             texto.className = "font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider";
         } else {
             led.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
