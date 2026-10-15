@@ -328,6 +328,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- CONTROL DE OCULTAR / MOSTRAR HEADER ---
+    const btnToggleHeader = document.getElementById('btn-toggle-header');
+    const mainHeader = document.getElementById('main-header');
+    const iconoToggle = document.getElementById('icono-toggle');
+    const textoToggle = document.getElementById('texto-toggle');
+
+    btnToggleHeader.addEventListener('click', () => {
+        const estaOculto = mainHeader.classList.contains('hidden');
+
+        if (estaOculto) {
+            mainHeader.classList.remove('hidden');
+            iconoToggle.className = 'fa-solid fa-eye-slash';
+            textoToggle.textContent = 'Ocultar Menú';
+        } else {
+            mainHeader.classList.add('hidden');
+            iconoToggle.className = 'fa-solid fa-bars';
+            textoToggle.textContent = 'Menú';
+        }
+    });
+
     if (switchEstado) {
         switchEstado.addEventListener('change', actualizarEstadoFaseUI);
         actualizarEstadoFaseUI();

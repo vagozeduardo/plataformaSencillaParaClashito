@@ -10,8 +10,13 @@
 </head>
 <body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
 
+    <!-- BOTÓN FLOTANTE PARA ACTIVAR/OCULTAR MENÚ -->
+    <button id="btn-toggle-header" class="fixed top-3 right-4 z-50 bg-[#121a2d]/80 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-orbitron font-bold transition-all shadow-[0_0_10px_rgba(0,210,255,0.2)] flex items-center gap-2">
+        <i class="fa-solid fa-eye-slash" id="icono-toggle"></i> <span id="texto-toggle">Ocultar Menú</span>
+    </button>
+
     <!-- HEADER / MENÚ -->
-    <header class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-50">
+    <header id="main-header" class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue overflow-hidden">
@@ -26,17 +31,17 @@
                 <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
                 <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
             </nav>
-            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
+            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg mr-32">
                 <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
             </a>
         </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL: CLASH ROYALE -->
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+    <main class="max-w-6xl mx-auto px-4 pt-2 pb-6 flex-grow w-full">
         
         <!-- Título del Juego -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between mb-6">
             <div>
                 <span class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded uppercase">
                     Modalidad 1v1
@@ -107,7 +112,7 @@
                 </div>
 
                 <!-- 3. Lista de Jugadores -->
-                <div id="lista-jugadores" class="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                <div id="lista-jugadores" class="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
                     <!-- El JavaScript inyectará los jugadores aquí -->
                 </div>
             </div>
