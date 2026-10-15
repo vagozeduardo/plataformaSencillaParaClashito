@@ -3,9 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFiltrar = document.getElementById('btn-filtrar');
     let mostrarEliminados = true;
 
-
-
     const btnAvanzarFase = document.getElementById('btn-avanzar-fase');
+    
     // Límite de jugadores que califican a la siguiente fase
     const limitesClasificados = {
         "1": 15, // Pasan los mejores 15 a Fase 2
@@ -14,9 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "4": 2   // Pasan los mejores 2 a la Final (Fase 5)
     };
 
-    
     // --- LÓGICA DE NAVEGACIÓN ENTRE FASES ---
-    
     const tabs = document.querySelectorAll('.tab-fase');
     const tituloFase = document.getElementById('titulo-fase');
     const descFase = document.getElementById('desc-fase');
@@ -49,50 +46,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función principal para renderizar la lista
     function renderizarJugadores() {
-        // Obtenemos los datos de localStorage
         const jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
-        //console.log("Clash Royale", jugadores);
-
-        // Limpiamos el contenedor
         listaJugadoresContainer.innerHTML = '';
 
         const claveFase = `f${faseActual}`;
         const jugadoresEnFase = jugadores.filter(j => j.fase_maxima >= parseInt(faseActual));
 
-        // Si no hay jugadores, mostramos el estado vacío
-        if (jugadores.length === 0) {
+        // Si no hay jugadores
+        if (jugadoresEnFase.length === 0) {
             listaJugadoresContainer.innerHTML = `
                 <div class="text-center py-12 border-2 border-dashed border-slate-700 rounded-lg">
                     <i class="fa-solid fa-ghost text-4xl text-slate-600 mb-3"></i>
-                    <p class="text-slate-400 font-orbitron">Aún no hay jugadores registrados en esta fase.</p>
+                    <p class="text-slate-400 font-orbitron">Aún no hay jugadores clasificados en esta fase.</p>
                 </div>
             `;
             return;
         }
 
-        // Ordenar jugadores por victorias (descendente)
+        // Ordenar jugadores por victorias en la fase actual
         jugadoresEnFase.sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0));
 
         // Generar el HTML para cada jugador
         jugadoresEnFase.forEach((jugador, index) => {
-            // Lógica del filtro: Si mostrarEliminados es falso y el jugador está eliminado, no lo renderizamos
             if (!mostrarEliminados && jugador.estado === 'eliminado') {
                 return; 
             }
 
             const esEliminado = jugador.estado === 'eliminado';
+            const estaDeshabilitado = jugador.habilitado === false || esEliminado;
             const posicion = index + 1;
             const victoriasActuales = jugador.victorias[claveFase] || 0;
 
-            // Clases CSS dinámicas dependiendo del estado
-            const divClases = esEliminado 
+            // Clases CSS dinámicas
+            const divClases = estaDeshabilitado 
                 ? 'flex items-center justify-between p-3 rounded-lg border border-rose-500/30 bg-rose-500/5 opacity-60'
                 : 'flex items-center justify-between p-3 rounded-lg border border-[#00d2ff]/30 bg-[#00d2ff]/5';
+
+            const textoNombreClases = estaDeshabilitado ? 'font-bold text-slate-400 line-through' : 'font-bold text-slate-100';
+            const badgeClases = estaDeshabilitado ? 'text-xs text-rose-500 font-bold uppercase' : 'text-xs text-slate-500 font-mono';
             
-            const textoNombreClases = esEliminado ? 'font-bold text-slate-400 line-through' : 'font-bold text-slate-100';
-            const badgeClases = esEliminado ? 'text-xs text-rose-500 font-bold uppercase' : 'text-xs text-slate-500 font-mono';
-            const badgeTexto = esEliminado ? 'Eliminado' : jugador.tag_jugador;
-            const botonVictoriaClases = esEliminado ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-500 hover:text-white transition-all';
+            // CORREGIDO: Declarado como let para permitir reasignación
+            let badgeTexto = jugador.tag_jugador;
+
+            if (jugador.estado === 'eliminado') {
+                badgeTexto = `ELIMINADO EN FASE ${jugador.fase_maxima}`;
+            } else if (jugador.habilitado === false) {
+                badgeTexto = 'DESHABILITADO EN FASE';
+            }
+
+            // Bloqueo de botones de sumar/restar
+            const estadoBotones = estaDeshabilitado ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-500 hover:text-white transition-all';
+            const estadoBotonRestar = estaDeshabilitado ? 'opacity-50 cursor-not-allowed' : 'hover:bg-amber-500 hover:text-white transition-all';
 
             const HTMLJugador = `
                 <div class="${divClases}">
@@ -106,19 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="flex items-center gap-6">
                         <div class="text-center">
                             <p class="text-xs text-slate-400">Victorias</p>
-                            <p class="font-bold text-${esEliminado ? 'slate-500' : '[#00d2ff]'}">${victoriasActuales}</p>
+                            <p class="font-bold text-${estaDeshabilitado ? 'slate-500' : '[#00d2ff]'}">${victoriasActuales}</p>
                         </div>
                         <div class="flex gap-2">
-
-                            <button onclick="sumarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white transition-all ${botonVictoriaClases}" ${esEliminado ? 'disabled' : ''} title="Sumar victoria">
+                            <button onclick="sumarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 ${estadoBotones}" ${estaDeshabilitado ? 'disabled' : ''} title="Sumar victoria">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
 
-                            <button onclick="restarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 hover:bg-amber-500 hover:text-white transition-all ${botonVictoriaClases}" ${esEliminado ? 'disabled' : ''} title="Restar victoria">
+                            <button onclick="restarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 ${estadoBotonRestar}" ${estaDeshabilitado ? 'disabled' : ''} title="Restar victoria">
                                 <i class="fa-solid fa-minus"></i>
                             </button>
 
-                            <button onclick="eliminarJugador('${jugador.id}')" class="w-8 h-8 rounded ${esEliminado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-rose-500/20 text-rose-400 border border-rose-500/50 hover:bg-rose-500 hover:text-white'} transition-all">
+                            <button onclick="eliminarJugador('${jugador.id}')" class="w-8 h-8 rounded ${estaDeshabilitado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-rose-500/20 text-rose-400 border border-rose-500/50 hover:bg-rose-500 hover:text-white'} transition-all" title="Deshabilitar/Habilitar">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
@@ -130,12 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Funciones Globales para los botones ---
-
     window.sumarVictoria = function(id) {
         let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
-        if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado') {
+        if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado' && jugadores[jugadorIndex].habilitado !== false) {
             const claveFase = `f${faseActual}`;
             if (!jugadores[jugadorIndex].victorias) jugadores[jugadorIndex].victorias = {};
             
@@ -149,9 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
-        if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado') {
+        if (jugadorIndex !== -1 && jugadores[jugadorIndex].estado !== 'eliminado' && jugadores[jugadorIndex].habilitado !== false) {
             const claveFase = `f${faseActual}`;
-            // Evitar que las victorias sean números negativos
             if (jugadores[jugadorIndex].victorias && jugadores[jugadorIndex].victorias[claveFase] > 0) {
                 jugadores[jugadorIndex].victorias[claveFase] -= 1;
                 localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
@@ -165,8 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const jugadorIndex = jugadores.findIndex(j => j.id === id);
         
         if (jugadorIndex !== -1) {
-            // Alternar estado (si estaba activo pasa a eliminado y viceversa)
-            jugadores[jugadorIndex].estado = jugadores[jugadorIndex].estado === 'eliminado' ? 'activo' : 'eliminado';
+            // Alternar variable habilitado
+            const estaHabilitado = jugadores[jugadorIndex].habilitado !== false;
+            jugadores[jugadorIndex].habilitado = !estaHabilitado;
             localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
             renderizarJugadores();
         }
@@ -175,8 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Funcionalidad del botón Filtrar
     btnFiltrar.addEventListener('click', () => {
         mostrarEliminados = !mostrarEliminados;
-        
-        // Cambiar el texto e icono del botón
         if (mostrarEliminados) {
             btnFiltrar.innerHTML = '<i class="fa-solid fa-filter"></i> Ocultar Eliminados';
             btnFiltrar.classList.remove('bg-slate-700');
@@ -184,19 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btnFiltrar.innerHTML = '<i class="fa-solid fa-filter-circle-xmark"></i> Mostrar Eliminados';
             btnFiltrar.classList.add('bg-slate-700');
         }
-        
         renderizarJugadores();
     });
 
-
-
+    // Pestañas
     tabs.forEach(tab => {
         tab.addEventListener('click', (e) => {
-            // 2. Poner estilo activo a la pestaña que fue clickeada
             const tabClickeada = e.currentTarget;
-            faseActual = tabClickeada.getAttribute('data-fase'); // Obtenemos si es la 1, 2, 3...
-
-            // 1. Quitar estilos activos a TODAS las pestañas
             tabs.forEach(t => {
                 t.classList.remove('text-[#00d2ff]', 'border-b-2', 'border-[#00d2ff]', 'bg-[#00d2ff]/10');
                 if (t.getAttribute('data-fase') === "5") {
@@ -205,21 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     t.classList.add('text-slate-500');
                 }
             });
+
             faseActual = tabClickeada.getAttribute('data-fase');
-            
             tabClickeada.classList.remove('text-slate-500', 'text-amber-500');
             tabClickeada.classList.add('text-[#00d2ff]', 'border-b-2', 'border-[#00d2ff]', 'bg-[#00d2ff]/10');
 
-            // 3. Cambiar los textos de la cabecera dinámicamente
             tituloFase.innerHTML = infoFases[faseActual].titulo;
             descFase.innerHTML = infoFases[faseActual].desc;
 
-            // 4. Volver a renderizar los jugadores (Aquí a futuro pondremos un filtro para que solo salgan los que pasaron)
             renderizarJugadores();
         });
-
-
-
     });
 
     // --- LÓGICA PARA AVANZAR A LA SIGUIENTE FASE ---
@@ -241,32 +230,45 @@ document.addEventListener('DOMContentLoaded', () => {
         let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
         const claveFase = `f${faseActual}`;
 
-        // 1. Filtrar jugadores activos que pertenecen a la fase actual y ordenarlos por victorias
-        const clasificados = jugadores
-            .filter(j => j.fase_maxima >= numFaseActual && j.estado !== 'eliminado')
-            .sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0))
-            .slice(0, limite); // Tomar solo los mejores según el límite
+        // 1. Filtrar jugadores activos en la fase actual
+        const activosEnFase = jugadores.filter(j => j.fase_maxima >= numFaseActual && j.estado !== 'eliminado');
+
+        // Ordenarlos por victorias
+        activosEnFase.sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0));
+
+        const clasificados = activosEnFase.slice(0, limite);
+        const eliminados = activosEnFase.slice(limite);
 
         if (clasificados.length === 0) {
             alert("No hay jugadores elegibles para avanzar en esta fase.");
             return;
         }
 
-        // 2. Actualizar fase_maxima a los que clasificaron
         const idsClasificados = new Set(clasificados.map(c => c.id));
+        const idsEliminados = new Set(eliminados.map(e => e.id));
+
+        // 2. Actualizar fase_maxima a clasificados y marcar como "eliminado" a los que no entraron en el corte
         jugadores = jugadores.map(j => {
             if (idsClasificados.has(j.id)) {
-                return { ...j, fase_maxima: Math.max(j.fase_maxima, siguienteFase) };
+                return { ...j, fase_maxima: Math.max(j.fase_maxima, siguienteFase), habilitado: true };
+            }
+            if (idsEliminados.has(j.id)) {
+                return { ...j, estado: 'eliminado', habilitado: false };
             }
             return j;
         });
 
-        // 3. Guardar cambios
         localStorage.setItem('jugadores_cr', JSON.stringify(jugadores));
 
-        // 4. Hacer clic automáticamente en la pestaña de la siguiente fase para refrescar la vista
+        // 3. Cambiar a la pestaña siguiente y apagar el switch
         const tabSiguiente = document.querySelector(`.tab-fase[data-fase="${siguienteFase}"]`);
         if (tabSiguiente) tabSiguiente.click();
+
+        const switchEstado = document.getElementById('switch-estado-fase');
+        if (switchEstado) {
+            switchEstado.checked = true;
+            switchEstado.dispatchEvent(new Event('change'));
+        }
     });
 
     // --- LÓGICA DEL SWITCH DE ESTADO DE FASE ---
@@ -276,29 +278,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAvanzar = document.getElementById('btn-avanzar-fase');
 
     function actualizarEstadoFaseUI() {
+        if (!switchEstado) return;
         const enCurso = switchEstado.checked;
 
         if (enCurso) {
-            // Fase Activa / En Curso
             ledFase.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse";
             textoEstadoFase.textContent = "EN CURSO";
             textoEstadoFase.className = "font-orbitron text-xs font-bold text-emerald-400 uppercase tracking-wider";
-            btnAvanzar.disabled = true; // Bloquea el botón
+            btnAvanzar.disabled = true;
         } else {
-            // Fase Finalizada / Lista para avanzar
             ledFase.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]";
             textoEstadoFase.textContent = "CONCLUIDA";
             textoEstadoFase.className = "font-orbitron text-xs font-bold text-rose-400 uppercase tracking-wider";
-            btnAvanzar.disabled = false; // Habilita el botón
+            btnAvanzar.disabled = false;
         }
     }
 
-    // Escuchar el click en el Switch
-    switchEstado.addEventListener('change', actualizarEstadoFaseUI);
+    if (switchEstado) {
+        switchEstado.addEventListener('change', actualizarEstadoFaseUI);
+        actualizarEstadoFaseUI();
+    }
 
-    // Inicializar estado al cargar la página
-    actualizarEstadoFaseUI();
-
-    // Renderizar inicialmente al cargar la página
     renderizarJugadores();
 });
