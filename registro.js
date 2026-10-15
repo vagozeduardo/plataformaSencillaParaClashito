@@ -2,7 +2,7 @@
 
 /*
 
-datos de jugadores de Clashito
+datos de jugadores de Clashito ejemplo de cómo se guardan en localStorage
 {
     id: "1",
     nombre: "Sofía",
@@ -10,6 +10,7 @@ datos de jugadores de Clashito
     tag_jugador: "#90PLQ112X",
     fase_maxima: 1, // Indica hasta qué fase ha llegado (1, 2, 3, 4 o 5)
     estado: "activo", // "activo" o "eliminado"
+    habilitado = true, // true o false para control de UI durante el torneo
     victorias: {
         f1: 0,
         f2: 0,
@@ -92,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (juegoSeleccionado === "cr") {
             // Lógica Clash Royale
             nuevoJugador.fase_maxima = 1;
-            nuevoJugador.estado = "activo"; // activo o eliminado
+            nuevoJugador.habilitado = true; // true o false para control de UI durante el torneo
+            nuevoJugador.estado = "activo"; // activo o eliminado durante las fases del torneo
             nuevoJugador.victorias = {
                 f1: 0,
                 f2: 0,
