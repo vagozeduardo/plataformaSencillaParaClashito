@@ -213,13 +213,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA AVANZAR A LA SIGUIENTE FASE ---
     btnAvanzarFase.addEventListener('click', () => {
+        
         const numFaseActual = parseInt(faseActual);
-    
-        if (numFaseActual >= 5) {
-            alert("¡Ya estás en la Fase Final!");
+        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
+        const claveFase = `f${faseActual}`;
+        listaJugadoresContainer.innerHTML = '';
+
+        const campeon = jugadores.find(j => j.fase_maxima >= 6);
+
+        // codigo para campeon
+        if (numFaseActual === 5 && campeon) {
+            listaJugadoresContainer.innerHTML = `
+                <div class="py-12 px-6 rounded-2xl bg-gradient-to-b from-amber-500/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col items-center justify-center my-4">
+                    <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center border-2 border-amber-400 mb-4 shadow-[0_0_20px_#fbbf24]">
+                        <i class="fa-solid fa-trophy text-4xl text-amber-400"></i>
+                    </div>
+
+                    <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">
+                        ¡CAMPEÓN ABSOLUTO DEL TORNEO!
+                    </span>
+
+                    <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 uppercase tracking-wider mb-2">
+                        ${campeon.gamertag}
+                    </h2>
+
+                    <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60 mb-6">
+                        <i class="fa-solid fa-user text-amber-400 mr-1.5"></i>${campeon.nombre} <span class="text-slate-500">|</span> ${campeon.tag_jugador}
+                    </p>
+
+                    <div class="flex items-center gap-6 text-xs font-orbitron text-slate-400 border-t border-slate-800 pt-4">
+                        <div>
+                            <span class="block text-slate-500 text-[10px]">VICTORIAS FINAL</span>
+                            <span class="text-emerald-400 font-bold text-base">${campeon.victorias.f5 || 0}</span>
+                        </div>
+                        <div class="h-6 w-[1px] bg-slate-800"></div>
+                        <div>
+                            <span class="block text-slate-500 text-[10px]">ESTADO</span>
+                            <span class="text-amber-400 font-bold text-base"><i class="fa-solid fa-crown text-xs"></i> VICTORIOSO</span>
+                        </div>
+                    </div>
+                </div>
+            `;
             return;
         }
 
+        // loggica de la fase 1 a la 4
         const limite = limitesClasificados[faseActual];
         const siguienteFase = numFaseActual + 1;
 
@@ -227,12 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let jugadores = JSON.parse(localStorage.getItem('jugadores_cr')) || [];
-        const claveFase = `f${faseActual}`;
-
         // 1. Filtrar jugadores activos en la fase actual
         const activosEnFase = jugadores.filter(j => j.fase_maxima >= numFaseActual && j.estado !== 'eliminado');
-
         // Ordenarlos por victorias
         activosEnFase.sort((a, b) => (b.victorias[claveFase] || 0) - (a.victorias[claveFase] || 0));
 
