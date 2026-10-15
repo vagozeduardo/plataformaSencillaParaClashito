@@ -99,3 +99,92 @@ export function rotarCarruselSiguienteRonda() {
     localStorage.setItem('carrusel_f3_cr', JSON.stringify(carrusel));
     return carrusel;
 }
+
+// --- FUNCIONES PARA FASE 4 (SEMIFINAL - 4 JUGADORES) ---
+
+export function generarEnfrentamientosFase4() {
+    const jugadores = obtenerJugadores();
+    const elegibles = jugadores.filter(j => j.fase_maxima >= 4 && j.estado !== 'eliminado');
+
+    if (elegibles.length < 4) return [];
+
+    // Mezcla Fisher-Yates
+    const copia = [...elegibles];
+    for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
+    }
+
+    // Asignar m1-A, m1-B, m2-A, m2-B
+    const parejas = [
+        { mesa: 1, jugador1: copia[0], jugador2: copia[1] }, // m1-A vs m1-B
+        { mesa: 2, jugador1: copia[2], jugador2: copia[3] }  // m2-A vs m2-B
+    ];
+
+    localStorage.setItem('enfrentamientos_f4_cr', JSON.stringify(parejas));
+    return parejas;
+}
+
+export function obtenerEnfrentamientosFase4() {
+    return JSON.parse(localStorage.getItem('enfrentamientos_f4_cr')) || [];
+}
+
+export function obtenerEstadoCarruselF4() {
+    let carrusel = JSON.parse(localStorage.getItem('carrusel_f4_cr'));
+
+    if (!carrusel) {
+        const duelosIniciales = obtenerEnfrentamientosFase4();
+        if (duelosIniciales.length < 2) return null;
+
+        // Guardar las 4 posiciones base fijas
+        carrusel = {
+            rondaActual: 1,
+            base: {
+                m1A: duelosIniciales[0].jugador1,
+                m1B: duelosIniciales[0].jugador2,
+                m2A: duelosIniciales[1].jugador1,
+                m2B: duelosIniciales[1].jugador2
+            }
+        };
+        localStorage.setItem('carrusel_f4_cr', JSON.stringify(carrusel));
+    }
+    return carrusel;
+}
+
+// Retorna los cruces exactos del Excel según la ronda (1, 2 o 3)
+export function obtenerMesasRondaActualF4() {
+    const carrusel = obtenerEstadoCarruselF4();
+    if (!carrusel) return [];
+
+    const { m1A, m1B, m2A, m2B } = carrusel.base;
+
+    if (carrusel.rondaActual === 1) {
+        // Ronda 1: m1-A vs m1-B | m2-A vs m2-B
+        return [
+            { mesa: 1, jugadorA: m1A, jugadorB: m1B },
+            { mesa: 2, jugadorA: m2A, jugadorB: m2B }
+        ];
+    } else if (carrusel.rondaActual === 2) {
+        // Ronda 2 (según Excel): m2-A vs m1-A | m2-B vs m1-B
+        return [
+            { mesa: 1, jugadorA: m2A, jugadorB: m1A },
+            { mesa: 2, jugadorA: m2B, jugadorB: m1B }
+        ];
+    } else if (carrusel.rondaActual === 3) {
+        // Ronda 3 (según Excel): m2-A vs m1-B | m2-B vs m1-A
+        return [
+            { mesa: 1, jugadorA: m2A, jugadorB: m1B },
+            { mesa: 2, jugadorA: m2B, jugadorB: m1A }
+        ];
+    }
+    return [];
+}
+
+export function avanzarRondaCarruselF4() {
+    const carrusel = obtenerEstadoCarruselF4();
+    if (!carrusel || carrusel.rondaActual >= 3) return null;
+
+    carrusel.rondaActual += 1;
+    localStorage.setItem('carrusel_f4_cr', JSON.stringify(carrusel));
+    return carrusel;
+}
