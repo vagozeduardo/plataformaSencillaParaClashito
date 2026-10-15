@@ -115,6 +115,20 @@
                 <div id="lista-jugadores" class="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
                     <!-- El JavaScript inyectará los jugadores aquí -->
                 </div>
+
+                <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-800 mt-6 justify-between items-center">
+                <span class="text-xs text-slate-500 font-mono"><i class="fa-solid fa-database mr-1"></i> Respaldo de Datos (Local)</span>
+                <div class="flex gap-2">
+                    <button id="btn-exportar-json" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
+                        <i class="fa-solid fa-download text-cyan-400"></i> Exportar JSON
+                    </button>
+                    <label for="input-importar-json" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all">
+                        <i class="fa-solid fa-upload text-emerald-400"></i> Cargar JSON
+                        <input type="file" id="input-importar-json" accept=".json" class="hidden">
+                    </label>
+                </div>
+            </div>
+
             </div>
         </div>
     </main>
