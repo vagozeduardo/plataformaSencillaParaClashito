@@ -22,9 +22,23 @@
                 </h1>
             </div>
             
-            <button id="btn-sortear" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-2 transition-all">
-                <i class="fa-solid fa-dice text-lg"></i> Realizar Sorteo Aleatorio
-            </button>
+            <div class="flex gap-2">
+                <!-- Exportar -->
+                <button id="btn-exportar-duelos" class="bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 font-orbitron font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs cursor-pointer">
+                    <i class="fa-solid fa-download text-cyan-400"></i> Exportar Duelos
+                </button>
+            
+                <!-- Importar -->
+                <label for="input-importar-duelos" class="bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 font-orbitron font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all text-xs cursor-pointer">
+                    <i class="fa-solid fa-upload text-emerald-400"></i> Cargar Duelos
+                    <input type="file" id="input-importar-duelos" accept=".json" class="hidden">
+                </label>
+            
+                <!-- Botón de Sorteo -->
+                <button id="btn-sortear" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-dice text-lg"></i> Realizar Sorteo Aleatorio
+                </button>
+            </div>
         </div>
 
         <!-- Yacimiento de Tarjetas Duelos -->

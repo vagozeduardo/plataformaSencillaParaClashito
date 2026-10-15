@@ -68,5 +68,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- EXPORTAR EXCLUSIVO DE DUELOS F3 ---
+    const btnExportarDuelos = document.getElementById('btn-exportar-duelos');
+
+    if (btnExportarDuelos) {
+        btnExportarDuelos.addEventListener('click', () => {
+            const duelosRaw = localStorage.getItem('enfrentamientos_f3_cr');
+            if (!duelosRaw || duelosRaw === '[]') {
+                alert("Aún no se han generado los duelos para exportar.");
+                return;
+            }
+
+            const duelosFormateados = JSON.stringify(JSON.parse(duelosRaw), null, 2);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(duelosFormateados);
+            const downloadAnchor = document.createElement('a');
+            const fecha = new Date().toISOString().slice(0, 10);
+
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `Duelos_Fase3_ClashRoyale_${fecha}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        });
+    }
+
+    // EVENTO IMPORTAR DUELOS
+    const inputImportarDuelos = document.getElementById('input-importar-duelos');
+
+    if (inputImportarDuelos) {
+        inputImportarDuelos.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const datosValidados = JSON.parse(event.target.result);
+                    if (Array.isArray(datosValidados)) {
+                        localStorage.setItem('enfrentamientos_f3_cr', JSON.stringify(datosValidados));
+                        alert("¡Duelos de Fase 3 importados con éxito!");
+                        renderizarTarjetasDuelos();
+                    } else {
+                        alert("El archivo no contiene un formato de duelos válido.");
+                    }
+                } catch (err) {
+                    alert("Error al leer el archivo JSON.");
+                }
+            };
+            reader.readAsText(file);
+        });
+    }
+
     renderizarTarjetasDuelos();
 });
