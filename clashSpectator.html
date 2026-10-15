@@ -32,8 +32,8 @@
             <!-- Encabezado de Fase y Pestañas Read-Only -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-slate-800">
                 <div>
-                    <h2 id="titulo-fase" class="text-2xl font-orbitron font-bold text-[#00d2ff]">Fase 1: Todos vs Todos</h2>
-                    <p id="desc-fase" class="text-xs text-slate-400 mt-1">Combate general.</p>
+                    <h2 id="titulo-fase" class="text-2xl font-orbitron font-bold text-[#00d2ff]"></h2>
+                    <p id="desc-fase" class="text-xs text-slate-400 mt-1"></p>
                 </div>
                 <!-- Badge de Estado En Vivo -->
                 <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 px-4 py-2 rounded-full">
@@ -43,13 +43,8 @@
             </div>
 
             <!-- Pestañas de Navegación de Fases (Read-Only) -->
-            <div class="flex border-b border-slate-800 mb-6 overflow-x-auto custom-scrollbar">
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-[#00d2ff] border-b-2 border-[#00d2ff] bg-[#00d2ff]/10" data-fase="1">F1: TODOS VS TODOS</button>
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="2">F2: X3 ELIXIR</button>
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="3">F3: MODO DIOS</button>
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-slate-500" data-fase="4">F4: MEJOR DE 3</button>
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-amber-500" data-fase="5">F5: GRAN FINAL 🏆</button>
-                <button class="tab-fase px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all text-amber-500" data-fase="6">🏆 CAMPEÓN 🏆</button>
+            <div id="tabs-fases" class="flex border-b border-slate-800 mb-6 overflow-x-auto custom-scrollbar">
+                <!-- Las pestañas se generan desde clashito/torneo-config.js -->
             </div>
 
             <!-- LISTA DE JUGADORES / TABLA DE POSICIONES -->

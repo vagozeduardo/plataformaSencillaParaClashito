@@ -57,22 +57,8 @@
         <div class="bg-[#121a2d] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
             
             <!-- 1. Menú de Pestañas (Fases) -->
-            <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
-                <button data-fase="1" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-[#00d2ff] border-b-2 border-[#00d2ff] bg-[#00d2ff]/10 whitespace-nowrap">
-                    F1: TODOS VS TODOS
-                </button>
-                <button data-fase="2" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F2: X3 ELIXIR
-                </button>
-                <button data-fase="3" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F3: MODO DIOS
-                </button>
-                <button data-fase="4" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F4: MEJOR DE 3
-                </button>
-                <button data-fase="5" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-amber-500 hover:text-amber-400 transition-colors whitespace-nowrap">
-                    F5: GRAN FINAL <i class="fa-solid fa-trophy ml-1"></i>
-                </button>
+            <div id="tabs-fases" class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
+                <!-- Las pestañas se generan desde clashito/torneo-config.js -->
             </div>
 
             <!-- 2. Cabecera y Controles de la Fase Actual -->
@@ -80,8 +66,8 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                         <!-- Título y descripción dinámicos -->
-                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100">Fase 1: Todos vs Todos</h3>
-                        <p id="desc-fase" class="text-slate-400 text-sm">Combate general. <span class="text-amber-400 font-bold">Solo los primeros 15 avanzan a F2.</span></p>
+                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100"></h3>
+                        <p id="desc-fase" class="text-slate-400 text-sm"></p>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3">
@@ -103,6 +89,10 @@
                         <button id="btn-avanzar-fase" disabled class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md disabled:bg-none disabled:bg-transparent disabled:border disabled:border-slate-700/60 disabled:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
                             <i class="fa-solid fa-forward font-bold"></i> Avanzar de Fase
                         </button>
+
+                        <a id="link-duelos" href="#" class="hidden flex items-center justify-center gap-2 bg-slate-800 border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                            <i class="fa-solid fa-dice"></i> Mesas y Duelos
+                        </a>
 
                         <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
                             <i class="fa-solid fa-filter"></i> Ocultar Eliminados
