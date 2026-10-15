@@ -45,6 +45,29 @@
         <div id="contenedor-duelos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Las tarjetas VS se inyectarán por JavaScript -->
         </div>
+
+        <!-- NUEVO: SECCIÓN DEL CARRUSEL INTERACTIVO (Agrégalo justo abajo) -->
+        <div id="seccion-carrusel" class="hidden border-t border-cyan-500/30 pt-8 mt-4">
+            <h2 class="text-2xl font-orbitron font-black text-emerald-400 mb-4">
+                <i class="fa-solid fa-rotate"></i> CONTROL INTERACTIVO DE MESAS (CARRUSEL)
+            </h2>
+            
+            <!-- PANEL INTERACTIVO DE RONDA -->
+            <div class="flex flex-col md:flex-row items-center justify-between bg-[#121a2d]/80 border border-emerald-500/30 rounded-xl p-4 mb-4 shadow-lg">
+                <span id="badge-ronda" class="text-lg font-orbitron font-bold text-amber-400 uppercase tracking-widest">
+                    RONDA 1 DE 5
+                </span>
+                <button id="btn-siguiente-ronda" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/50 font-orbitron font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2 mt-4 md:mt-0">
+                    Siguiente Ronda <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+
+            <!-- CONTENEDOR DE MESAS DEL CARRUSEL -->
+            <div id="contenedor-carrusel" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-12">
+                <!-- Se llenará con JS -->
+            </div>
+        </div>
+
     </div>
 
     <script type="module" src="clashito/duelos-controller.js"></script>
