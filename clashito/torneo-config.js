@@ -26,6 +26,8 @@
 //       cruces      (solo 'plantilla') Arreglo de rondas; cada ronda es una lista de [ladoA, ladoB].
 //       etiquetaLado (opcional) Texto de cada lado de la mesa: 'LADO' (defecto) o 'ZONA'.
 
+import { crearTorneo, esEnteroDesde } from '../comun/fases-core.js';
+
 export const CONFIG_POR_DEFECTO = {
     juego: 'Clash Royale',
     fases: [
@@ -85,47 +87,19 @@ export const CONFIG_POR_DEFECTO = {
     ]
 };
 
-// --- Persistencia de la configuración editada desde la interfaz ---
+// --- Torneo de Clash Royale (núcleo compartido en comun/fases-core.js) ---
 
-const CLAVE_CONFIG = 'config_fases_cr';
 export const ALGORITMOS_VALIDOS = ['rotacion', 'round-robin', 'plantilla', 'eliminacion'];
 const ETIQUETA_LUGAR = /^m\d+[AB]$/;
 
-export function cargarConfig() {
-    try {
-        const guardada = JSON.parse(localStorage.getItem(CLAVE_CONFIG));
-        if (guardada && Array.isArray(guardada.fases) && guardada.fases.length > 0) return guardada;
-    } catch (err) { /* sin localStorage o JSON inválido: usar valores por defecto */ }
-    return CONFIG_POR_DEFECTO;
-}
-
-export function hayConfigPersonalizada() {
-    try { return localStorage.getItem(CLAVE_CONFIG) !== null; } catch (err) { return false; }
-}
-
-export function guardarConfig(config) {
-    localStorage.setItem(CLAVE_CONFIG, JSON.stringify(config));
-}
-
-export function restablecerConfig() {
-    localStorage.removeItem(CLAVE_CONFIG);
-}
-
-const esEnteroDesde = (valor, minimo) => Number.isInteger(valor) && valor >= minimo;
-
-// Devuelve { errores, avisos }. Los errores impiden guardar; los avisos solo se confirman.
-export function validarConfig(config) {
+// Reglas propias de Clash: jugadores individuales y registro por mesas
+function validarClash(config) {
     const errores = [];
     const avisos = [];
     const fases = config.fases || [];
-    if (fases.length === 0) errores.push('El torneo necesita al menos una fase.');
 
     fases.forEach((f, i) => {
         const n = `F${i + 1}`;
-        const ultima = i === fases.length - 1;
-        if (!f.nombre || !f.nombre.trim()) errores.push(`${n}: el nombre es obligatorio.`);
-        if (f.participantes !== undefined && !esEnteroDesde(f.participantes, 2)) errores.push(`${n}: "participantes" debe ser un número entero de 2 o más.`);
-        if (!ultima && f.tipo === 'liguilla' && !esEnteroDesde(f.clasifican, 1)) errores.push(`${n}: indica cuántos jugadores clasifican (1 o más).`);
         if (f.clasifican !== undefined && f.participantes !== undefined && f.clasifican >= f.participantes) {
             errores.push(`${n}: los que clasifican (${f.clasifican}) deben ser menos que los participantes (${f.participantes}).`);
         }
@@ -155,46 +129,12 @@ export function validarConfig(config) {
         }
     });
 
-    return { errores: [...new Set(errores)], avisos };
+    return { errores, avisos };
 }
 
-export const TORNEO_CONFIG = cargarConfig();
+export const TORNEO = crearTorneo({ claveConfig: 'config_fases_cr', porDefecto: CONFIG_POR_DEFECTO, validarExtra: validarClash });
 
-// --- Helpers de lectura (el resto del código solo usa estas funciones) ---
-
-const FASES = TORNEO_CONFIG.fases.map((fase, i) => ({ ...fase, numero: i + 1, clave: `f${i + 1}` }));
-
-export function obtenerFases() {
-    return FASES;
-}
-
-export function obtenerFase(numero) {
-    return FASES[Number(numero) - 1] || null;
-}
-
-export function esUltimaFase(numero) {
-    return Number(numero) === FASES.length;
-}
-
-// Un jugador campeón queda con fase_maxima = número de fases + 1
-export const FASE_CAMPEON = FASES.length + 1;
-
-export function tituloFase(fase) {
-    return `Fase ${fase.numero}: ${fase.nombre}`;
-}
-
-export function etiquetaTab(fase) {
-    return `F${fase.numero}: ${(fase.etiqueta || fase.nombre).toUpperCase()}`;
-}
-
-// `totalFases` permite previsualizar notas de una configuración que aún no se guarda
-export function notaFase(fase, totalFases = FASES.length) {
-    if (fase.nota) return fase.nota;
-    if (fase.numero === totalFases) return 'El ganador se corona campeón del torneo.';
-    if (fase.tipo === 'eliminacion') return `Los ganadores de cada mesa avanzan a F${fase.numero + 1}.`;
-    return `Solo los primeros ${fase.clasifican} avanzan a F${fase.numero + 1}.`;
-}
-
-export function descripcionFaseHTML(fase) {
-    return `${fase.descripcion || ''} <span class='text-amber-400 font-bold'>${notaFase(fase)}</span>`;
-}
+export const {
+    TORNEO_CONFIG, cargarConfig, hayConfigPersonalizada, guardarConfig, restablecerConfig, validarConfig,
+    obtenerFases, obtenerFase, esUltimaFase, FASE_CAMPEON, tituloFase, etiquetaTab, notaFase, descripcionFaseHTML
+} = TORNEO;

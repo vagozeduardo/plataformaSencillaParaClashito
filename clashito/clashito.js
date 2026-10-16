@@ -2,6 +2,7 @@ import { obtenerJugadores, guardarJugadores, inicializarRespaldoJSON } from './s
 import { inicializarToggleHeader, inicializarSwitchEstadoFase } from './ui-utils.js';
 import { obtenerFase, esUltimaFase, tituloFase, descripcionFaseHTML, FASE_CAMPEON } from './torneo-config.js';
 import { renderizarTabsFases, htmlCampeon, htmlVacio } from './fases-ui.js';
+import { inicializarReinicio } from '../comun/reinicio.js';
 import {
     victoriasEn, ordenarPorVictorias, calcularAvance, aplicarAvance,
     obtenerCampeon, calcularCampeon, aplicarCampeon, insigniaJugador
@@ -228,4 +229,5 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarToggleHeader();
     inicializarSwitchEstadoFase(btnAvanzarFase);
     inicializarRespaldoJSON(() => renderizarJugadores());
+    inicializarReinicio(document.getElementById('btn-reiniciar'), 'cr');
 });

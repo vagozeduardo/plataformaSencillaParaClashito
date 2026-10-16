@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clash Royale - Configurar Fases</title>
+    <title>Configurar Fases del Torneo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -28,7 +28,8 @@
             </a>
             <nav class="hidden md:flex items-center gap-6 text-sm font-semibold uppercase tracking-wider text-slate-300 mr-32">
                 <a href="index.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-house"></i> Inicio</a>
-                <a href="clash.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-crown"></i> Torneo</a>
+                <a href="clash.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-crown"></i> Clash</a>
+                <a href="brawl.html" class="hover:text-[#ff2a85] flex items-center gap-2"><i class="fa-solid fa-star"></i> Brawl</a>
                 <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
             </nav>
         </div>
@@ -39,12 +40,13 @@
         <!-- Título -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div>
-                <a href="clash.html" class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded uppercase hover:bg-amber-500/30">
+                <a id="link-volver" href="clash.html" class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded uppercase hover:bg-amber-500/30">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Volver al torneo
                 </a>
                 <h2 class="font-orbitron text-3xl md:text-4xl font-black mt-3 text-slate-100 uppercase">
-                    Configurar <span class="text-[#00d2ff] neon-text-blue">Fases</span>
+                    Configurar <span id="titulo-acento" class="text-[#00d2ff] neon-text-blue">Fases</span>
                 </h2>
+                <p id="subtitulo-juego" class="font-orbitron text-sm font-bold uppercase tracking-wider text-slate-300 mt-1"></p>
                 <p class="text-slate-400 text-sm mt-1">
                     El orden define el número de fase. <span class="text-amber-400 font-bold">La última fase siempre corona al campeón.</span>
                 </p>
@@ -76,6 +78,9 @@
 
         <!-- Errores de validación -->
         <div id="panel-errores" class="hidden mb-6 border border-rose-500/40 bg-rose-500/10 rounded-xl p-4 text-sm text-rose-300"></div>
+
+        <!-- Catálogo de modos de juego (solo Brawl Stars) -->
+        <div id="catalogo-modos" class="hidden mb-6"></div>
 
         <!-- Tarjetas de fases (generadas por JS) -->
         <div id="lista-fases" class="space-y-4"></div>
