@@ -1,0 +1,303 @@
+/* ==========================================================================
+   PANTALLA DE CAMPEÓN  ·  comun/celebracion.js la carga automáticamente
+   .celebracion-clash → estandarte real, rayos dorados, coronas y cofres
+   .celebracion-brawl → estallido cómic, estrellas fugaces y onomatopeyas
+   ========================================================================== */
+/* Las fuentes (Holtwood One SC, Lilita One, Nunito) ya las cargan temas/clash.css y temas/brawl.css */
+
+.celebracion {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    animation: cel-aparece 0.45s ease-out both;
+}
+.celebracion.cerrando { animation: cel-desaparece 0.35s ease-in forwards; }
+
+.cel-fondo, .cel-rayos, .cel-confeti, .cel-decor { position: absolute; inset: 0; pointer-events: none; }
+.cel-confeti { width: 100%; height: 100%; z-index: 3; }
+.cel-decor { z-index: 2; }
+
+/* Rayos giratorios detrás del campeón */
+.cel-rayos {
+    inset: -60vmax;
+    animation: cel-girar 40s linear infinite;
+    opacity: 0.55;
+}
+
+.cel-contenido {
+    position: relative;
+    z-index: 4;
+    width: min(100%, 38rem);
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: center;
+    padding: 0.5rem;
+    scrollbar-width: none;
+}
+.cel-contenido::-webkit-scrollbar { display: none; }
+
+.cel-trofeo { position: relative; display: inline-block; margin-bottom: 0.25rem; }
+.cel-trofeo img { width: clamp(7rem, 26vw, 11rem); height: auto; }
+
+.cel-titulo { display: inline-block; position: relative; }
+
+.cel-lugar {
+    margin-top: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-size: clamp(0.7rem, 2.6vw, 0.9rem);
+    animation: cel-sube 0.5s 0.9s ease-out both;
+}
+
+.cel-nombre {
+    margin: 0.35rem 0 0.25rem;
+    line-height: 1.05;
+    font-size: clamp(2.2rem, 10vw, 4.6rem);
+    word-break: break-word;
+    animation: cel-nombre 0.7s 1.1s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.cel-sub { font-weight: 800; opacity: 0.9; font-size: 0.9rem; animation: cel-sube 0.5s 1.4s ease-out both; }
+
+.cel-datos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 1.1rem 0 1.4rem;
+    animation: cel-sube 0.5s 1.6s ease-out both;
+}
+.cel-dato { padding: 0.45rem 0.9rem; border-radius: 999px; font-weight: 900; font-size: 0.85rem; }
+
+.cel-botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: cel-sube 0.5s 1.9s ease-out both;
+}
+.cel-botones button { min-width: 11rem; padding: 0.75rem 1.25rem; border-radius: 14px; cursor: pointer; }
+
+.cel-cerrar {
+    position: absolute; top: 0.75rem; right: 0.75rem; z-index: 5;
+    width: 2.75rem; height: 2.75rem; border-radius: 50%;
+    font-size: 1.2rem; cursor: pointer;
+}
+
+/* ==========================================================================
+   CLASH ROYALE · medieval / fantástico
+   ========================================================================== */
+.celebracion-clash {
+    background: radial-gradient(ellipse at 50% 35%, #2f6ae0 0%, #12307a 45%, #050d24 100%);
+}
+.celebracion-clash .cel-rayos {
+    background: repeating-conic-gradient(from 0deg, rgba(255, 201, 51, 0.32) 0 7deg, transparent 7deg 18deg);
+    mask-image: radial-gradient(circle, #000 0%, transparent 55%);
+    -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 55%);
+}
+.celebracion-clash .cel-fondo {
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0 2px, transparent 2px 24px),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0 2px, transparent 2px 24px);
+}
+
+/* Corona que cae y se posa sobre el estandarte */
+.celebracion-clash .cel-trofeo img {
+    filter: drop-shadow(0 8px 0 rgba(5, 13, 36, 0.7)) drop-shadow(0 0 30px rgba(255, 201, 51, 0.8));
+    animation: cr-corona-cae 1s 0.2s cubic-bezier(0.3, 1.5, 0.5, 1) both, cr-flota 3.5s 1.4s ease-in-out infinite;
+}
+.celebracion-clash .cel-trofeo::after { /* destello */
+    content: ''; position: absolute; inset: -20%;
+    background: radial-gradient(circle, rgba(255, 246, 184, 0.85) 0%, transparent 60%);
+    animation: cr-destello 1.2s 0.9s ease-out both;
+    pointer-events: none;
+}
+
+/* Estandarte real: cinta dorada con puntas recortadas */
+.celebracion-clash .cel-titulo {
+    font-family: 'Holtwood One SC', serif;
+    font-size: clamp(1.6rem, 7vw, 3rem);
+    color: #3b2300;
+    padding: 0.55rem 2.6rem 0.75rem;
+    background: linear-gradient(180deg, #fff3a8 0%, #ffcc33 45%, #e08a00 100%);
+    clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%, 6% 50%);
+    filter: drop-shadow(0 6px 0 #050d24);
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6);
+    animation: cr-estandarte 0.7s 0.6s cubic-bezier(0.2, 1.3, 0.4, 1) both;
+}
+.celebracion-clash .cel-titulo::before { /* brillo que recorre el estandarte */
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+    background-size: 250% 100%;
+    animation: cel-brillo 2.6s 1.4s ease-in-out infinite;
+}
+.celebracion-clash .cel-lugar { color: #ffcc33; text-shadow: 0 2px 0 #050d24; }
+.celebracion-clash .cel-nombre {
+    font-family: 'Holtwood One SC', serif;
+    background: linear-gradient(180deg, #ffffff 0%, #fff3a8 40%, #ffcc33 70%, #e08a00 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    text-shadow: none !important; /* la sombra del tema se vería a través del texto transparente */
+    filter: drop-shadow(0 4px 0 #050d24) drop-shadow(0 0 18px rgba(255, 201, 51, 0.55));
+}
+.celebracion-clash .cel-sub { color: #cfe0ff; }
+.celebracion-clash .cel-dato { background: rgba(5, 13, 36, 0.7); border: 3px solid #ffcc33; color: #fff3a8; }
+.celebracion-clash .cel-cerrar { background: #12307a; border: 3px solid #ffcc33; color: #ffcc33; }
+
+/* Coronas y cofres flotando */
+.celebracion-clash .cel-flotante {
+    position: absolute; bottom: -12%;
+    animation: cr-asciende linear infinite;
+    filter: drop-shadow(0 4px 0 rgba(5, 13, 36, 0.6));
+}
+
+/* ==========================================================================
+   BRAWL STARS · urbano / cómic
+   ========================================================================== */
+.celebracion-brawl {
+    background:
+        radial-gradient(rgba(255, 255, 255, 0.09) 1.3px, transparent 1.7px) 0 0 / 15px 15px,
+        radial-gradient(circle at 50% 40%, #9b4dff 0%, #5b1fb8 40%, #1c0640 100%);
+}
+.celebracion-brawl .cel-rayos {
+    background: repeating-conic-gradient(from 0deg, rgba(255, 212, 0, 0.45) 0 9deg, rgba(255, 31, 143, 0.4) 9deg 18deg);
+    mask-image: radial-gradient(circle, #000 0%, transparent 50%);
+    -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 50%);
+    animation-duration: 18s;
+}
+
+/* Trofeo que rebota */
+.celebracion-brawl .cel-trofeo img {
+    filter: drop-shadow(0 8px 0 #000) drop-shadow(0 0 30px rgba(255, 31, 143, 0.7));
+    animation: bs-trofeo 0.8s 0.2s cubic-bezier(0.3, 1.6, 0.5, 1) both, bs-tambalea 2.4s 1.2s ease-in-out infinite;
+}
+
+/* 3 estrellas de victoria que aparecen una a una */
+.cel-estrellas { display: flex; justify-content: center; align-items: flex-end; gap: 0.4rem; margin: 0.3rem 0 0.6rem; }
+.cel-estrellas svg { width: clamp(2.6rem, 10vw, 3.6rem); height: auto; animation: bs-estrella 0.5s cubic-bezier(0.3, 1.8, 0.5, 1) both; }
+.cel-estrellas svg:nth-child(2) { width: clamp(3.4rem, 13vw, 4.6rem); animation-delay: 0.45s; }
+.cel-estrellas svg:nth-child(1) { animation-delay: 0.3s; }
+.cel-estrellas svg:nth-child(3) { animation-delay: 0.6s; }
+
+/* Banner explosivo */
+.celebracion-brawl .cel-titulo {
+    font-family: 'Lilita One', sans-serif;
+    font-size: clamp(2rem, 9vw, 3.6rem);
+    letter-spacing: 0.03em;
+    color: #fff;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 6px 0 #000;
+    padding: 1.4rem 3rem;
+    isolation: isolate;
+    animation: bs-banner 0.6s 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+.celebracion-brawl .cel-titulo::before { /* estallido de cómic detrás del texto */
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, #ff4fb0, #e0007a);
+    clip-path: polygon(50% 0%, 58% 18%, 75% 4%, 74% 24%, 96% 18%, 84% 38%, 100% 50%, 84% 62%, 96% 82%, 74% 76%, 75% 96%, 58% 82%, 50% 100%, 42% 82%, 25% 96%, 26% 76%, 4% 82%, 16% 62%, 0% 50%, 16% 38%, 4% 18%, 26% 24%, 25% 4%, 42% 18%);
+    filter: drop-shadow(0 0 0 #000);
+    animation: bs-pulso 1.2s 1.4s ease-in-out infinite;
+}
+.celebracion-brawl .cel-titulo::after { /* contorno negro del estallido */
+    content: ''; position: absolute; inset: -6px; z-index: -2;
+    background: #000;
+    clip-path: polygon(50% 0%, 58% 18%, 75% 4%, 74% 24%, 96% 18%, 84% 38%, 100% 50%, 84% 62%, 96% 82%, 74% 76%, 75% 96%, 58% 82%, 50% 100%, 42% 82%, 25% 96%, 26% 76%, 4% 82%, 16% 62%, 0% 50%, 16% 38%, 4% 18%, 26% 24%, 25% 4%, 42% 18%);
+    animation: bs-pulso 1.2s 1.4s ease-in-out infinite;
+}
+.celebracion-brawl .cel-lugar { color: #ffd400; -webkit-text-stroke: 0; text-shadow: 0 2px 0 #000; }
+.celebracion-brawl .cel-nombre {
+    font-family: 'Lilita One', sans-serif;
+    color: #ffd400;
+    -webkit-text-stroke: 4px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 7px 0 #000, 0 0 28px rgba(255, 212, 0, 0.6);
+}
+.celebracion-brawl .cel-sub { color: #ead9ff; }
+.celebracion-brawl .cel-dato { background: #24095a; border: 3px solid #000; box-shadow: 0 3px 0 #000; color: #fff; }
+.celebracion-brawl .cel-cerrar { background: #ffd400; border: 3px solid #000; color: #000; box-shadow: 0 3px 0 #000; }
+
+/* Estrellas fugaces */
+.celebracion-brawl .cel-fugaz {
+    position: absolute; width: 9rem; height: 3px; border-radius: 3px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 70%, #ffd400);
+    transform: rotate(-25deg);
+    animation: bs-fugaz linear infinite;
+    opacity: 0;
+}
+.celebracion-brawl .cel-fugaz::after {
+    content: ''; position: absolute; right: -4px; top: -4px; width: 11px; height: 11px; border-radius: 50%;
+    background: #fff; box-shadow: 0 0 12px 4px #ffd400;
+}
+
+/* Onomatopeyas (efectos de sonido visuales) */
+.celebracion-brawl .cel-onomatopeya {
+    position: absolute;
+    font-family: 'Lilita One', sans-serif;
+    font-size: clamp(1.4rem, 5vw, 2.6rem);
+    color: #ffd400;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 5px 0 #000;
+    animation: bs-onomatopeya 2.8s ease-out infinite;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+@keyframes cel-aparece { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cel-desaparece { to { opacity: 0; transform: scale(1.04); } }
+@keyframes cel-girar { to { transform: rotate(360deg); } }
+@keyframes cel-sube { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cel-nombre { from { opacity: 0; transform: scale(0.4); filter: blur(6px); } to { opacity: 1; transform: none; } }
+@keyframes cel-brillo { 0% { background-position: 150% 0; } 60%, 100% { background-position: -100% 0; } }
+
+@keyframes cr-corona-cae { from { opacity: 0; transform: translateY(-140%) rotate(-12deg) scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes cr-flota { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+@keyframes cr-destello { 0% { opacity: 0; transform: scale(0.3); } 30% { opacity: 1; } 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes cr-estandarte { from { opacity: 0; transform: scaleX(0.1); } to { opacity: 1; transform: none; } }
+@keyframes cr-asciende {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-125vh) rotate(25deg); opacity: 0; }
+}
+
+@keyframes bs-trofeo { from { opacity: 0; transform: scale(0) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@keyframes bs-tambalea { 0%, 100% { transform: rotate(-5deg) scale(1); } 50% { transform: rotate(5deg) scale(1.05); } }
+@keyframes bs-estrella { from { opacity: 0; transform: scale(0) rotate(-90deg); } to { opacity: 1; transform: none; } }
+@keyframes bs-banner {
+    0% { opacity: 0; transform: scale(0.2) rotate(-10deg); }
+    70% { transform: scale(1.12) rotate(3deg); }
+    100% { opacity: 1; transform: rotate(-3deg); }
+}
+@keyframes bs-pulso { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes bs-fugaz {
+    0% { opacity: 0; transform: translate(0, 0) rotate(-25deg); }
+    8% { opacity: 1; }
+    40% { opacity: 1; }
+    55%, 100% { opacity: 0; transform: translate(-60vw, 28vw) rotate(-25deg); }
+}
+@keyframes bs-onomatopeya {
+    0% { opacity: 0; transform: scale(0.2) rotate(var(--giro, -12deg)); }
+    15% { opacity: 1; transform: scale(1.2) rotate(var(--giro, -12deg)); }
+    30% { transform: scale(1) rotate(var(--giro, -12deg)); }
+    70% { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.1) rotate(var(--giro, -12deg)); }
+}
+
+/* Movimiento reducido: se queda la composición, sin animaciones */
+@media (prefers-reduced-motion: reduce) {
+    .celebracion *, .celebracion *::before, .celebracion *::after, .celebracion {
+        animation: none !important;
+    }
+    .cel-fugaz, .cel-onomatopeya, .cel-flotante { display: none; }
+}

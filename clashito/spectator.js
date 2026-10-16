@@ -4,6 +4,7 @@ import { inicializarToggleHeader } from './ui-utils.js';
 import { obtenerFase, tituloFase, descripcionFaseHTML, FASE_CAMPEON } from './torneo-config.js';
 import { renderizarTabsFases, htmlCampeon, htmlVacio } from './fases-ui.js';
 import { victoriasEn, ordenarPorVictorias, obtenerCampeon, insigniaJugador } from './clasificacion-utils.js';
+import { mostrarCelebracion } from '../comun/celebracion.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const listaJugadoresContainer = document.getElementById('lista-jugadores');
@@ -105,9 +106,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- ESCUCHAR CAMBIOS EN TIEMPO REAL DESDE OTRA PESTAÑA / MONITOR ---
+    // Campeón conocido al abrir la vista: solo se celebra si se corona uno nuevo mientras está abierta
+    let idCampeon = obtenerCampeon(obtenerJugadores())?.id;
+
+    function celebrarSiHayNuevoCampeon() {
+        const jugadores = obtenerJugadores();
+        const campeon = obtenerCampeon(jugadores);
+        if (!campeon || campeon.id === idCampeon) { idCampeon = campeon?.id; return; }
+        idCampeon = campeon.id;
+        tabs.activar(String(FASE_CAMPEON));
+        const final = obtenerFase(FASE_CAMPEON - 1);
+        mostrarCelebracion({
+            juego: 'cr',
+            nombre: campeon.gamertag,
+            subtitulo: `${campeon.nombre} · ${campeon.tag_jugador}`,
+            datos: [`🏆 ${victoriasEn(campeon, final)} victorias en la final`, `👥 ${jugadores.length} participantes`]
+        });
+    }
+
     window.addEventListener('storage', (e) => {
         if (e.key === 'jugadores_cr') {
             renderizarJugadoresPublico();
+            celebrarSiHayNuevoCampeon();
         }
         if (e.key === 'torneo_estado_cr') {
             actualizarBadgeEspectador();
@@ -115,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Pestañas navegables manualmente por el espectador si lo desea
-    renderizarTabsFases(document.getElementById('tabs-fases'), {
+    const tabs = renderizarTabsFases(document.getElementById('tabs-fases'), {
         claseBase: 'px-6 py-3 font-orbitron font-bold text-xs tracking-wider transition-all',
         tabCampeon: true,
         onCambio: (valor) => {

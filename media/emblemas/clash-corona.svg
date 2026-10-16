@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" role="img" aria-label="Corona de victoria">
+  <defs>
+    <linearGradient id="or" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6b8"/><stop offset=".45" stop-color="#ffcc33"/><stop offset="1" stop-color="#d98200"/></linearGradient>
+    <linearGradient id="ba" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd84d"/><stop offset="1" stop-color="#b86e00"/></linearGradient>
+  </defs>
+  <path d="M22 92 L12 30 L50 58 L80 14 L110 58 L148 30 L138 92 Z" fill="url(#or)" stroke="#3b2300" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M30 80 L25 46 L52 66 L80 30 L108 66 L135 46 L130 80 Z" fill="none" stroke="#fff6b8" stroke-width="3" stroke-linejoin="round" opacity=".7"/>
+  <rect x="18" y="88" width="124" height="22" rx="6" fill="url(#ba)" stroke="#3b2300" stroke-width="6"/>
+  <circle cx="80" cy="12" r="9" fill="#ff4d6d" stroke="#3b2300" stroke-width="4"/>
+  <circle cx="12" cy="28" r="7" fill="#4c8dff" stroke="#3b2300" stroke-width="4"/>
+  <circle cx="148" cy="28" r="7" fill="#4c8dff" stroke="#3b2300" stroke-width="4"/>
+  <circle cx="50" cy="99" r="5" fill="#4c8dff" stroke="#3b2300" stroke-width="2.5"/>
+  <circle cx="80" cy="99" r="6" fill="#ff4d6d" stroke="#3b2300" stroke-width="2.5"/>
+  <circle cx="110" cy="99" r="5" fill="#4c8dff" stroke="#3b2300" stroke-width="2.5"/>
+  <path d="M40 36 L46 52" stroke="#fffbe0" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+</svg>

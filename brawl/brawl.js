@@ -1,5 +1,5 @@
 // brawl.js - Panel del torneo de Brawl Stars generado desde la configuración de fases
-import { TORNEO, obtenerFase, esUltimaFase, tituloFase, descripcionFaseHTML, modosDeFase } from './brawl-config.js';
+import { TORNEO, FASE_CAMPEON, obtenerFase, esUltimaFase, tituloFase, descripcionFaseHTML, modosDeFase } from './brawl-config.js';
 import {
     obtenerEquipos, guardarEquipos, contarJugadoresPorEquipo, puntosEn, esCampeon, activosEnFase,
     obtenerGrupos, necesitaSorteo, sortearGrupos, equiposPorGrupo,
@@ -8,6 +8,7 @@ import {
 import { renderizarTabsFases, TAB_ACTIVA_ROSA } from '../comun/tabs-ui.js';
 import { inicializarReinicio } from '../comun/reinicio.js';
 import { notificar, confirmar } from '../comun/avisos.js';
+import { mostrarCelebracion } from '../comun/celebracion.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const contenido = document.getElementById('contenido-fase');
@@ -40,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60">
                     <i class="fa-solid fa-user-group text-[#ff2a85] mr-1.5"></i>${jugadores} Jugadores <span class="text-slate-500">|</span> ${puntosEn(equipo, fase)} pts en la final
                 </p>
+                <button type="button" data-ver-celebracion class="btn-juego btn-primario mt-6 px-6 py-3 rounded-xl">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Ver celebración
+                </button>
             </div>`;
     }
 
@@ -171,6 +175,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Pantalla de campeón ---
+    function celebrarCampeon() {
+        const equipos = obtenerEquipos();
+        const campeon = obtenerCampeon(equipos);
+        if (!campeon) return;
+        const final = obtenerFase(FASE_CAMPEON - 1);
+        const subcampeon = equipos.find(e => e.estado === 'eliminado' && e.fase_maxima === final.numero);
+        const jugadores = contarJugadoresPorEquipo()[campeon.nombre] || 0;
+        const modos = modosDeFase(final).map(m => m.nombre).join(', ');
+        mostrarCelebracion({
+            juego: 'bs',
+            nombre: campeon.nombre,
+            subtitulo: `${jugadores} jugadores${modos ? ` · ${modos}` : ''}`,
+            datos: [
+                `⭐ ${puntosEn(campeon, final)} pts en la final`,
+                subcampeon ? `🥈 Subcampeón: ${subcampeon.nombre}` : null,
+                `👥 ${equipos.length} equipos`
+            ].filter(Boolean),
+            onReiniciar: () => document.getElementById('btn-reiniciar').click()
+        });
+    }
+
+    contenido.addEventListener('click', (e) => {
+        if (e.target.closest('[data-ver-celebracion]')) celebrarCampeon();
+    });
+
     // --- Acciones de los botones de cada equipo ---
     window.sumarPunto = function(nombre, delta) {
         const equipos = obtenerEquipos();
@@ -234,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!(await confirmar(`¿Finalizar el torneo y proclamar CAMPEÓN a ${resultado.ganador.nombre}?`, { titulo: 'Proclamar campeón', aceptar: '¡Coronar!' }))) return;
             guardarEquipos(aplicarCampeon(equipos, resultado));
             renderizar();
-            notificar(`${resultado.ganador.nombre} es el equipo campeón del torneo.`, { tipo: 'exito', titulo: '🏆 ¡Tenemos campeón!' });
+            celebrarCampeon();
             return;
         }
 

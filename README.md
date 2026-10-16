@@ -46,7 +46,7 @@ En VS Code también sirve la extensión **Live Server** (clic derecho → *Open 
    - **Clash**: botones `+` / `−` de victorias, o en las fases "por mesas" con **Mesas y Duelos** (sorteo + rondas).
    - **Brawl**: **Sortear grupos/cruces** y botones `+` / `−` de puntos por equipo.
 3. **Avanzar de fase** clasifica a los mejores según la configuración de la fase y elimina al resto.
-4. En la última fase, **Avanzar** proclama al **campeón**.
+4. En la última fase, **Avanzar** proclama al **campeón** y se abre la **pantalla de celebración** (corona y estandarte real en Clash; trofeo, estrellas y estallido cómic en Brawl, con confeti). Se puede volver a ver con **Ver celebración** en la tarjeta del campeón, y `clashSpectator.html` la muestra sola cuando se corona al campeón desde otra pestaña.
 
 ### Configurar las fases (sin tocar código)
 Botón **Configurar Fases** en `clash.html` o `brawl.html`:

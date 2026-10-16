@@ -4,6 +4,7 @@ import { obtenerFase, esUltimaFase, tituloFase, descripcionFaseHTML, FASE_CAMPEO
 import { renderizarTabsFases, htmlCampeon, htmlVacio } from './fases-ui.js';
 import { inicializarReinicio } from '../comun/reinicio.js';
 import { notificar, confirmar } from '../comun/avisos.js';
+import { mostrarCelebracion } from '../comun/celebracion.js';
 import {
     victoriasEn, ordenarPorVictorias, calcularAvance, aplicarAvance,
     obtenerCampeon, calcularCampeon, aplicarCampeon, insigniaJugador
@@ -41,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="text-amber-400 font-bold text-base"><i class="fa-solid fa-crown text-xs"></i> VICTORIOSO</span>
                     </div>
                 </div>
+                <button type="button" data-ver-celebracion class="btn-juego btn-primario mt-6 px-6 py-3 rounded-xl">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Ver celebración
+                </button>
             `);
             return;
         }
@@ -124,6 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Pantalla de campeón ---
+    function celebrarCampeon() {
+        const jugadores = obtenerJugadores();
+        const campeon = obtenerCampeon(jugadores);
+        if (!campeon) return;
+        const final = obtenerFase(FASE_CAMPEON - 1);
+        const subcampeon = jugadores.find(j => j.estado === 'eliminado' && j.fase_maxima === final.numero);
+        mostrarCelebracion({
+            juego: 'cr',
+            nombre: campeon.gamertag,
+            subtitulo: `${campeon.nombre} · ${campeon.tag_jugador}`,
+            datos: [
+                `🏆 ${victoriasEn(campeon, final)} victorias en la final`,
+                subcampeon ? `🥈 Subcampeón: ${subcampeon.gamertag}` : null,
+                `👥 ${jugadores.length} participantes`
+            ].filter(Boolean),
+            onReiniciar: () => document.getElementById('btn-reiniciar').click()
+        });
+    }
+
+    listaJugadoresContainer.addEventListener('click', (e) => {
+        if (e.target.closest('[data-ver-celebracion]')) celebrarCampeon();
+    });
+
     // --- Funciones Globales para los botones ---
     function modificarVictorias(id, delta) {
         const jugadores = obtenerJugadores();
@@ -199,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             guardarJugadores(aplicarCampeon(jugadores, resultado));
             renderizarJugadores();
-            notificar(`${resultado.ganador.gamertag} es el campeón del torneo.`, { tipo: 'exito', titulo: '🏆 ¡Tenemos campeón!' });
+            celebrarCampeon();
             return;
         }
 
