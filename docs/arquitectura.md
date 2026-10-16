@@ -22,6 +22,7 @@ comun/                         Compartido por ambos juegos
   tabs-ui.js                   Pestañas de fases generadas desde la config (colores por juego)
   reinicio.js                  Botón "Reiniciar": fases / torneo / borrar todo + respaldo completo
   avisos.js                    notificar(), confirmar(), pedirTexto(): tarjetas flotantes
+  celebracion.js               mostrarCelebracion(): pantalla de campeón animada (confeti en canvas)
 
 clashito/                      Clash Royale
   torneo-config.js             CONFIG_POR_DEFECTO + reglas de mesas → TORNEO (crearTorneo)
@@ -40,7 +41,7 @@ brawl/                         Brawl Stars
   equipos-utils.js             Equipos, sorteo de grupos/cruces, avance y campeón
   brawl.js                     Panel del organizador (brawl.html)
 
-temas/                         clash.css · brawl.css · inicio.css (portada, juegos y registro)
+temas/                         clash.css · brawl.css · inicio.css (portada, juegos y registro) · celebracion.css
 media/emblemas/                SVG originales de cada juego
 ```
 
@@ -151,6 +152,7 @@ A partir del sorteo inicial (`m1A`, `m1B`, `m2A`, … = jugador A/B de cada mesa
 - **Pestañas** (`comun/tabs-ui.js`): `renderizarTabsFases(contenedor, { torneo, claseBase, clasesActiva, filtro, tabCampeon, onCambio })`.
 - **Avisos** (`comun/avisos.js`): `notificar(msg, { tipo: 'exito'|'error'|'aviso'|'info', titulo })`, `await confirmar(msg, { titulo, aceptar, peligro })`, `await pedirTexto(msg, { placeholder })`, `notificarTrasRecarga(msg)`. Los mensajes admiten saltos de línea y viñetas con `•`.
 - **Reinicio** (`comun/reinicio.js`): `inicializarReinicio(boton, 'cr' | 'bs')`.
+- **Celebración** (`comun/celebracion.js`): `mostrarCelebracion({ juego: 'cr' | 'bs', nombre, subtitulo, datos: [...], onReiniciar })`. Carga `temas/celebracion.css` sola, cierra con Escape o con "Ver clasificación", mantiene el foco dentro y, con *reducir movimiento* activado, muestra la composición sin animaciones ni confeti. Se llama al coronar al campeón en `clashito.js` y `brawl.js`, desde el botón "Ver celebración" y desde `spectator.js` cuando aparece un campeón nuevo.
 
 ## 8. Temas visuales
 
