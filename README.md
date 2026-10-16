@@ -27,7 +27,8 @@ En VS Code también sirve la extensión **Live Server** (clic derecho → *Open 
 | Página | Para qué sirve |
 |---|---|
 | `index.html` | Portada: acceso a ambos juegos con su estado en vivo (inscritos, fase actual, campeón) |
-| `registro.html` | Inscripción de jugadores (Clash) y de jugadores con su equipo (Brawl) |
+| `juegos.html` | Formato de cada torneo (fases y modos, leídos de la configuración) y accesos para inscribirse |
+| `registro.html` | Inscripción: se elige el juego y el formulario adopta su tema. `registro.html?juego=bs` abre directamente Brawl Stars |
 | `clash.html` | Panel del organizador de Clash Royale: tabla por fase, victorias, avance de fase, campeón |
 | `duelos.html?fase=N` | Sorteo y control de mesas por rondas de las fases de Clash con registro "por mesas" |
 | `clashSpectator.html` | Tabla pública de Clash (solo lectura, se actualiza sola) |
@@ -95,6 +96,8 @@ Para cambiar estos valores en el código: `CONFIG_POR_DEFECTO` en `clashito/torn
 | Emblemas | `media/emblemas/clash-emblema.svg`, `clash-cofre.svg` | `media/emblemas/brawl-emblema.svg`, `brawl-gema.svg` |
 
 Los emblemas son **SVG originales** (no se usan logos ni arte oficial de Supercell, que tienen derechos de autor). Si se cuenta con permiso para usar imágenes oficiales, basta con reemplazar los archivos de `media/emblemas/`.
+
+Las páginas comunes (`index.html`, `juegos.html`, `registro.html`) combinan ambas identidades con `temas/inicio.css`: cada tarjeta lleva la clase del tema de su juego.
 
 Los mensajes al usuario son **tarjetas flotantes** (`comun/avisos.js`) con el tema del juego, no ventanas del navegador.
 

@@ -13,7 +13,8 @@ Documento para quien mantenga o extienda la plataforma. Para el uso general ver 
 
 ```
 index.html, inicio.js          Portada con el estado en vivo de ambos torneos
-registro.html, registro.js     Inscripción (Clash: jugadores · Brawl: jugadores + equipo)
+juegos.html, juegos.js         Formato de cada torneo (fases y modos desde la configuración)
+registro.html, registro.js     Inscripción: el formulario cambia de tema según el juego (?juego=cr|bs)
 config-fases.html              Editor de fases (?juego=cr | ?juego=bs)
 
 comun/                         Compartido por ambos juegos
@@ -39,7 +40,7 @@ brawl/                         Brawl Stars
   equipos-utils.js             Equipos, sorteo de grupos/cruces, avance y campeón
   brawl.js                     Panel del organizador (brawl.html)
 
-temas/                         clash.css · brawl.css · inicio.css (portada)
+temas/                         clash.css · brawl.css · inicio.css (portada, juegos y registro)
 media/emblemas/                SVG originales de cada juego
 ```
 
@@ -180,5 +181,4 @@ A partir del sorteo inicial (`m1A`, `m1B`, `m2A`, … = jugador A/B de cada mesa
 - Los datos viven en el navegador: cada computadora/puerto tiene su propio torneo (usar respaldo para moverlos).
 - No hay doble eliminación (winner/loser bracket): las fases avanzan de forma lineal.
 - El aviso de "cambios sin guardar" al salir del editor es el del navegador (no se puede personalizar).
-- `juegos.html` y `registro.html` conservan el estilo neón original y enlazan a `fases.html`, que no existe.
 - No hay pruebas automatizadas en el repositorio; los cambios se verificaron con pruebas ad hoc en Node y Chrome sin interfaz (ver la descripción del Pull Request).
