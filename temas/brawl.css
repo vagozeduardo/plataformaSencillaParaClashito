@@ -114,11 +114,11 @@ html.tema-brawl body {
     border-radius: 14px;
     box-shadow: 0 4px 0 var(--bs-negro);
 }
-.tema-brawl #contenido-fase .bg-slate-800\/50 { background: linear-gradient(180deg, #6d28d9, #4c1d95); }
-.tema-brawl #contenido-fase .bg-\[\#ff2a85\]\/10 { background: linear-gradient(180deg, #ff4fb0, #c2006b); }
-.tema-brawl #contenido-fase .bg-rose-500\/5 { background: #2a1450; }
-.tema-brawl #contenido-fase .bg-amber-500\/10 { background: linear-gradient(180deg, #ffe14d, #e6a800); }
-.tema-brawl #contenido-fase .bg-amber-500\/10 :is(p, span) { color: #2a1450; }
+.tema-brawl #contenido-fase .space-y-3 > .bg-slate-800\/50 { background: linear-gradient(180deg, #6d28d9, #4c1d95); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-\[\#ff2a85\]\/10 { background: linear-gradient(180deg, #ff4fb0, #c2006b); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-rose-500\/5 { background: #2a1450; }
+.tema-brawl #contenido-fase .space-y-3 > .bg-amber-500\/10 { background: linear-gradient(180deg, #ffe14d, #e6a800); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-amber-500\/10 :is(p, span) { color: #2a1450; }
 .tema-brawl #contenido-fase h4 { border-bottom: 3px solid var(--bs-negro); }
 
 /* --- Formularios (editor de fases) --- */
@@ -130,7 +130,7 @@ html.tema-brawl body {
 .tema-brawl :is(input, select, textarea):focus { border-color: var(--bs-amarillo) !important; }
 
 /* --- Botones arcade con relieve --- */
-html.tema-brawl .btn-juego {
+:is(html, section, article).tema-brawl .btn-juego {
     font-family: var(--bs-fuente-titulo);
     font-weight: 400;
     font-size: 0.95rem;
@@ -145,24 +145,24 @@ html.tema-brawl .btn-juego {
     transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
     background: linear-gradient(180deg, #b77bff, #7c3aed);
 }
-html.tema-brawl .btn-juego:hover:not(:disabled) { filter: brightness(1.12) saturate(1.1); transform: translateY(-1px) rotate(-0.6deg); }
-html.tema-brawl .btn-juego:active:not(:disabled) {
+:is(html, section, article).tema-brawl .btn-juego:hover:not(:disabled) { filter: brightness(1.12) saturate(1.1); transform: translateY(-1px) rotate(-0.6deg); }
+:is(html, section, article).tema-brawl .btn-juego:active:not(:disabled) {
     transform: translateY(3px);
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3), inset 0 3px 0 rgba(255, 255, 255, 0.35), 0 1px 0 var(--bs-negro);
 }
-html.tema-brawl .btn-juego.btn-primario { background: linear-gradient(180deg, #fff27a 0%, #ffd400 55%, #ffa800 100%); color: #1a1a1a; -webkit-text-stroke: 0; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); }
-html.tema-brawl .btn-juego.btn-secundario { background: linear-gradient(180deg, #b77bff, #7c3aed); }
-html.tema-brawl .btn-juego.btn-exito { background: linear-gradient(180deg, #6cf08f, #16a34a); }
-html.tema-brawl .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff6b6b, #d61f1f); }
-html.tema-brawl .btn-juego.btn-aviso { background: linear-gradient(180deg, #ff6fc0, #e0007a); }
-html.tema-brawl .btn-juego:disabled,
-html.tema-brawl .btn-juego.btn-bloqueado {
+:is(html, section, article).tema-brawl .btn-juego.btn-primario { background: linear-gradient(180deg, #fff27a 0%, #ffd400 55%, #ffa800 100%); color: #1a1a1a; -webkit-text-stroke: 0; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); }
+:is(html, section, article).tema-brawl .btn-juego.btn-secundario { background: linear-gradient(180deg, #b77bff, #7c3aed); }
+:is(html, section, article).tema-brawl .btn-juego.btn-exito { background: linear-gradient(180deg, #6cf08f, #16a34a); }
+:is(html, section, article).tema-brawl .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff6b6b, #d61f1f); }
+:is(html, section, article).tema-brawl .btn-juego.btn-aviso { background: linear-gradient(180deg, #ff6fc0, #e0007a); }
+:is(html, section, article).tema-brawl .btn-juego:disabled,
+:is(html, section, article).tema-brawl .btn-juego.btn-bloqueado {
     background: linear-gradient(180deg, #7a6a99, #4a3b66);
     color: #cfc4e6;
     opacity: 0.75;
     cursor: not-allowed;
 }
-html.tema-brawl .btn-juego.btn-mini { font-size: 0.8rem; border-radius: 9px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.3), 0 3px 0 var(--bs-negro); }
+:is(html, section, article).tema-brawl .btn-juego.btn-mini { font-size: 0.8rem; border-radius: 9px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.3), 0 3px 0 var(--bs-negro); }
 
 /* --- Emblemas: entrada con rebote --- */
 .tema-brawl .emblema { filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.6)); animation: bs-rebote 2.8s ease-in-out infinite; }
@@ -182,3 +182,6 @@ html.tema-brawl .btn-juego.btn-mini { font-size: 0.8rem; border-radius: 9px; box
 
 /* Barras de desplazamiento horizontales finas (pestañas en móvil) */
 .tema-brawl :is(.custom-scrollbar, .custom-scrollbar-pink)::-webkit-scrollbar { height: 5px; }
+
+/* Aviso "esperando sorteo" dentro del panel */
+.tema-brawl #contenido-fase > p.bg-amber-500\/10 { background: rgba(255, 212, 0, 0.15); border: 3px solid #000; color: var(--bs-amarillo); }

@@ -105,7 +105,7 @@ html.tema-clash body {
 .tema-clash :is(input, select, textarea):focus { border-color: var(--cr-oro) !important; }
 
 /* --- Botones estilo móvil con relieve (3D) --- */
-html.tema-clash .btn-juego {
+:is(html, section, article).tema-clash .btn-juego {
     font-family: var(--cr-fuente-titulo);
     font-weight: 400;
     letter-spacing: 0.02em;
@@ -117,26 +117,26 @@ html.tema-clash .btn-juego {
     transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
     background: linear-gradient(180deg, #5aa2ff, #2563d6);
 }
-html.tema-clash .btn-juego:not(.btn-mini) { font-size: 0.74rem; }
-html.tema-clash .btn-juego:hover:not(:disabled) { filter: brightness(1.1); }
-html.tema-clash .btn-juego:active:not(:disabled) {
+:is(html, section, article).tema-clash .btn-juego:not(.btn-mini) { font-size: 0.74rem; }
+:is(html, section, article).tema-clash .btn-juego:hover:not(:disabled) { filter: brightness(1.1); }
+:is(html, section, article).tema-clash .btn-juego:active:not(:disabled) {
     transform: translateY(3px);
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 1px 0 var(--cr-borde);
 }
-html.tema-clash .btn-juego.btn-primario { background: linear-gradient(180deg, #ffe066 0%, #ffbf1f 55%, #f09a00 100%); color: #3b2300; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
-html.tema-clash .btn-juego.btn-secundario { background: linear-gradient(180deg, #5aa2ff, #2563d6); }
-html.tema-clash .btn-juego.btn-exito { background: linear-gradient(180deg, #8ae86a, #2fa52a); }
-html.tema-clash .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff7a6b, #d6362a); }
-html.tema-clash .btn-juego.btn-aviso { background: linear-gradient(180deg, #ffc061, #e07b00); }
-html.tema-clash .btn-juego:disabled,
-html.tema-clash .btn-juego.btn-bloqueado {
+:is(html, section, article).tema-clash .btn-juego.btn-primario { background: linear-gradient(180deg, #ffe066 0%, #ffbf1f 55%, #f09a00 100%); color: #3b2300; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+:is(html, section, article).tema-clash .btn-juego.btn-secundario { background: linear-gradient(180deg, #5aa2ff, #2563d6); }
+:is(html, section, article).tema-clash .btn-juego.btn-exito { background: linear-gradient(180deg, #8ae86a, #2fa52a); }
+:is(html, section, article).tema-clash .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff7a6b, #d6362a); }
+:is(html, section, article).tema-clash .btn-juego.btn-aviso { background: linear-gradient(180deg, #ffc061, #e07b00); }
+:is(html, section, article).tema-clash .btn-juego:disabled,
+:is(html, section, article).tema-clash .btn-juego.btn-bloqueado {
     background: linear-gradient(180deg, #8794b3, #4b5675);
     color: #d5dbea;
     text-shadow: none;
     opacity: 0.75;
     cursor: not-allowed;
 }
-html.tema-clash .btn-juego.btn-mini { border-width: 2px; border-radius: 8px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25), 0 3px 0 var(--cr-borde); }
+:is(html, section, article).tema-clash .btn-juego.btn-mini { border-width: 2px; border-radius: 8px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25), 0 3px 0 var(--cr-borde); }
 
 /* --- Emblemas --- */
 .tema-clash .emblema { filter: drop-shadow(0 4px 0 rgba(5, 13, 36, 0.6)); }

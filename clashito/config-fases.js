@@ -2,6 +2,7 @@
 import * as CLASH from './torneo-config.js';
 import * as BRAWL from '../brawl/brawl-config.js';
 import { inicializarToggleHeader } from './ui-utils.js';
+import { notificar, confirmar } from '../comun/avisos.js';
 
 const JUEGO = new URLSearchParams(location.search).get('juego') === 'bs' ? 'bs' : 'cr';
 const ES_BRAWL = JUEGO === 'bs';
@@ -336,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizar();
     });
 
-    listaFases.addEventListener('click', (e) => {
+    listaFases.addEventListener('click', async (e) => {
         // Activar/desactivar un modo de juego en la fase
         const chip = e.target.closest('button[data-modo]');
         if (chip) {
@@ -360,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (accion === 'bajar' && i < fases.length - 1) [fases[i + 1], fases[i]] = [fases[i], fases[i + 1]];
         if (accion === 'eliminar') {
             if (fases.length === 1) return;
-            if (!confirm(`¿Eliminar la fase F${i + 1}: ${fases[i].nombre || 'Sin nombre'}?`)) return;
+            if (!(await confirmar(`Se eliminará la fase F${i + 1}: ${fases[i].nombre || 'Sin nombre'}.`, { titulo: '¿Eliminar fase?', aceptar: 'Eliminar', peligro: true }))) return;
             fases.splice(i, 1);
         }
         marcarSucio();
@@ -393,20 +394,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const entrada = catalogoEl.querySelector('#nuevo-modo');
         const nombre = entrada.value.trim();
         if (!nombre) return entrada.focus();
-        if (modos.some(m => m.nombre.toLowerCase() === nombre.toLowerCase())) return alert(`El modo "${nombre}" ya está en el catálogo.`);
+        if (modos.some(m => m.nombre.toLowerCase() === nombre.toLowerCase())) return notificar(`El modo "${nombre}" ya está en el catálogo.`, { tipo: 'aviso' });
         modos.push({ id: idDesdeNombre(nombre, new Set(modos.map(m => m.id))), nombre, icono: 'fa-gamepad' });
         marcarSucio();
         renderizar();
         catalogoEl.querySelector('#nuevo-modo').focus();
     }
 
-    catalogoEl.addEventListener('click', (e) => {
+    catalogoEl.addEventListener('click', async (e) => {
         if (e.target.closest('#btn-agregar-modo')) return agregarModo();
         const quitar = e.target.closest('button[data-quitar-modo]');
         if (!quitar) return;
         const modo = modos[quitar.dataset.quitarModo];
         const usos = fases.filter(f => (f.modos || []).includes(modo.id)).length;
-        if (!confirm(`¿Quitar "${modo.nombre}" del catálogo?${usos ? ` También se quitará de ${usos} fase(s).` : ''}`)) return;
+        if (!(await confirmar(`Se quitará "${modo.nombre}" del catálogo.${usos ? ` También se quitará de ${usos} fase(s).` : ''}`, { titulo: '¿Quitar modo?', aceptar: 'Quitar', peligro: true }))) return;
         modos.splice(quitar.dataset.quitarModo, 1);
         fases.forEach(f => { f.modos = (f.modos || []).filter(id => id !== modo.id); });
         marcarSucio();
@@ -445,35 +446,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (errores.length) panelErrores.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    document.getElementById('btn-guardar').addEventListener('click', () => {
+    document.getElementById('btn-guardar').addEventListener('click', async () => {
         const config = configActual();
         const { errores, avisos } = T.validarConfig(config);
         mostrarErrores(errores);
         if (errores.length) return;
 
-        if (avisos.length && !confirm(`Revisa estos detalles:\n\n• ${avisos.join('\n• ')}\n\n¿Guardar de todos modos?`)) return;
+        if (avisos.length && !(await confirmar(`Revisa estos detalles:\n• ${avisos.join('\n• ')}`, { titulo: '¿Guardar de todos modos?', aceptar: 'Guardar' }))) return;
 
-        if (torneoEnCurso() && !confirm(
-            'Hay un torneo en curso (resultados, fases avanzadas o sorteos).\n\n' +
+        if (torneoEnCurso() && !(await confirmar(
+            'Hay resultados, fases avanzadas o sorteos guardados.\n' +
             'Los resultados se guardan por número de fase (F1, F2...). Si agregaste, quitaste o reordenaste fases, ' +
-            'los puntos pueden quedar en la fase equivocada.\n\nTe recomendamos descargar un respaldo antes (botón Reiniciar → Descargar respaldo). ¿Guardar de todos modos?'
-        )) return;
+            'los puntos pueden quedar en la fase equivocada.\n' +
+            'Te recomendamos descargar un respaldo antes (botón Reiniciar → Descargar respaldo).',
+            { titulo: 'Hay un torneo en curso', aceptar: 'Guardar de todos modos', peligro: true }
+        ))) return;
 
         T.guardarConfig(config);
         fases = aEstado(config.fases);
         marcarSucio(false);
         renderizar();
-        alert('¡Fases guardadas! El panel del torneo y las demás vistas usarán esta configuración al recargarse.');
+        notificar('El panel del torneo y las demás vistas usarán esta configuración al recargarse.', { tipo: 'exito', titulo: '¡Fases guardadas!' });
     });
 
-    document.getElementById('btn-restablecer').addEventListener('click', () => {
-        if (!confirm('¿Volver a las fases originales? Se perderá la configuración personalizada.')) return;
+    document.getElementById('btn-restablecer').addEventListener('click', async () => {
+        if (!(await confirmar('Se perderá la configuración personalizada y volverán las fases originales.', { titulo: '¿Restablecer fases?', aceptar: 'Restablecer', peligro: true }))) return;
         T.restablecerConfig();
         fases = aEstado(T.CONFIG_POR_DEFECTO.fases);
         modos = ES_BRAWL ? structuredClone(BRAWL.MODOS_POR_DEFECTO) : [];
         mostrarErrores([]);
         marcarSucio(false);
         renderizar();
+        notificar('Se restablecieron las fases originales.', { tipo: 'exito' });
     });
 
     document.getElementById('btn-exportar').addEventListener('click', () => {
@@ -493,14 +497,14 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.onload = (event) => {
             try {
                 const datos = JSON.parse(event.target.result);
-                if (!datos || !Array.isArray(datos.fases)) return alert("El archivo no tiene la estructura de fases correcta.");
+                if (!datos || !Array.isArray(datos.fases)) return notificar("El archivo no tiene la estructura de fases correcta.", { tipo: 'error' });
                 fases = aEstado(datos.fases);
                 if (ES_BRAWL && Array.isArray(datos.modos)) modos = datos.modos;
                 mostrarErrores(T.validarConfig(configActual()).errores);
                 marcarSucio();
                 renderizar();
-                alert('Fases cargadas en el editor. Revisa y presiona "Guardar cambios" para aplicarlas.');
-            } catch (err) { alert("Error al leer el archivo JSON."); }
+                notificar('Revisa y presiona "Guardar cambios" para aplicarlas.', { tipo: 'info', titulo: 'Fases cargadas en el editor' });
+            } catch (err) { notificar("Error al leer el archivo JSON.", { tipo: 'error' }); }
         };
         reader.readAsText(file);
         e.target.value = '';

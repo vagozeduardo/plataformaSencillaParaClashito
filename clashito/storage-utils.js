@@ -1,4 +1,5 @@
 // storage-utils.js - Gestión de persitencia y respaldo JSON
+import { notificar } from '../comun/avisos.js';
 
 export function obtenerJugadores() {
     return JSON.parse(localStorage.getItem('jugadores_cr')) || [];
@@ -16,7 +17,7 @@ export function inicializarRespaldoJSON(onImportSuccess) {
         btnExportar.addEventListener('click', () => {
             const jugadoresRaw = localStorage.getItem('jugadores_cr');
             if (!jugadoresRaw || jugadoresRaw === '[]') {
-                alert("No hay datos para exportar.");
+                notificar("No hay datos para exportar.", { tipo: 'aviso' });
                 return;
             }
             const jugadoresFormateados = JSON.stringify(JSON.parse(jugadoresRaw), null, 2);
@@ -43,13 +44,13 @@ export function inicializarRespaldoJSON(onImportSuccess) {
                     const datosValidados = JSON.parse(event.target.result);
                     if (Array.isArray(datosValidados)) {
                         guardarJugadores(datosValidados);
-                        alert("¡Datos del torneo cargados exitosamente!");
+                        notificar("Datos del torneo cargados exitosamente.", { tipo: 'exito' });
                         if (onImportSuccess) onImportSuccess();
                     } else {
-                        alert("El archivo JSON no tiene la estructura correcta.");
+                        notificar("El archivo JSON no tiene la estructura correcta.", { tipo: 'error' });
                     }
                 } catch (err) {
-                    alert("Error al leer el archivo JSON.");
+                    notificar("Error al leer el archivo JSON.", { tipo: 'error' });
                 }
             };
             reader.readAsText(file);

@@ -3,6 +3,7 @@ import { inicializarToggleHeader, inicializarSwitchEstadoFase } from './ui-utils
 import { obtenerFase, esUltimaFase, tituloFase, descripcionFaseHTML, FASE_CAMPEON } from './torneo-config.js';
 import { renderizarTabsFases, htmlCampeon, htmlVacio } from './fases-ui.js';
 import { inicializarReinicio } from '../comun/reinicio.js';
+import { notificar, confirmar } from '../comun/avisos.js';
 import {
     victoriasEn, ordenarPorVictorias, calcularAvance, aplicarAvance,
     obtenerCampeon, calcularCampeon, aplicarCampeon, insigniaJugador
@@ -185,32 +186,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- LÓGICA PARA AVANZAR A LA SIGUIENTE FASE ---
-    btnAvanzarFase.addEventListener('click', () => {
+    btnAvanzarFase.addEventListener('click', async () => {
         let jugadores = obtenerJugadores();
 
         // Última fase: proclamar campeón
         if (esUltimaFase(faseActual.numero)) {
-            if (obtenerCampeon(jugadores)) return alert("El torneo de Clash Royale ya ha concluido.");
+            if (obtenerCampeon(jugadores)) return notificar("El torneo de Clash Royale ya ha concluido.", { tipo: 'info' });
 
             const resultado = calcularCampeon(jugadores, faseActual);
-            if (resultado.error) return alert(resultado.error);
-            if (!confirm(`¿Deseas finalizar el torneo y proclamar CAMPEÓN a ${resultado.ganador.gamertag}?`)) return;
+            if (resultado.error) return notificar(resultado.error, { tipo: 'aviso', titulo: 'No se puede finalizar' });
+            if (!(await confirmar(`¿Deseas finalizar el torneo y proclamar CAMPEÓN a ${resultado.ganador.gamertag}?`, { titulo: 'Proclamar campeón', aceptar: '¡Coronar!' }))) return;
 
             guardarJugadores(aplicarCampeon(jugadores, resultado));
             renderizarJugadores();
+            notificar(`${resultado.ganador.gamertag} es el campeón del torneo.`, { tipo: 'exito', titulo: '🏆 ¡Tenemos campeón!' });
             return;
         }
 
         const avance = calcularAvance(jugadores, faseActual);
-        if (avance.error) return alert(avance.error);
+        if (avance.error) return notificar(avance.error, { tipo: 'aviso', titulo: 'No se puede avanzar' });
 
         const siguienteFase = faseActual.numero + 1;
-        if (!confirm(`¿Confirmar avance? ${avance.resumen} Pasarán a la Fase ${siguienteFase}.`)) {
-            return;
+        if (avance.clasificados.length === 0) {
+            return notificar("No hay jugadores elegibles para avanzar en esta fase.", { tipo: 'aviso' });
         }
 
-        if (avance.clasificados.length === 0) {
-            alert("No hay jugadores elegibles para avanzar en esta fase.");
+        if (!(await confirmar(`${avance.resumen}\nPasarán a la Fase ${siguienteFase}.`, { titulo: '¿Confirmar avance?', aceptar: 'Avanzar' }))) {
             return;
         }
 
@@ -218,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Cambiar a la pestaña siguiente y reactivar el switch
         tabs.activar(String(siguienteFase));
+        notificar(`${avance.clasificados.length} jugadores avanzan a la Fase ${siguienteFase}.`, { tipo: 'exito', titulo: 'Fase completada' });
 
         const switchEstado = document.getElementById('switch-estado-fase');
         if (switchEstado) {

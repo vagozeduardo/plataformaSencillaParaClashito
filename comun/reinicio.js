@@ -1,5 +1,6 @@
 // reinicio.js - Botón "Reiniciar" compartido: reiniciar fases, reiniciar torneo o borrar todo.
 // También permite descargar y restaurar un respaldo completo del juego antes de reiniciar.
+import { notificar, notificarTrasRecarga, confirmar, pedirTexto } from './avisos.js';
 
 const leer = (clave) => JSON.parse(localStorage.getItem(clave)) || [];
 const escribir = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
@@ -80,21 +81,21 @@ const OPCIONES = [
         id: 'fases', icono: 'fa-sliders', color: 'amber',
         titulo: 'Reiniciar fases',
         detalle: 'Vuelve a la configuración de fases original. No toca inscritos ni resultados.',
-        confirmar: (n) => confirm(`¿Restablecer las fases de ${n} a su configuración original?`),
+        confirmar: (n) => confirmar(`Las fases de ${n} volverán a su configuración original.`, { titulo: '¿Reiniciar fases?', aceptar: 'Reiniciar fases' }),
         ejecutar: reiniciarFases
     },
     {
         id: 'torneo', icono: 'fa-rotate-left', color: 'cyan',
         titulo: 'Reiniciar torneo',
         detalle: 'Conserva a los inscritos y las fases, pero borra puntos, victorias, sorteos y avances. Todos vuelven a la Fase 1.',
-        confirmar: (n) => confirm(`¿Reiniciar el torneo de ${n}? Se perderán todos los resultados y avances.`),
+        confirmar: (n) => confirmar(`Se perderán todos los resultados y avances de ${n}. Los inscritos se conservan.`, { titulo: '¿Reiniciar torneo?', aceptar: 'Reiniciar torneo', peligro: true }),
         ejecutar: reiniciarTorneo
     },
     {
         id: 'todo', icono: 'fa-trash-can', color: 'rose',
         titulo: 'Borrar todo',
         detalle: 'Elimina inscritos, resultados y configuración de fases. El juego queda como nuevo.',
-        confirmar: (n) => (prompt(`Esto borra TODOS los datos de ${n}, incluidos los inscritos.\nEscribe BORRAR para confirmar:`) || '').trim().toUpperCase() === 'BORRAR',
+        confirmar: async (n) => ((await pedirTexto(`Esto borra TODOS los datos de ${n}, incluidos los inscritos.\nEscribe BORRAR para confirmar.`, { titulo: '¿Borrar todo?', placeholder: 'BORRAR', aceptar: 'Borrar todo', peligro: true, tipo: 'error' })) || '').trim().toUpperCase() === 'BORRAR',
         ejecutar: borrarTodo
     }
 ];
@@ -151,7 +152,7 @@ export function inicializarReinicio(boton, juego) {
 
     boton.addEventListener('click', abrir);
     modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('[data-cerrar]')) cerrar(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrar(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !document.querySelector('[aria-modal="true"]')) cerrar(); });
 
     modal.querySelector('[data-respaldo]').addEventListener('click', () => descargarRespaldo(juego));
 
@@ -159,25 +160,28 @@ export function inicializarReinicio(boton, juego) {
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = async (event) => {
             try {
-                if (!confirm(`Se reemplazarán todos los datos actuales de ${j.nombre} por los del respaldo. ¿Continuar?`)) return;
+                if (!(await confirmar(`Se reemplazarán todos los datos actuales de ${j.nombre} por los del respaldo.`, { titulo: '¿Restaurar respaldo?', aceptar: 'Restaurar', peligro: true }))) return;
                 restaurarRespaldo(juego, event.target.result);
-                alert('¡Respaldo restaurado!');
+                notificarTrasRecarga('Los datos del respaldo ya están cargados.', { tipo: 'exito', titulo: 'Respaldo restaurado' });
                 location.reload();
             } catch (err) {
-                alert(err.message.startsWith('El archivo') ? err.message : 'Error al leer el archivo de respaldo.');
+                notificar(err.message.startsWith('El archivo') ? err.message : 'Error al leer el archivo de respaldo.', { tipo: 'error' });
             }
         };
         reader.readAsText(file);
         e.target.value = '';
     });
 
-    modal.querySelectorAll('[data-opcion]').forEach(btn => btn.addEventListener('click', () => {
+    modal.querySelectorAll('[data-opcion]').forEach(btn => btn.addEventListener('click', async () => {
         const opcion = OPCIONES.find(o => o.id === btn.dataset.opcion);
-        if (!opcion.confirmar(j.nombre)) return;
+        if (!(await opcion.confirmar(j.nombre))) {
+            if (opcion.id === 'todo') notificar('No se borró nada: hay que escribir BORRAR para confirmar.', { tipo: 'info' });
+            return;
+        }
         opcion.ejecutar(juego);
-        alert(`${opcion.titulo}: listo.`);
+        notificarTrasRecarga(`${opcion.titulo}: listo.`, { tipo: 'exito', titulo: j.nombre });
         location.reload();
     }));
 }

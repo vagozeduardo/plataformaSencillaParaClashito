@@ -6,6 +6,7 @@ import {
 import { obtenerJugadores, guardarJugadores } from './storage-utils.js';
 import { obtenerFases, obtenerFase, tituloFase } from './torneo-config.js';
 import { renderizarTabsFases, htmlVacio } from './fases-ui.js';
+import { notificar, confirmar } from '../comun/avisos.js';
 
 const CLASE_BTN_SORTEAR = "btn-juego btn-primario bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-2 transition-all cursor-pointer";
 const CLASE_BTN_BLOQUEADO = "btn-juego btn-bloqueado bg-slate-800 border border-slate-700 text-slate-500 font-orbitron font-bold px-5 py-2.5 rounded-xl opacity-60 cursor-not-allowed flex items-center gap-2";
@@ -177,8 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // No avanzar si faltan mesas por registrar
         if (listaIdsGanadores.length < totalMesas) {
-            alert(`Debes elegir a los ganadores de las ${totalMesas} mesas antes de avanzar a la siguiente ronda. (Mesas seleccionadas: ${listaIdsGanadores.length}/${totalMesas})`);
-            return;
+            return notificar(`Elige a los ganadores de las ${totalMesas} mesas antes de avanzar a la siguiente ronda.\nMesas seleccionadas: ${listaIdsGanadores.length}/${totalMesas}`, { tipo: 'aviso', titulo: 'Faltan mesas por marcar' });
         }
 
         // Aplicar puntos a jugadores en la tabla general
@@ -195,29 +195,32 @@ document.addEventListener('DOMContentLoaded', () => {
         carrusel.rondaActual += 1;
         guardarCarrusel(fase.numero, carrusel);
         if (carrusel.rondaActual > rondas) {
-            alert(`¡Fase ${fase.numero} completada! Se guardaron oficialmente todas las victorias de las ${rondas} rondas en la tabla general.`);
+            notificar(`Se guardaron oficialmente todas las victorias de las ${rondas} rondas en la tabla general.`, { tipo: 'exito', titulo: `¡Fase ${fase.numero} completada!` });
+        } else {
+            notificar(`Victorias registradas. Comienza la ronda ${carrusel.rondaActual} de ${rondas}.`, { tipo: 'exito', titulo: 'Siguiente ronda' });
         }
         renderizarCarruselInteractivo();
     });
 
     // --- 4. SORTEO, IMPORTAR Y EXPORTAR ---
-    btnSortear.addEventListener('click', () => {
+    btnSortear.addEventListener('click', async () => {
         const elegibles = obtenerElegibles(fase);
         const error = validarSorteo(fase, elegibles);
-        if (error) return alert(error);
+        if (error) return notificar(error, { tipo: 'aviso', titulo: 'No se puede sortear' });
 
         if (fase.participantes && elegibles.length !== fase.participantes &&
-            !confirm(`La fase está configurada para ${fase.participantes} jugadores pero hay ${elegibles.length} activos. ¿Sortear de todos modos?`)) {
+            !(await confirmar(`La fase está configurada para ${fase.participantes} jugadores pero hay ${elegibles.length} activos.`, { titulo: '¿Sortear de todos modos?', aceptar: 'Sortear' }))) {
             return;
         }
 
         generarSorteo(fase);
         renderizarTarjetasDuelos();
+        notificar(`Se armaron ${obtenerSorteo(fase.numero).length} mesas para la Fase ${fase.numero}.`, { tipo: 'exito', titulo: 'Sorteo realizado' });
     });
 
     btnExportarDuelos.addEventListener('click', () => {
         const duelos = obtenerSorteo(fase.numero);
-        if (duelos.length === 0) return alert(`Aún no se han generado los duelos de la Fase ${fase.numero} para exportar.`);
+        if (duelos.length === 0) return notificar(`Aún no se han generado los duelos de la Fase ${fase.numero} para exportar.`, { tipo: 'aviso' });
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(duelos, null, 2));
         const downloadAnchor = document.createElement('a');
         downloadAnchor.setAttribute("href", dataStr);
@@ -236,10 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const datosValidados = JSON.parse(event.target.result);
                 if (Array.isArray(datosValidados)) {
                     guardarSorteo(fase.numero, datosValidados);
-                    alert(`¡Duelos de Fase ${fase.numero} importados con éxito!`);
+                    notificar(`Duelos de la Fase ${fase.numero} importados con éxito.`, { tipo: 'exito' });
                     renderizarTarjetasDuelos();
+                } else {
+                    notificar("El archivo no contiene una lista de duelos.", { tipo: 'error' });
                 }
-            } catch (err) { alert("Error al leer el archivo JSON."); }
+            } catch (err) { notificar("Error al leer el archivo JSON.", { tipo: 'error' }); }
         };
         reader.readAsText(file);
         e.target.value = '';

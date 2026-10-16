@@ -7,6 +7,7 @@ import {
 } from './equipos-utils.js';
 import { renderizarTabsFases, TAB_ACTIVA_ROSA } from '../comun/tabs-ui.js';
 import { inicializarReinicio } from '../comun/reinicio.js';
+import { notificar, confirmar } from '../comun/avisos.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const contenido = document.getElementById('contenido-fase');
@@ -191,14 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizar();
     };
 
-    btnSortear.addEventListener('click', () => {
+    btnSortear.addEventListener('click', async () => {
         const activos = activosEnFase(obtenerEquipos(), fase);
-        if (activos.length < 2) return alert('Se necesitan al menos 2 equipos activos en esta fase para sortear.');
-        if (obtenerGrupos(fase.numero) && !confirm('Ya hay un sorteo en esta fase. ¿Repartir de nuevo a los equipos? Los puntos se conservan.')) return;
+        if (activos.length < 2) return notificar('Se necesitan al menos 2 equipos activos en esta fase para sortear.', { tipo: 'aviso' });
+        if (obtenerGrupos(fase.numero) && !(await confirmar('Los equipos se repartirán de nuevo. Los puntos se conservan.', { titulo: '¿Volver a sortear?', aceptar: 'Sortear de nuevo' }))) return;
         if (fase.participantes && activos.length !== fase.participantes &&
-            !confirm(`La fase está configurada para ${fase.participantes} equipos pero hay ${activos.length} activos. ¿Sortear de todos modos?`)) return;
-        sortearGrupos(fase, activos);
+            !(await confirmar(`La fase está configurada para ${fase.participantes} equipos pero hay ${activos.length} activos.`, { titulo: '¿Sortear de todos modos?', aceptar: 'Sortear' }))) return;
+        const grupos = sortearGrupos(fase, activos);
         renderizar();
+        notificar(`Equipos repartidos en ${Object.keys(grupos).length} ${fase.tipo === 'eliminacion' ? 'cruces' : 'grupos'}.`, { tipo: 'exito', titulo: 'Sorteo realizado' });
     });
 
     btnFiltrar.addEventListener('click', () => {
@@ -222,26 +224,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Avanzar de fase / proclamar campeón ---
-    btnAvanzar.addEventListener('click', () => {
+    btnAvanzar.addEventListener('click', async () => {
         let equipos = obtenerEquipos();
 
         if (esUltimaFase(fase.numero)) {
-            if (obtenerCampeon(equipos)) return alert('El torneo de Brawl Stars ya ha concluido.');
+            if (obtenerCampeon(equipos)) return notificar('El torneo de Brawl Stars ya ha concluido.', { tipo: 'info' });
             const resultado = calcularCampeon(equipos, fase);
-            if (resultado.error) return alert(resultado.error);
-            if (!confirm(`¿Finalizar el torneo y proclamar CAMPEÓN a ${resultado.ganador.nombre}?`)) return;
+            if (resultado.error) return notificar(resultado.error, { tipo: 'aviso', titulo: 'No se puede finalizar' });
+            if (!(await confirmar(`¿Finalizar el torneo y proclamar CAMPEÓN a ${resultado.ganador.nombre}?`, { titulo: 'Proclamar campeón', aceptar: '¡Coronar!' }))) return;
             guardarEquipos(aplicarCampeon(equipos, resultado));
             renderizar();
+            notificar(`${resultado.ganador.nombre} es el equipo campeón del torneo.`, { tipo: 'exito', titulo: '🏆 ¡Tenemos campeón!' });
             return;
         }
 
         const avance = calcularAvance(equipos, fase);
-        if (avance.error) return alert(avance.error);
-        if (avance.clasificados.length === 0) return alert('No hay equipos elegibles para avanzar en esta fase.');
-        if (!confirm(`¿Confirmar avance? ${avance.resumen} Pasarán a la Fase ${fase.numero + 1}.`)) return;
+        if (avance.error) return notificar(avance.error, { tipo: 'aviso', titulo: 'No se puede avanzar' });
+        if (avance.clasificados.length === 0) return notificar('No hay equipos elegibles para avanzar en esta fase.', { tipo: 'aviso' });
+        if (!(await confirmar(`${avance.resumen}\nPasarán a la Fase ${fase.numero + 1}.`, { titulo: '¿Confirmar avance?', aceptar: 'Avanzar' }))) return;
 
+        const siguiente = fase.numero + 1;
         guardarEquipos(aplicarAvance(equipos, fase, avance));
-        tabs.activar(String(fase.numero + 1));
+        tabs.activar(String(siguiente));
+        notificar(`${avance.clasificados.length} equipos avanzan a la Fase ${siguiente}.`, { tipo: 'exito', titulo: 'Fase completada' });
     });
 
     inicializarReinicio(document.getElementById('btn-reiniciar'), 'bs');
