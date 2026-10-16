@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Emblema Clash Royale">
+  <defs>
+    <linearGradient id="az" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4c8dff"/><stop offset="1" stop-color="#1a3a8f"/></linearGradient>
+    <linearGradient id="or" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#ffcc33"/><stop offset="1" stop-color="#e08a00"/></linearGradient>
+  </defs>
+  <path d="M60 6 L110 22 V66 C110 100 88 124 60 134 C32 124 10 100 10 66 V22 Z" fill="url(#az)" stroke="#050d24" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M60 17 L100 30 V66 C100 93 83 113 60 122 C37 113 20 93 20 66 V30 Z" fill="none" stroke="url(#or)" stroke-width="4"/>
+  <path d="M31 90 L26 50 L45 65 L60 40 L75 65 L94 50 L89 90 Z" fill="url(#or)" stroke="#050d24" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="29" y="88" width="62" height="13" rx="3" fill="url(#or)" stroke="#050d24" stroke-width="5"/>
+  <circle cx="60" cy="38" r="6" fill="#ff4d6d" stroke="#050d24" stroke-width="3"/>
+  <circle cx="26" cy="48" r="5" fill="#4c8dff" stroke="#050d24" stroke-width="3"/>
+  <circle cx="94" cy="48" r="5" fill="#4c8dff" stroke="#050d24" stroke-width="3"/>
+  <circle cx="60" cy="94.5" r="3.5" fill="#ff4d6d"/>
+</svg>

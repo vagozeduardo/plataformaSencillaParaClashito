@@ -34,7 +34,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const equipoContainer = document.getElementById("equipo_container");
     const equipoInput = document.getElementById("equipo_input");
     const datalistEquipos = document.getElementById("lista_equipos");
-    const mensajeExito = document.getElementById("mensaje_exito");
+    const tarjetaRegistro = document.getElementById("tarjeta-registro");
+    const selectores = document.querySelectorAll(".selector-juego");
+
+    // Apariencia del formulario según el juego elegido
+    const TEMAS = {
+        cr: {
+            clase: "tema-clash",
+            emblema: "media/emblemas/clash-emblema.svg",
+            titulo: "Registro Clash Royale",
+            subtitulo: "Ingresa tus datos de jugador para unirte al torneo.",
+            boton: "Confirmar inscripción"
+        },
+        bs: {
+            clase: "tema-brawl",
+            emblema: "media/emblemas/brawl-emblema.svg",
+            titulo: "Registro Brawl Stars",
+            subtitulo: "Ingresa tus datos y el equipo con el que vas a competir.",
+            boton: "Inscribirme con mi equipo"
+        }
+    };
+
+    function aplicarTemaJuego(juego) {
+        const tema = TEMAS[juego];
+        tarjetaRegistro.classList.remove("tema-clash", "tema-brawl");
+        tarjetaRegistro.classList.add(tema.clase);
+        document.getElementById("registro-emblema").src = tema.emblema;
+        document.getElementById("registro-titulo").textContent = tema.titulo;
+        document.getElementById("registro-subtitulo").textContent = tema.subtitulo;
+        document.getElementById("texto-boton").textContent = tema.boton;
+        selectores.forEach(btn => {
+            const activo = btn.dataset.juego === juego;
+            btn.classList.toggle("seleccionado", activo);
+            btn.setAttribute("aria-checked", activo);
+        });
+    }
+
+    // Aviso flotante (comun/avisos.js es un módulo: se carga bajo demanda)
+    function avisar(mensaje, opciones) {
+        import("./comun/avisos.js").then(m => m.notificar(mensaje, opciones));
+    }
 
     // 1. CARGAR EQUIPOS EXISTENTES DE LOCALSTORAGE
     function cargarEquiposDatalist() {
@@ -70,8 +109,19 @@ document.addEventListener("DOMContentLoaded", () => {
             equipoContainer.classList.add("hidden");
             equipoInput.value = ""; // Limpiar campo si se oculta
         }
+        aplicarTemaJuego(e.target.value);
         validarFormulario();
     });
+
+    // Tarjetas de selección de juego → actualizan el select oculto
+    function elegirJuego(juego) {
+        selectTorneo.value = juego;
+        selectTorneo.dispatchEvent(new Event("change"));
+    }
+    selectores.forEach(btn => btn.addEventListener("click", () => elegirJuego(btn.dataset.juego)));
+
+    // registro.html?juego=bs abre el formulario de Brawl Stars directamente
+    elegirJuego(new URLSearchParams(location.search).get("juego") === "bs" ? "bs" : "cr");
 
     // Escuchar escritura para validar
     inputs.forEach(input => input.addEventListener("input", validarFormulario));
@@ -131,14 +181,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 5. FEEDBACK VISUAL Y RESET
+        // 5. FEEDBACK VISUAL Y RESET (se conserva el juego elegido)
         form.reset();
-        validarFormulario(); // Vuelve a deshabilitar el botón
-        if (juegoSeleccionado === "cr") equipoContainer.classList.add("hidden");
+        elegirJuego(juegoSeleccionado);
 
-        mensajeExito.classList.remove("hidden");
-        setTimeout(() => {
-            mensajeExito.classList.add("hidden");
-        }, 3000);
+        avisar(
+            juegoSeleccionado === "bs"
+                ? `${nuevoJugador.gamertag} quedó inscrito en el equipo ${nuevoJugador.equipo}.`
+                : `${nuevoJugador.gamertag} quedó inscrito en el torneo de Clash Royale.`,
+            { tipo: "exito", titulo: "¡Inscripción registrada!" }
+        );
+        document.getElementById("nombre").focus();
     });
 });

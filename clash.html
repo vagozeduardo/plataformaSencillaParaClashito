@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="dark tema-clash">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="temas/clash.css">
 </head>
 <body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
 
@@ -31,7 +32,7 @@
                 <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
                 <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
             </nav>
-            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg mr-32">
+            <a href="index.html" class="hidden md:inline-block btn-juego btn-primario bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg md:mr-32">
                 <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
             </a>
         </div>
@@ -50,29 +51,23 @@
                     Torneo <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span>
                 </h2>
             </div>
-            <i class="fa-solid fa-crown text-4xl text-amber-400 neon-text-gold"></i>
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="config-fases.html" class="btn-juego btn-aviso flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-amber-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Agregar, quitar o editar fases">
+                    <i class="fa-solid fa-sliders text-amber-400"></i> <span class="hidden sm:inline">Configurar Fases</span>
+                </a>
+                <button id="btn-reiniciar" class="btn-juego btn-peligro flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Reiniciar fases o torneo">
+                    <i class="fa-solid fa-power-off text-rose-400"></i> <span class="hidden sm:inline">Reiniciar</span>
+                </button>
+                <img src="media/emblemas/clash-emblema.svg" alt="Emblema de Clash Royale" class="emblema w-12 h-14 md:w-16 md:h-[4.5rem] shrink-0">
+            </div>
         </div>
 
         <!-- CONTENEDOR DE FASES -->
         <div class="bg-[#121a2d] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
             
             <!-- 1. Menú de Pestañas (Fases) -->
-            <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
-                <button data-fase="1" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-[#00d2ff] border-b-2 border-[#00d2ff] bg-[#00d2ff]/10 whitespace-nowrap">
-                    F1: TODOS VS TODOS
-                </button>
-                <button data-fase="2" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F2: X3 ELIXIR
-                </button>
-                <button data-fase="3" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F3: MODO DIOS
-                </button>
-                <button data-fase="4" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F4: MEJOR DE 3
-                </button>
-                <button data-fase="5" class="tab-fase px-6 py-4 font-orbitron text-sm font-bold text-amber-500 hover:text-amber-400 transition-colors whitespace-nowrap">
-                    F5: GRAN FINAL <i class="fa-solid fa-trophy ml-1"></i>
-                </button>
+            <div id="tabs-fases" class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
+                <!-- Las pestañas se generan desde la configuración (config-fases.html) -->
             </div>
 
             <!-- 2. Cabecera y Controles de la Fase Actual -->
@@ -80,8 +75,8 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                         <!-- Título y descripción dinámicos -->
-                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100">Fase 1: Todos vs Todos</h3>
-                        <p id="desc-fase" class="text-slate-400 text-sm">Combate general. <span class="text-amber-400 font-bold">Solo los primeros 15 avanzan a F2.</span></p>
+                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100"></h3>
+                        <p id="desc-fase" class="text-slate-400 text-sm"></p>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3">
@@ -100,11 +95,15 @@
                             </label>
                         </div>
 
-                        <button id="btn-avanzar-fase" disabled class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md disabled:bg-none disabled:bg-transparent disabled:border disabled:border-slate-700/60 disabled:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                        <button id="btn-avanzar-fase" disabled class="btn-juego btn-primario flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md disabled:bg-none disabled:bg-transparent disabled:border disabled:border-slate-700/60 disabled:text-slate-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
                             <i class="fa-solid fa-forward font-bold"></i> Avanzar de Fase
                         </button>
 
-                        <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                        <a id="link-duelos" href="#" class="btn-juego btn-secundario hidden flex items-center justify-center gap-2 bg-slate-800 border border-cyan-500/40 text-cyan-400 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                            <i class="fa-solid fa-dice"></i> Mesas y Duelos
+                        </a>
+
+                        <button id="btn-filtrar" class="btn-juego btn-secundario flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
                             <i class="fa-solid fa-filter"></i> Ocultar Eliminados
                         </button>
                     </div>
@@ -119,10 +118,10 @@
                 <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-800 mt-6 justify-between items-center">
                 <span class="text-xs text-slate-500 font-mono"><i class="fa-solid fa-database mr-1"></i> Respaldo de Datos (Local)</span>
                 <div class="flex gap-2">
-                    <button id="btn-exportar-json" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
+                    <button id="btn-exportar-json" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
                         <i class="fa-solid fa-download text-cyan-400"></i> Exportar JSON
                     </button>
-                    <label for="input-importar-json" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all">
+                    <label for="input-importar-json" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all">
                         <i class="fa-solid fa-upload text-emerald-400"></i> Cargar JSON
                         <input type="file" id="input-importar-json" accept=".json" class="hidden">
                     </label>

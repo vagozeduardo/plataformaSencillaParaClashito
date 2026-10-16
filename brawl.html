@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="dark tema-brawl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="temas/brawl.css">
 </head>
 <body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
 
@@ -15,7 +16,7 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue overflow-hidden">
-                    <img src="juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
+                    <img src="media/juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
                 </div>
                 <h1 class="font-orbitron text-xl md:text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff2a85]">
                     Torneo de videojuegos
@@ -26,7 +27,7 @@
                 <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
                 <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
             </nav>
-            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
+            <a href="index.html" class="btn-juego btn-primario bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
                 <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
             </a>
         </div>
@@ -34,9 +35,9 @@
 
     <!-- CONTENIDO PRINCIPAL: BRAWL STARS -->
     <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
-        
+
         <!-- Título del Juego y Modalidad -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center justify-between gap-4 mb-8">
             <div>
                 <span class="text-xs font-bold font-orbitron px-2.5 py-1 bg-[#ff2a85]/20 text-[#ff2a85] border border-[#ff2a85]/40 rounded uppercase">
                     Modalidad 3v3 (Por Equipos)
@@ -45,153 +46,52 @@
                     Torneo <span class="text-[#ff2a85] neon-text-pink">Brawl Stars</span>
                 </h2>
             </div>
-            <i class="fa-solid fa-star text-4xl text-[#ff2a85] neon-text-pink"></i>
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="config-fases.html?juego=bs" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-[#ff2a85]/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Agregar, quitar o editar fases y modos">
+                    <i class="fa-solid fa-sliders text-[#ff2a85]"></i> <span class="hidden sm:inline">Configurar Fases</span>
+                </a>
+                <button id="btn-reiniciar" class="btn-juego btn-peligro flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Reiniciar fases o torneo">
+                    <i class="fa-solid fa-power-off text-rose-400"></i> <span class="hidden sm:inline">Reiniciar</span>
+                </button>
+                <img src="media/emblemas/brawl-emblema.svg" alt="Emblema de Brawl Stars" class="emblema w-14 h-14 md:w-[4.5rem] md:h-[4.5rem] shrink-0">
+            </div>
         </div>
 
-        <!-- CONTENEDOR DE FASES Y BRACKETS -->
+        <!-- CONTENEDOR DE FASES -->
         <div class="bg-[#121a2d] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
-            
-            <!-- 1. Menú de Pestañas (Adaptado a las 4 fases solicitadas) -->
-            <div class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar-pink">
-                <!-- Fase 1 Activa -->
-                <button class="px-6 py-4 font-orbitron text-sm font-bold text-[#ff2a85] border-b-2 border-[#ff2a85] bg-[#ff2a85]/10 whitespace-nowrap">
-                    F1: GRUPOS (BALÓN BRAWL)
-                </button>
-                <button class="px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F2: WINNER BRACKET
-                </button>
-                <button class="px-6 py-4 font-orbitron text-sm font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
-                    F3: LOSER BRACKET
-                </button>
-                <button class="px-6 py-4 font-orbitron text-sm font-bold text-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap">
-                    GRAN FINAL (CAZA ESTELAR) <i class="fa-solid fa-trophy ml-1"></i>
-                </button>
-            </div>
 
-            <!-- 2. Cabecera de la Fase Actual (Grupos) -->
+            <!-- 1. Pestañas (generadas desde brawl/brawl-config.js o config-fases.html?juego=bs) -->
+            <div id="tabs-fases" class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar-pink"></div>
+
+            <!-- 2. Cabecera de la Fase Actual -->
             <div class="p-4 md:p-6 bg-[#121a2d]">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
                     <div>
-                        <h3 class="font-orbitron text-xl font-bold text-slate-100">Fase 1: Round Robin</h3>
-                        <p class="text-slate-400 text-sm">Todos contra todos. <span class="text-[#ff2a85] font-bold">Pasan los 2 mejores de cada grupo.</span></p>
+                        <h3 id="titulo-fase" class="font-orbitron text-xl font-bold text-slate-100"></h3>
+                        <p id="desc-fase" class="text-slate-400 text-sm"></p>
+                        <!-- Modos de juego de la fase -->
+                        <div id="modos-fase" class="flex flex-wrap gap-2 mt-3"></div>
                     </div>
-                    
-                    <button class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
-                        <i class="fa-solid fa-filter"></i> Ocultar Eliminados
-                    </button>
+
+                    <div class="flex flex-wrap items-center gap-3 md:justify-end shrink-0">
+                        <button id="btn-sortear" class="btn-juego btn-aviso hidden flex items-center justify-center gap-2 bg-[#ff2a85]/20 border border-[#ff2a85]/50 text-[#ff2a85] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#ff2a85]/30 transition-colors"></button>
+
+                        <button id="btn-avanzar-fase" class="btn-juego btn-primario flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md">
+                            <i class="fa-solid fa-forward font-bold"></i> Avanzar de Fase
+                        </button>
+
+                        <button id="btn-filtrar" class="btn-juego btn-secundario flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                            <i class="fa-solid fa-filter"></i> Ocultar Eliminados
+                        </button>
+                    </div>
                 </div>
 
-                <!-- 3. Contenedor de Grupos A y B (Grid 2 columnas) -->
-                <div class="grid md:grid-cols-2 gap-8 max-h-[450px] overflow-y-auto custom-scrollbar-pink pr-2">
-                    
-                    <!-- ================= GRUPO A ================= -->
-                    <div>
-                        <h4 class="font-orbitron text-lg font-bold text-[#00d2ff] mb-4 border-b border-slate-700 pb-2">
-                            <i class="fa-solid fa-users mr-2"></i>GRUPO A
-                        </h4>
-                        <div class="space-y-3">
-                            
-                            <!-- Equipo 1 (Líder Grupo A) -->
-                            <div class="flex items-center justify-between p-3 rounded-lg border border-[#ff2a85]/40 bg-[#ff2a85]/10">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-orbitron font-bold text-amber-400 w-5 text-center">1</span>
-                                    <div>
-                                        <p class="font-bold text-slate-100 uppercase text-sm">LOS DINAMITAS</p>
-                                        <p class="text-[10px] text-slate-400 uppercase"><i class="fa-solid fa-user-group text-[9px]"></i> 3 Jugadores</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="text-center">
-                                        <p class="text-[10px] text-slate-400">Pts</p>
-                                        <p class="font-bold text-[#ff2a85]">9</p>
-                                    </div>
-                                    <div class="flex gap-1">
-                                        <button class="w-7 h-7 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-check"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-800 text-slate-500 border border-slate-700 hover:bg-rose-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Equipo 2 (Clasificando) -->
-                            <div class="flex items-center justify-between p-3 rounded-lg border border-slate-700 bg-slate-800/50">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-orbitron font-bold text-slate-300 w-5 text-center">2</span>
-                                    <div>
-                                        <p class="font-bold text-slate-100 uppercase text-sm">TEAM SHELLY</p>
-                                        <p class="text-[10px] text-slate-400 uppercase"><i class="fa-solid fa-user-group text-[9px]"></i> 3 Jugadores</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="text-center">
-                                        <p class="text-[10px] text-slate-400">Pts</p>
-                                        <p class="font-bold text-slate-300">6</p>
-                                    </div>
-                                    <div class="flex gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-800 text-slate-500 border border-slate-700 hover:bg-emerald-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-check"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-800 text-slate-500 border border-slate-700 hover:bg-rose-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- ================= GRUPO B ================= -->
-                    <div>
-                        <h4 class="font-orbitron text-lg font-bold text-[#ff2a85] mb-4 border-b border-slate-700 pb-2">
-                            <i class="fa-solid fa-users mr-2"></i>GRUPO B
-                        </h4>
-                        <div class="space-y-3">
-                            
-                            <!-- Equipo 1 (Líder Grupo B) -->
-                            <div class="flex items-center justify-between p-3 rounded-lg border border-[#ff2a85]/40 bg-[#ff2a85]/10">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-orbitron font-bold text-amber-400 w-5 text-center">1</span>
-                                    <div>
-                                        <p class="font-bold text-slate-100 uppercase text-sm">MORTIS GANG</p>
-                                        <p class="text-[10px] text-slate-400 uppercase"><i class="fa-solid fa-user-group text-[9px]"></i> 3 Jugadores</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="text-center">
-                                        <p class="text-[10px] text-slate-400">Pts</p>
-                                        <p class="font-bold text-[#ff2a85]">12</p>
-                                    </div>
-                                    <div class="flex gap-1">
-                                        <button class="w-7 h-7 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-check"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-800 text-slate-500 border border-slate-700 hover:bg-rose-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Equipo 3 (Eliminado Grupo B) -->
-                            <div class="flex items-center justify-between p-3 rounded-lg border border-rose-500/30 bg-rose-500/5 opacity-60">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-orbitron font-bold text-slate-500 w-5 text-center">4</span>
-                                    <div>
-                                        <p class="font-bold text-slate-400 line-through uppercase text-sm">LOS AFK</p>
-                                        <p class="text-[10px] text-rose-500 font-bold uppercase">Eliminado</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="text-center">
-                                        <p class="text-[10px] text-slate-500">Pts</p>
-                                        <p class="font-bold text-slate-500">0</p>
-                                    </div>
-                                    <div class="flex gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-800 text-slate-500 border border-slate-700 hover:bg-emerald-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-check"></i></button>
-                                        <button class="w-7 h-7 rounded bg-rose-500 text-white border border-rose-500 transition-all text-xs"><i class="fa-solid fa-xmark"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
+                <!-- 3. Grupos / cruces / tabla (generados por JS) -->
+                <div id="contenido-fase" class="grid md:grid-cols-2 gap-8 max-h-[600px] overflow-y-auto custom-scrollbar-pink pr-2"></div>
             </div>
         </div>
     </main>
 
+    <script type="module" src="brawl/brawl.js"></script>
 </body>
 </html>

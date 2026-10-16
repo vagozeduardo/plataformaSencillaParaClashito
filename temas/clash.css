@@ -1,0 +1,156 @@
+/* ==========================================================================
+   TEMA CLASH ROYALE  ·  se activa con <html class="tema-clash">
+   Azul rey + dorado, tipografía Holtwood One SC, bordes marcados y botones 3D.
+   Las páginas usan clases de Tailwind con la paleta neón original; aquí se
+   remapean a la paleta del juego (selectores con más especificidad que Tailwind).
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&family=Rajdhani:wght@500;600;700&display=swap');
+
+.tema-clash {
+    --cr-noche: #081432;
+    --cr-azul-osc: #0f2a66;
+    --cr-azul: #1d4fb8;
+    --cr-azul-cl: #4c8dff;
+    --cr-celeste: #9fd0ff;
+    --cr-oro: #ffc933;
+    --cr-oro-osc: #c98200;
+    --cr-borde: #050d24;
+    --cr-fuente-titulo: 'Holtwood One SC', Georgia, serif;
+}
+
+/* --- Fondo: cielo azul rey con patrón de rombos --- */
+html.tema-clash body {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 22px),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 22px),
+        radial-gradient(ellipse at top, #2457c4 0%, var(--cr-azul-osc) 45%, var(--cr-noche) 100%) fixed;
+    background-color: var(--cr-noche);
+}
+
+/* --- Tipografía --- */
+.tema-clash .font-orbitron { font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 0.04em; }
+
+.tema-clash :is(h1, h2, h3, h4) {
+    font-family: var(--cr-fuente-titulo) !important; /* gana a .font-orbitron */
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+/* Contorno oscuro estilo cartel del juego (no en textos con degradado) */
+.tema-clash :is(h1, h2, h3, h4):not(.text-transparent) {
+    text-shadow: 0 3px 0 var(--cr-borde), 0 0 2px var(--cr-borde);
+}
+.tema-clash h1.text-transparent {
+    background-image: linear-gradient(180deg, #fff3a8, var(--cr-oro) 55%, var(--cr-oro-osc)) !important;
+    filter: drop-shadow(0 2px 0 var(--cr-borde));
+}
+
+/* --- Remapeo de la paleta neón → azul rey / dorado --- */
+.tema-clash .text-\[\#00d2ff\],
+.tema-clash .neon-text-blue { color: var(--cr-oro); }
+.tema-clash .neon-text-blue { text-shadow: 0 3px 0 var(--cr-borde), 0 0 14px rgba(255, 201, 51, 0.45); }
+.tema-clash .text-cyan-400 { color: var(--cr-celeste); }
+.tema-clash .text-slate-500 { color: #8fa6d8; }
+.tema-clash .text-slate-400 { color: #b4c6ee; }
+
+.tema-clash .border-\[\#00d2ff\] { border-color: var(--cr-oro); }
+.tema-clash :is(.border-cyan-500\/20, .border-cyan-500\/30, .border-cyan-500\/40, .border-\[\#00d2ff\]\/50) { border-color: rgba(255, 201, 51, 0.45); }
+.tema-clash :is(.border-slate-700, .border-slate-800, .border-slate-700\/60, .border-slate-700\/80) { border-color: var(--cr-borde); }
+.tema-clash .bg-\[\#00d2ff\]\/10 { background-color: rgba(255, 201, 51, 0.16); }
+.tema-clash .bg-\[\#00d2ff\]\/20 { background-color: rgba(255, 201, 51, 0.22); }
+
+/* Superficies oscuras → azules del juego */
+.tema-clash :is(.bg-slate-900, .bg-slate-900\/50, .bg-slate-900\/60, .bg-slate-900\/80, .bg-slate-900\/90) { background-color: rgba(8, 20, 50, 0.75); }
+.tema-clash :is(.bg-slate-800, .bg-slate-800\/80) { background-color: #163a86; }
+.tema-clash .bg-slate-700 { background-color: #1d4fb8; }
+
+/* --- Paneles: bloques azules con contorno grueso y brillo superior --- */
+.tema-clash :is(.bg-\[\#121a2d\], .bg-\[\#121a2d\]\/90, .bg-\[\#121a2d\]\/80, .bg-\[\#0a0f1d\]\/80) {
+    background: linear-gradient(180deg, #1c4596 0%, #12316f 100%);
+    box-shadow: 0 0 0 3px var(--cr-borde), inset 0 2px 0 rgba(255, 255, 255, 0.14), 0 7px 0 3px rgba(5, 13, 36, 0.55);
+}
+
+/* --- Encabezado del sitio --- */
+.tema-clash #main-header {
+    background: linear-gradient(180deg, #2457c4, #163a86);
+    border-bottom: 4px solid var(--cr-borde);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- Pestañas de fases --- */
+.tema-clash .tab-fase {
+    font-family: var(--cr-fuente-titulo);
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 0 var(--cr-borde);
+}
+.tema-clash #tabs-fases { background: rgba(5, 13, 36, 0.55); }
+
+/* --- Filas de la tabla de jugadores (estado normal) --- */
+.tema-clash #lista-jugadores .border-\[\#00d2ff\]\/30 {
+    background: linear-gradient(180deg, #2a62cf 0%, #1c4aa3 100%);
+    border: 3px solid var(--cr-borde);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.22), 0 3px 0 var(--cr-borde);
+}
+.tema-clash #lista-jugadores > div { border-radius: 14px; }
+
+/* --- Formularios (editor de fases) --- */
+.tema-clash :is(input[type="text"], input[type="number"], select, textarea) {
+    background-color: #0b1f4d !important;
+    border: 2px solid var(--cr-borde) !important;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+.tema-clash :is(input, select, textarea):focus { border-color: var(--cr-oro) !important; }
+
+/* --- Botones estilo móvil con relieve (3D) --- */
+:is(html, section, article).tema-clash .btn-juego {
+    font-family: var(--cr-fuente-titulo);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #fff;
+    border: 3px solid var(--cr-borde);
+    border-radius: 12px;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 4px 0 var(--cr-borde);
+    transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+    background: linear-gradient(180deg, #5aa2ff, #2563d6);
+}
+:is(html, section, article).tema-clash .btn-juego:not(.btn-mini) { font-size: 0.74rem; }
+:is(html, section, article).tema-clash .btn-juego:hover:not(:disabled) { filter: brightness(1.1); }
+:is(html, section, article).tema-clash .btn-juego:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 1px 0 var(--cr-borde);
+}
+:is(html, section, article).tema-clash .btn-juego.btn-primario { background: linear-gradient(180deg, #ffe066 0%, #ffbf1f 55%, #f09a00 100%); color: #3b2300; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+:is(html, section, article).tema-clash .btn-juego.btn-secundario { background: linear-gradient(180deg, #5aa2ff, #2563d6); }
+:is(html, section, article).tema-clash .btn-juego.btn-exito { background: linear-gradient(180deg, #8ae86a, #2fa52a); }
+:is(html, section, article).tema-clash .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff7a6b, #d6362a); }
+:is(html, section, article).tema-clash .btn-juego.btn-aviso { background: linear-gradient(180deg, #ffc061, #e07b00); }
+:is(html, section, article).tema-clash .btn-juego:disabled,
+:is(html, section, article).tema-clash .btn-juego.btn-bloqueado {
+    background: linear-gradient(180deg, #8794b3, #4b5675);
+    color: #d5dbea;
+    text-shadow: none;
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+:is(html, section, article).tema-clash .btn-juego.btn-mini { border-width: 2px; border-radius: 8px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25), 0 3px 0 var(--cr-borde); }
+
+/* --- Emblemas --- */
+.tema-clash .emblema { filter: drop-shadow(0 4px 0 rgba(5, 13, 36, 0.6)); }
+
+/* --- Barra de desplazamiento --- */
+.tema-clash .custom-scrollbar::-webkit-scrollbar-track { background: var(--cr-noche); }
+.tema-clash .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--cr-oro); }
+
+/* --- Pantalla de partidas en vivo (clashitoMatchEspectador.html) --- */
+html.tema-clash body.bg-\[\#050811\] { background-color: var(--cr-noche); }
+.tema-clash .bg-cyan-600 { background: linear-gradient(180deg, #ffe066, #f09a00); color: #3b2300; box-shadow: 0 0 0 3px var(--cr-borde), 0 3px 0 3px var(--cr-borde); }
+.tema-clash .bg-\[\#0a0f1d\]\/80 { background: linear-gradient(180deg, #2457c4, #163a86); }
+.tema-clash :is(.border-cyan-800\/50, .border-cyan-900\/50) { border-color: var(--cr-borde); }
+.tema-clash .jugador-card { border-width: 3px; box-shadow: 0 4px 0 var(--cr-borde); }
+
+/* Barras de desplazamiento horizontales finas (pestañas en móvil) */
+.tema-clash :is(.custom-scrollbar, .custom-scrollbar-pink)::-webkit-scrollbar { height: 5px; }

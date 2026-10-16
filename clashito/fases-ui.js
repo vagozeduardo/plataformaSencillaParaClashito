@@ -1,0 +1,31 @@
+// fases-ui.js - Componentes visuales compartidos que se generan a partir de torneo-config.js
+import { TORNEO } from './torneo-config.js';
+import { renderizarTabsFases as renderizarTabsGenerico } from '../comun/tabs-ui.js';
+
+// Pestañas con los colores de Clash (cian)
+export function renderizarTabsFases(contenedor, opciones) {
+    return renderizarTabsGenerico(contenedor, { torneo: TORNEO, ...opciones });
+}
+
+export function htmlCampeon(campeon, extra = '') {
+    return `
+        <div class="py-12 px-6 rounded-2xl bg-gradient-to-b from-amber-500/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col items-center justify-center my-4">
+            <img src="media/emblemas/clash-cofre.svg" alt="Cofre del campeón" class="emblema w-28 h-24 mb-4">
+            <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">¡CAMPEÓN ABSOLUTO DEL TORNEO!</span>
+            <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 uppercase tracking-wider mb-2">${campeon.gamertag}</h2>
+            <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60 mb-6">
+                <i class="fa-solid fa-user text-amber-400 mr-1.5"></i>${campeon.nombre} <span class="text-slate-500">|</span> ${campeon.tag_jugador}
+            </p>
+            ${extra}
+        </div>
+    `;
+}
+
+export function htmlVacio(icono, mensaje) {
+    return `
+        <div class="col-span-full text-center py-12 border-2 border-dashed border-slate-700 rounded-lg">
+            <i class="fa-solid ${icono} text-4xl text-slate-600 mb-3"></i>
+            <p class="text-slate-400 font-orbitron">${mensaje}</p>
+        </div>
+    `;
+}

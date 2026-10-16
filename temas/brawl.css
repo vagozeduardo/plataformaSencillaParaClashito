@@ -1,0 +1,187 @@
+/* ==========================================================================
+   TEMA BRAWL STARS  ·  se activa con <html class="tema-brawl">
+   Amarillo estrella + morado neón + fucsia, contornos negros gruesos,
+   tipografía arcade (Lilita One) y botones con relieve.
+   Las páginas usan clases de Tailwind con la paleta neón original; aquí se
+   remapean a la paleta del juego (selectores con más especificidad que Tailwind).
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;800;900&display=swap');
+
+.tema-brawl {
+    --bs-noche: #1c0640;
+    --bs-morado: #3a0f7a;
+    --bs-morado-cl: #5b21b6;
+    --bs-neon: #a259ff;
+    --bs-fucsia: #ff1f8f;
+    --bs-amarillo: #ffd400;
+    --bs-celeste: #3ee0ff;
+    --bs-negro: #000;
+    --bs-fuente-titulo: 'Lilita One', 'Arial Black', sans-serif;
+}
+
+/* --- Fondo: morado intenso con rayos y trama de puntos --- */
+html.tema-brawl body {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    background:
+        radial-gradient(rgba(255, 255, 255, 0.07) 1.2px, transparent 1.6px) 0 0 / 16px 16px,
+        repeating-conic-gradient(from 0deg at 50% -10%, rgba(255, 255, 255, 0.035) 0 6deg, transparent 6deg 18deg),
+        radial-gradient(circle at 20% 0%, #7c3aed 0%, var(--bs-morado) 45%, var(--bs-noche) 100%) fixed;
+    background-color: var(--bs-noche);
+}
+
+/* --- Tipografía --- */
+.tema-brawl .font-orbitron { font-family: var(--bs-fuente-titulo); font-weight: 400; letter-spacing: 0.03em; }
+
+.tema-brawl :is(h1, h2, h3, h4) {
+    font-family: var(--bs-fuente-titulo);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+/* Letras con contorno negro grueso y sombra dura */
+.tema-brawl :is(h2, h3, h4):not(.text-transparent) {
+    -webkit-text-stroke: 1.5px var(--bs-negro);
+    paint-order: stroke fill;
+    text-shadow: 0 3px 0 var(--bs-negro);
+}
+.tema-brawl h2:not(.text-transparent) { -webkit-text-stroke: 2.5px var(--bs-negro); text-shadow: 0 5px 0 var(--bs-negro); }
+.tema-brawl h1.text-transparent {
+    background-image: linear-gradient(180deg, #fff27a, var(--bs-amarillo) 55%, #ff9f00) !important;
+    filter: drop-shadow(0 2px 0 var(--bs-negro)) drop-shadow(0 -1px 0 var(--bs-negro));
+}
+
+/* --- Remapeo de la paleta neón → amarillo / fucsia / morado --- */
+.tema-brawl .text-\[\#ff2a85\],
+.tema-brawl .neon-text-pink { color: var(--bs-amarillo); }
+.tema-brawl .neon-text-pink { text-shadow: 0 5px 0 var(--bs-negro), 0 0 18px rgba(255, 212, 0, 0.45); }
+.tema-brawl .text-\[\#00d2ff\] { color: var(--bs-celeste); }
+.tema-brawl .text-slate-500 { color: #b9a3e6; }
+.tema-brawl .text-slate-400 { color: #d3c4f5; }
+
+.tema-brawl .border-\[\#ff2a85\] { border-color: var(--bs-amarillo); }
+.tema-brawl :is(.border-\[\#ff2a85\]\/30, .border-\[\#ff2a85\]\/40, .border-\[\#ff2a85\]\/50) { border-color: var(--bs-negro); }
+.tema-brawl :is(.border-slate-700, .border-slate-800, .border-slate-700\/60, .border-cyan-500\/20) { border-color: var(--bs-negro); }
+.tema-brawl .bg-\[\#ff2a85\]\/10 { background-color: rgba(255, 212, 0, 0.14); }
+.tema-brawl .bg-\[\#ff2a85\]\/20 { background-color: rgba(255, 31, 143, 0.35); }
+
+/* Superficies oscuras → morados */
+.tema-brawl :is(.bg-slate-900, .bg-slate-900\/50, .bg-slate-900\/60, .bg-slate-900\/80, .bg-slate-900\/90) { background-color: rgba(28, 6, 64, 0.8); }
+.tema-brawl :is(.bg-slate-800, .bg-slate-800\/80) { background-color: #4c1d95; }
+.tema-brawl .bg-slate-700 { background-color: #6d28d9; }
+
+/* --- Paneles: bloques morados con borde negro grueso y sombra dura --- */
+.tema-brawl :is(.bg-\[\#121a2d\], .bg-\[\#121a2d\]\/90, .bg-\[\#121a2d\]\/80) {
+    background: linear-gradient(180deg, #4c1d95 0%, #2e1065 100%);
+    box-shadow: 0 0 0 4px var(--bs-negro), 0 8px 0 4px var(--bs-negro);
+}
+.tema-brawl .rounded-2xl { border-radius: 22px; }
+
+/* --- Encabezado del sitio --- */
+.tema-brawl #main-header, .tema-brawl header {
+    background: linear-gradient(180deg, #7c3aed, #4c1d95);
+    border-bottom: 4px solid var(--bs-negro);
+}
+
+/* --- Pestañas de fases --- */
+.tema-brawl .tab-fase {
+    font-family: var(--bs-fuente-titulo);
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    -webkit-text-stroke: 1px var(--bs-negro);
+    paint-order: stroke fill;
+    text-shadow: 0 2px 0 var(--bs-negro);
+}
+.tema-brawl #tabs-fases { background: rgba(0, 0, 0, 0.35); border-bottom: 4px solid var(--bs-negro); }
+
+/* --- Chips de modos de juego --- */
+.tema-brawl .chip-modo {
+    background: linear-gradient(180deg, #ff4fb0, #e0007a);
+    border: 3px solid var(--bs-negro);
+    box-shadow: 0 3px 0 var(--bs-negro);
+    color: #fff;
+    font-family: var(--bs-fuente-titulo);
+    font-weight: 400;
+    font-size: 0.85rem;
+    -webkit-text-stroke: 0.8px var(--bs-negro);
+    paint-order: stroke fill;
+}
+.tema-brawl .chip-modo i { color: var(--bs-amarillo); -webkit-text-stroke: 0; filter: drop-shadow(0 1px 0 var(--bs-negro)); }
+
+/* --- Tarjetas de equipo (grupos/cruces) --- */
+.tema-brawl #contenido-fase .space-y-3 > div {
+    border: 3px solid var(--bs-negro);
+    border-radius: 14px;
+    box-shadow: 0 4px 0 var(--bs-negro);
+}
+.tema-brawl #contenido-fase .space-y-3 > .bg-slate-800\/50 { background: linear-gradient(180deg, #6d28d9, #4c1d95); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-\[\#ff2a85\]\/10 { background: linear-gradient(180deg, #ff4fb0, #c2006b); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-rose-500\/5 { background: #2a1450; }
+.tema-brawl #contenido-fase .space-y-3 > .bg-amber-500\/10 { background: linear-gradient(180deg, #ffe14d, #e6a800); }
+.tema-brawl #contenido-fase .space-y-3 > .bg-amber-500\/10 :is(p, span) { color: #2a1450; }
+.tema-brawl #contenido-fase h4 { border-bottom: 3px solid var(--bs-negro); }
+
+/* --- Formularios (editor de fases) --- */
+.tema-brawl :is(input[type="text"], input[type="number"], select, textarea) {
+    background-color: #24095a !important;
+    border: 3px solid var(--bs-negro) !important;
+    border-radius: 10px !important;
+}
+.tema-brawl :is(input, select, textarea):focus { border-color: var(--bs-amarillo) !important; }
+
+/* --- Botones arcade con relieve --- */
+:is(html, section, article).tema-brawl .btn-juego {
+    font-family: var(--bs-fuente-titulo);
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    color: #fff;
+    border: 3px solid var(--bs-negro);
+    border-radius: 12px;
+    -webkit-text-stroke: 1px var(--bs-negro);
+    paint-order: stroke fill;
+    text-shadow: 0 2px 0 var(--bs-negro);
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3), inset 0 3px 0 rgba(255, 255, 255, 0.35), 0 4px 0 var(--bs-negro);
+    transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+    background: linear-gradient(180deg, #b77bff, #7c3aed);
+}
+:is(html, section, article).tema-brawl .btn-juego:hover:not(:disabled) { filter: brightness(1.12) saturate(1.1); transform: translateY(-1px) rotate(-0.6deg); }
+:is(html, section, article).tema-brawl .btn-juego:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3), inset 0 3px 0 rgba(255, 255, 255, 0.35), 0 1px 0 var(--bs-negro);
+}
+:is(html, section, article).tema-brawl .btn-juego.btn-primario { background: linear-gradient(180deg, #fff27a 0%, #ffd400 55%, #ffa800 100%); color: #1a1a1a; -webkit-text-stroke: 0; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); }
+:is(html, section, article).tema-brawl .btn-juego.btn-secundario { background: linear-gradient(180deg, #b77bff, #7c3aed); }
+:is(html, section, article).tema-brawl .btn-juego.btn-exito { background: linear-gradient(180deg, #6cf08f, #16a34a); }
+:is(html, section, article).tema-brawl .btn-juego.btn-peligro { background: linear-gradient(180deg, #ff6b6b, #d61f1f); }
+:is(html, section, article).tema-brawl .btn-juego.btn-aviso { background: linear-gradient(180deg, #ff6fc0, #e0007a); }
+:is(html, section, article).tema-brawl .btn-juego:disabled,
+:is(html, section, article).tema-brawl .btn-juego.btn-bloqueado {
+    background: linear-gradient(180deg, #7a6a99, #4a3b66);
+    color: #cfc4e6;
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+:is(html, section, article).tema-brawl .btn-juego.btn-mini { font-size: 0.8rem; border-radius: 9px; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.3), 0 3px 0 var(--bs-negro); }
+
+/* --- Emblemas: entrada con rebote --- */
+.tema-brawl .emblema { filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.6)); animation: bs-rebote 2.8s ease-in-out infinite; }
+@keyframes bs-rebote {
+    0%, 100% { transform: rotate(-6deg) scale(1); }
+    50% { transform: rotate(6deg) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tema-brawl .emblema { animation: none; }
+}
+
+/* --- Barra de desplazamiento --- */
+.tema-brawl .custom-scrollbar-pink::-webkit-scrollbar-track,
+.tema-brawl .custom-scrollbar::-webkit-scrollbar-track { background: var(--bs-noche); }
+.tema-brawl .custom-scrollbar-pink::-webkit-scrollbar-thumb,
+.tema-brawl .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--bs-amarillo); border: 2px solid #000; }
+
+/* Barras de desplazamiento horizontales finas (pestañas en móvil) */
+.tema-brawl :is(.custom-scrollbar, .custom-scrollbar-pink)::-webkit-scrollbar { height: 5px; }
+
+/* Aviso "esperando sorteo" dentro del panel */
+.tema-brawl #contenido-fase > p.bg-amber-500\/10 { background: rgba(255, 212, 0, 0.15); border: 3px solid #000; color: var(--bs-amarillo); }

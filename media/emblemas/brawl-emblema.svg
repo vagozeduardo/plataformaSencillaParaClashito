@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Emblema Brawl Stars">
+  <circle cx="60" cy="60" r="54" fill="#7c3aed" stroke="#000" stroke-width="7"/>
+  <circle cx="60" cy="60" r="43" fill="#ff1f8f" stroke="#000" stroke-width="5"/>
+  <path d="M60 22 L69.5 47 L98 48 L75.5 65.5 L83.5 93 L60 77 L36.5 93 L44.5 65.5 L22 48 L50.5 47 Z" fill="#ffd400" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M55 36 L50.5 47 L33 47.6" fill="none" stroke="#fff6a3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

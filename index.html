@@ -1,135 +1,163 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
-    <!-- Configuración básica de la página (caracteres y diseño responsivo) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Título que aparece en la pestaña del navegador -->
     <title>Torneo de videojuegos</title>
-    
-    <!-- Carga del framework Tailwind CSS desde un servidor CDN -->
+
+    <!-- Tailwind CSS e iconos -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Librería de iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tu archivo de estilos personalizables (colores neón, fuentes, etc.) -->
+
+    <!-- Estilos base + identidad de cada juego + portada -->
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="temas/clash.css">
+    <link rel="stylesheet" href="temas/brawl.css">
+    <link rel="stylesheet" href="temas/inicio.css">
 </head>
 
-<!-- Cuerpo principal de la página con fondo oscuro y alineación vertical -->
-<body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
+<body class="portada min-h-screen flex flex-col">
 
     <!-- ====================================================================
-         1. MENÚ DE NAVEGACIÓN (HEADER)
+         1. MENÚ DE NAVEGACIÓN
          ==================================================================== -->
-    <header class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            
-            <!-- LOGO: Círculo con el número "626" y el título "ARENA STITCH" -->
-            <a href="index.html" class="flex items-center gap-3">
-                <!-- Círculo de la mascota con borde neón -->
-                <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue">
-                    <img src="juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
-                    <!--  <span class="font-orbitron font-bold text-[#00d2ff] text-sm">42</span> -->
+    <header class="portada-header sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 shrink-0 rounded-full flex items-center justify-center border-2 border-black bg-[#ffd400] overflow-hidden">
+                    <img src="media/juegos.png" alt="Logo del torneo" class="w-full h-full object-cover">
                 </div>
-                <!-- Texto del logotipo con degradado de color (Azul a Rosa) -->
-                <h1 class="font-orbitron text-xl md:text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff2a85]">
-                    Torneo de videojuegos
-                </h1>
+                <span class="marca text-xl md:text-2xl truncate">Torneo de videojuegos</span>
             </a>
 
-            <!-- ENLACES DEL MENÚ (Se oculta en celulares y se muestra en pantallas medianas 'md') -->
-            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold uppercase tracking-wider text-slate-300">
-                <a href="index.html" class="text-[#00d2ff] flex items-center gap-2">
-                    <i class="fa-solid fa-house"></i> Inicio
-                </a>
-                <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2">
-                    <i class="fa-solid fa-gamepad"></i> Juegos
-                </a>
-                <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2">
-                    <i class="fa-solid fa-user-plus"></i> Registro
-                </a>
-                <!--
-                <a href="fases.html" class="hover:text-[#00d2ff] flex items-center gap-2">
-                    <i class="fa-solid fa-sitemap"></i> Fases
-                </a> -->
+            <nav class="portada-nav flex items-center gap-4 md:gap-6 text-sm uppercase text-slate-200">
+                <a href="juegos.html" class="flex items-center gap-2"><i class="fa-solid fa-gamepad text-[#3ee0ff]"></i> Juegos</a>
+                <a href="clash.html" class="hidden sm:flex items-center gap-2"><i class="fa-solid fa-crown text-[#ffc933]"></i> Clash</a>
+                <a href="brawl.html" class="hidden sm:flex items-center gap-2"><i class="fa-solid fa-star text-[#ffd400]"></i> Brawl</a>
+                <a href="registro.html" class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-[#ff1f8f]"></i> Registro</a>
             </nav>
-
-            <!-- BOTÓN DESTACADO DEL MENÚ (Lleva a la página de Fases) -->
-            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
-                <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
-            </a>
         </div>
     </header>
 
     <!-- ====================================================================
-         2. SECCIÓN PRINCIPAL (HERO DE BIENVENIDA)
+         2. PORTADA
          ==================================================================== -->
-    <main class="max-w-7xl mx-auto px-4 py-16 flex-grow flex flex-col items-center justify-center text-center">
-        
-        <!-- Etiqueta pequeña sobre el título principal -->
-        <span class="inline-block px-3 py-1 bg-[#ff2a85]/20 border border-[#ff2a85] text-[#ff2a85] rounded-full text-xs font-bold tracking-widest uppercase mb-4">
-            <i class="fa-solid fa-bolt mr-1"></i> comunidad de Sistemas
-        </span>
-        
-        <!-- Título principal con resaltado en colores Neón -->
-        <h2 class="font-orbitron text-4xl md:text-6xl font-black mb-4 uppercase">
-            Torneos <br>
-            <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span> & <span class="text-[#ff2a85]">Brawl Stars</span>
-        </h2>
-        <!-- Parrafo descriptivo corto
-        <p class="text-slate-400 text-base md:text-lg max-w-2xl mb-8">
-            Selecciona tu juego, regístrate y compite por la corona galáctica.
-        </p> -->
+    <main class="max-w-6xl mx-auto px-4 py-10 md:py-14 flex-grow w-full">
 
-        <!-- Botones de Acción (Llamados a la acción) 
-        <div class="flex gap-4">
-             Botón 1: Ir a la sección de Juegos 
-            <a href="juegos.html" class="bg-[#00d2ff] text-slate-900 font-orbitron font-bold px-6 py-3 rounded-lg hover:bg-cyan-300">
-                VER JUEGOS
-            </a>
-             Botón 2: Ir al Formulario de Registro 
-            <a href="registro.html" class="border border-[#ff2a85] text-[#ff2a85] font-orbitron font-bold px-6 py-3 rounded-lg hover:bg-[#ff2a85]/10">
-                REGISTRARSE
-            </a>
-        </div> -->
-        <br>
-        <div class="grid md:grid-cols-2 gap-8">
-            <!-- Card Clash Royale -->
-            <div class="bg-[#121a2d] rounded-2xl p-6 border border-slate-800 hover:border-[#00d2ff] transition-all">
-                <a href="clash.html">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded">1v1 MODALIDAD</span>
-                        <i class="fa-solid fa-crown text-amber-400 text-xl"></i>
-                    </div>
-                    <h3 class="font-orbitron text-2xl font-bold mb-2">CLASH ROYALE</h3>
-                    <p class="text-slate-400 text-sm mb-6">Torneo de mazos y estrategia en la arena.</p>
-                </a>
-                <!--  <a href="registro.html" class="block text-center w-full bg-[#00d2ff] text-slate-900 font-orbitron text-xs font-bold py-2.5 rounded hover:bg-cyan-300">INSCRIBIRSE EN CR</a> -->
-            </div>
-
-            <!-- Card Brawl Stars -->
-            <div class="bg-[#121a2d] rounded-2xl p-6 border border-slate-800 hover:border-[#ff2a85] transition-all">
-                <a href="brawl.html">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-xs font-bold font-orbitron px-2.5 py-1 bg-[#ff2a85]/20 text-[#ff2a85] border border-[#ff2a85]/40 rounded">3v3 MODALIDAD</span>
-                        <i class="fa-solid fa-star text-[#ff2a85] text-xl"></i>
-                    </div>
-                    <h3 class="font-orbitron text-2xl font-bold mb-2">BRAWL STARS</h3>
-                    <p class="text-slate-400 text-sm mb-6">Modo por equipos (BALONBRAWL, ATRAPAGEMAS, CAZA ESTELAR)</p>
-                </a>
-            </div>
+        <div class="text-center mb-10 md:mb-14">
+            <span class="etiqueta-portada inline-block px-4 py-1 rounded-full text-xs md:text-sm uppercase text-white mb-5">
+                <i class="fa-solid fa-bolt mr-1"></i> Comunidad de Sistemas
+            </span>
+            <h1 class="titulo-portada text-5xl md:text-7xl uppercase text-white leading-tight">
+                Torneos<br>
+                <span class="cr">Clash Royale</span>
+                <span class="text-white text-3xl md:text-5xl align-middle mx-1">&amp;</span>
+                <span class="bs">Brawl Stars</span>
+            </h1>
+            <p class="mt-4 text-slate-300 font-bold text-base md:text-lg">Elige tu arena, inscríbete y compite por la corona.</p>
         </div>
+
+        <!-- Tarjetas de ambos juegos -->
+        <div class="relative grid md:grid-cols-2 gap-14 md:gap-12">
+
+            <!-- ================= CLASH ROYALE ================= -->
+            <article class="tarjeta-juego tema-clash p-6 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <span class="insignia-modalidad inline-block px-3 py-1 text-xs uppercase">1 vs 1 · Individual</span>
+                        <h2 class="nombre-juego text-3xl md:text-4xl uppercase mt-3 leading-tight">Clash<br>Royale</h2>
+                        <p class="text-[#cfe0ff] font-bold mt-2 text-sm">Mazos, elixir y estrategia en la arena.</p>
+                    </div>
+                    <img src="media/emblemas/clash-emblema.svg" alt="Emblema de Clash Royale" class="emblema-grande shrink-0">
+                </div>
+
+                <!-- Estado en vivo (lo llena inicio.js) -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="dato-vivo p-3 text-center">
+                        <p id="cr-inscritos" class="valor">0</p>
+                        <p class="rotulo text-[#cfe0ff] mt-1"><i class="fa-solid fa-user"></i> Jugadores</p>
+                    </div>
+                    <div class="dato-vivo p-3 text-center">
+                        <p id="cr-estado" class="valor text-base">—</p>
+                        <p id="cr-estado-rotulo" class="rotulo text-[#cfe0ff] mt-1"><i class="fa-solid fa-flag"></i> Fase actual</p>
+                    </div>
+                </div>
+                <div id="cr-ruta" class="ruta-fases mb-6"></div>
+
+                <div class="mt-auto flex flex-wrap gap-3">
+                    <a href="clash.html" class="btn-juego btn-primario flex-1 min-w-[10rem] text-center px-5 py-3 rounded-xl">
+                        <i class="fa-solid fa-crown mr-1"></i> Entrar al torneo
+                    </a>
+                    <a href="clashSpectator.html" class="btn-juego btn-secundario flex-1 min-w-[8rem] text-center px-4 py-3 rounded-xl">
+                        <i class="fa-solid fa-tv mr-1"></i> En vivo
+                    </a>
+                </div>
+            </article>
+
+            <!-- Medallón VS (solo escritorio) -->
+            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+                <span class="medallon-vs flex items-center justify-center">VS</span>
+            </div>
+
+            <!-- ================= BRAWL STARS ================= -->
+            <article class="tarjeta-juego tema-brawl p-6 md:p-8 flex flex-col">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <span class="insignia-modalidad inline-block px-3 py-1 text-xs uppercase">3 vs 3 · Por equipos</span>
+                        <h2 class="nombre-juego text-4xl md:text-5xl uppercase mt-3 leading-none">Brawl<br>Stars</h2>
+                        <p class="text-[#ead9ff] font-extrabold mt-2 text-sm">Gemas, estrellas y caos por equipos.</p>
+                    </div>
+                    <img src="media/emblemas/brawl-emblema.svg" alt="Emblema de Brawl Stars" class="emblema-grande shrink-0">
+                </div>
+
+                <!-- Estado en vivo (lo llena inicio.js) -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="dato-vivo p-3 text-center">
+                        <p id="bs-inscritos" class="valor">0</p>
+                        <p class="rotulo text-[#ead9ff] mt-1"><i class="fa-solid fa-users"></i> Equipos</p>
+                    </div>
+                    <div class="dato-vivo p-3 text-center">
+                        <p id="bs-estado" class="valor text-base">—</p>
+                        <p id="bs-estado-rotulo" class="rotulo text-[#ead9ff] mt-1"><i class="fa-solid fa-flag"></i> Fase actual</p>
+                    </div>
+                </div>
+                <div id="bs-ruta" class="ruta-fases mb-3"></div>
+                <div id="bs-modos" class="flex flex-wrap gap-2 mb-6"></div>
+
+                <div class="mt-auto flex flex-wrap gap-3">
+                    <a href="brawl.html" class="btn-juego btn-primario flex-1 min-w-[10rem] text-center px-5 py-3 rounded-xl">
+                        <i class="fa-solid fa-star mr-1"></i> Entrar al torneo
+                    </a>
+                    <a href="config-fases.html?juego=bs" class="btn-juego btn-secundario flex-1 min-w-[8rem] text-center px-4 py-3 rounded-xl">
+                        <i class="fa-solid fa-gamepad mr-1"></i> Fases y modos
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Franja de registro -->
+        <section class="franja-registro mt-14 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+            <div class="flex items-center gap-4">
+                <img src="media/emblemas/clash-cofre.svg" alt="" class="w-16 h-14 hidden sm:block">
+                <div>
+                    <h3 class="text-2xl md:text-3xl text-white uppercase">¿Aún no te inscribes?</h3>
+                    <p class="text-slate-300 font-bold text-sm">Registra tu jugador de Clash Royale o tu equipo de Brawl Stars.</p>
+                </div>
+                <img src="media/emblemas/brawl-gema.svg" alt="" class="w-12 h-14 hidden sm:block">
+            </div>
+            <a href="registro.html" class="btn-registro shrink-0 text-white text-lg uppercase px-8 py-3">
+                <i class="fa-solid fa-user-plus mr-2"></i> Inscribirme
+            </a>
+        </section>
     </main>
 
     <!-- ====================================================================
-         3. PIE DE PÁGINA (FOOTER)
+         3. PIE DE PÁGINA
          ==================================================================== -->
-    <footer class="border-t border-slate-800 bg-[#121a2d] py-4 text-center text-xs text-slate-500 font-orbitron">
-       <!-- <p>© 2026 ARENA STITCH • CLASH ROYALE & BRAWL STARS</p> -->
+    <footer class="border-t-[3px] border-black bg-black/40 py-4 text-center text-xs text-slate-400 font-bold">
+        Torneo de videojuegos · Comunidad de Sistemas
     </footer>
 
+    <script type="module" src="inicio.js"></script>
 </body>
 </html>

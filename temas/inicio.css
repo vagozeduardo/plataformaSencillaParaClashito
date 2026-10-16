@@ -1,0 +1,188 @@
+/* ==========================================================================
+   PORTADA (index.html) · identidad doble: Clash Royale | Brawl Stars
+   Cada tarjeta lleva la clase de tema de su juego (tema-clash / tema-brawl),
+   así hereda tipografías y botones 3D de temas/clash.css y temas/brawl.css.
+   ========================================================================== */
+
+body.portada {
+    font-family: 'Nunito', sans-serif;
+    background:
+        radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.4px) 0 0 / 18px 18px,
+        linear-gradient(115deg, #0b1d4d 0%, #102a6b 38%, #1a0d3d 50%, #3a0f7a 62%, #1c0640 100%) fixed;
+    background-color: #0b0f24;
+    color: #f1f5f9;
+}
+
+/* --- Encabezado --- */
+.portada-header {
+    background: rgba(5, 8, 22, 0.75);
+    backdrop-filter: blur(8px);
+    border-bottom: 3px solid #000;
+}
+.portada-header .marca {
+    font-family: 'Lilita One', sans-serif;
+    background: linear-gradient(90deg, #ffc933, #ffd400 50%, #ff1f8f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 0 #000);
+}
+.portada-nav a { font-family: 'Lilita One', sans-serif; letter-spacing: 0.04em; }
+.portada-nav a:hover { color: #ffd400; }
+
+/* --- Título principal --- */
+.titulo-portada {
+    font-family: 'Lilita One', sans-serif;
+    -webkit-text-stroke: 3px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 6px 0 #000;
+    letter-spacing: 0.02em;
+}
+.titulo-portada .cr {
+    font-family: 'Holtwood One SC', serif;
+    color: #ffc933;
+    -webkit-text-stroke: 0;
+    text-shadow: 0 4px 0 #050d24, 0 0 18px rgba(255, 201, 51, 0.45);
+    font-size: 0.78em;
+}
+.titulo-portada .bs { color: #ffd400; text-shadow: 0 6px 0 #000, 0 0 18px rgba(255, 31, 143, 0.6); }
+
+.etiqueta-portada {
+    font-family: 'Lilita One', sans-serif;
+    background: #ff1f8f;
+    border: 3px solid #000;
+    box-shadow: 0 3px 0 #000;
+    letter-spacing: 0.08em;
+}
+
+/* --- Tarjetas de juego --- */
+.tarjeta-juego {
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tarjeta-juego:hover { transform: translateY(-4px); }
+
+.tarjeta-juego.tema-clash {
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 22px),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 22px),
+        linear-gradient(180deg, #2457c4 0%, #163a86 55%, #0f2a66 100%);
+    box-shadow: 0 0 0 4px #ffc933, 0 0 0 8px #050d24, 0 14px 0 8px rgba(5, 13, 36, 0.6);
+}
+.tarjeta-juego.tema-brawl {
+    background:
+        radial-gradient(rgba(255, 255, 255, 0.08) 1.2px, transparent 1.6px) 0 0 / 16px 16px,
+        repeating-conic-gradient(from 0deg at 50% 0%, rgba(255, 255, 255, 0.05) 0 6deg, transparent 6deg 18deg),
+        linear-gradient(180deg, #7c3aed 0%, #4c1d95 55%, #2e1065 100%);
+    box-shadow: 0 0 0 6px #000, 0 14px 0 6px #000;
+}
+
+.tarjeta-juego .emblema-grande { width: 7.5rem; height: auto; }
+.tarjeta-juego.tema-clash .emblema-grande { filter: drop-shadow(0 6px 0 rgba(5, 13, 36, 0.7)); }
+.tarjeta-juego.tema-brawl .emblema-grande { filter: drop-shadow(0 6px 0 #000); animation: bs-rebote 2.8s ease-in-out infinite; }
+
+.tarjeta-juego.tema-clash .nombre-juego { color: #ffc933; text-shadow: 0 4px 0 #050d24, 0 0 2px #050d24; }
+.tarjeta-juego.tema-brawl .nombre-juego { color: #ffd400; -webkit-text-stroke: 3px #000; paint-order: stroke fill; text-shadow: 0 6px 0 #000; }
+
+/* Insignia de modalidad */
+.insignia-modalidad { border-radius: 999px; font-weight: 900; letter-spacing: 0.08em; }
+.tema-clash .insignia-modalidad { background: #050d24; color: #ffc933; border: 2px solid #ffc933; font-family: 'Rajdhani', sans-serif; }
+.tema-brawl .insignia-modalidad { background: #ff1f8f; color: #fff; border: 3px solid #000; box-shadow: 0 3px 0 #000; font-family: 'Lilita One', sans-serif; font-weight: 400; }
+
+/* Estadísticas en vivo */
+.dato-vivo { border-radius: 16px; }
+.tema-clash .dato-vivo { background: rgba(5, 13, 36, 0.55); border: 3px solid #050d24; box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.08); }
+.tema-brawl .dato-vivo { background: rgba(0, 0, 0, 0.35); border: 3px solid #000; box-shadow: 0 4px 0 #000; }
+.dato-vivo .valor { font-size: 1.6rem; line-height: 1; }
+.tema-clash .dato-vivo .valor { font-family: 'Holtwood One SC', serif; color: #fff; text-shadow: 0 3px 0 #050d24; }
+.tema-brawl .dato-vivo .valor { font-family: 'Lilita One', sans-serif; color: #fff; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill; text-shadow: 0 3px 0 #000; }
+.dato-vivo .rotulo { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
+
+/* Ruta de fases (F1 → F2 → … ) */
+.ruta-fases { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+.paso-fase {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 2.25rem; height: 2.25rem; padding: 0 0.5rem;
+    border-radius: 999px; font-size: 0.8rem;
+}
+.tema-clash .paso-fase { font-family: 'Holtwood One SC', serif; background: #0b1f4d; color: #8fa6d8; border: 3px solid #050d24; }
+.tema-clash .paso-fase.hecho { background: #2fa52a; color: #fff; }
+.tema-clash .paso-fase.actual { background: linear-gradient(180deg, #ffe066, #f09a00); color: #3b2300; box-shadow: 0 0 14px rgba(255, 201, 51, 0.8); }
+.tema-brawl .paso-fase { font-family: 'Lilita One', sans-serif; background: #24095a; color: #b9a3e6; border: 3px solid #000; }
+.tema-brawl .paso-fase.hecho { background: #16a34a; color: #fff; }
+.tema-brawl .paso-fase.actual { background: linear-gradient(180deg, #fff27a, #ffd400); color: #1a1a1a; box-shadow: 0 0 14px rgba(255, 212, 0, 0.8); }
+.ruta-fases .conector { width: 0.9rem; height: 4px; border-radius: 2px; background: rgba(0, 0, 0, 0.5); }
+
+/* Chips de modos (Brawl) */
+.chip-portada { border-radius: 999px; font-family: 'Lilita One', sans-serif; background: linear-gradient(180deg, #ff4fb0, #e0007a); border: 3px solid #000; box-shadow: 0 3px 0 #000; }
+.chip-portada i { color: #ffd400; }
+
+/* Medallón VS entre las tarjetas */
+.medallon-vs {
+    font-family: 'Lilita One', sans-serif;
+    width: 5.5rem; height: 5.5rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff27a, #ffd400 45%, #ff9f00);
+    border: 5px solid #000;
+    box-shadow: 0 6px 0 #000, 0 0 30px rgba(255, 212, 0, 0.55);
+    color: #1a1a1a;
+    font-size: 2rem;
+    -webkit-text-stroke: 1px #000;
+    transform: rotate(-8deg);
+}
+
+/* Franja de registro */
+.franja-registro {
+    border-radius: 24px;
+    background: linear-gradient(90deg, #163a86 0%, #2e1065 100%);
+    border: 4px solid #000;
+    box-shadow: 0 8px 0 #000;
+}
+.franja-registro h3 { font-family: 'Lilita One', sans-serif; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill; text-shadow: 0 3px 0 #000; }
+.btn-registro {
+    font-family: 'Lilita One', sans-serif;
+    background: linear-gradient(180deg, #8ae86a, #2fa52a);
+    border: 3px solid #000;
+    border-radius: 14px;
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25), inset 0 3px 0 rgba(255, 255, 255, 0.35), 0 5px 0 #000;
+    -webkit-text-stroke: 1px #000;
+    paint-order: stroke fill;
+    text-shadow: 0 2px 0 #000;
+    transition: transform 0.08s, box-shadow 0.08s;
+}
+.btn-registro:hover { filter: brightness(1.1); }
+.btn-registro:active { transform: translateY(4px); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25), 0 1px 0 #000; }
+
+@keyframes bs-rebote {
+    0%, 100% { transform: rotate(-6deg) scale(1); }
+    50% { transform: rotate(6deg) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tarjeta-juego, .tarjeta-juego .emblema-grande { animation: none !important; transition: none; }
+}
+
+/* --- Enlace activo del menú --- */
+.portada-nav a.activo { color: #ffd400; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+
+/* --- Registro: tarjetas para elegir juego --- */
+.selector-juego { cursor: pointer; opacity: 0.55; filter: saturate(0.6); transform: scale(0.97); }
+.selector-juego:hover { opacity: 0.85; filter: none; }
+.selector-juego.seleccionado { opacity: 1; filter: none; transform: scale(1); }
+.selector-juego.seleccionado::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; top: 0.6rem; right: 0.7rem;
+    width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #2fa52a; color: #fff; border: 3px solid #000; font-size: 0.75rem;
+}
+.selector-juego:focus-visible { outline: 4px solid #fff; outline-offset: 4px; }
+.selector-juego.tema-clash .nombre-juego { font-family: 'Holtwood One SC', serif; color: #ffc933; text-shadow: 0 3px 0 #050d24; }
+.selector-juego.tema-brawl .nombre-juego { font-family: 'Lilita One', sans-serif; color: #ffd400; -webkit-text-stroke: 1.5px #000; paint-order: stroke fill; text-shadow: 0 3px 0 #000; }
+
+/* --- Registro: transición suave al cambiar de juego --- */
+#tarjeta-registro { transition: background 0.3s ease, box-shadow 0.3s ease; }
+#tarjeta-registro:hover { transform: none; }
