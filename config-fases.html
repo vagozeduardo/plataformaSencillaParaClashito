@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale - Configurar Fases</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
+
+    <!-- BOTÓN FLOTANTE PARA ACTIVAR/OCULTAR MENÚ -->
+    <button id="btn-toggle-header" class="fixed top-3 right-4 z-50 bg-[#121a2d]/80 hover:bg-slate-800 border border-cyan-500/30 text-cyan-400 px-3 py-1.5 rounded-lg text-xs font-orbitron font-bold transition-all shadow-[0_0_10px_rgba(0,210,255,0.2)] flex items-center gap-2">
+        <i class="fa-solid fa-eye-slash" id="icono-toggle"></i> <span id="texto-toggle">Ocultar Menú</span>
+    </button>
+
+    <!-- HEADER / MENÚ -->
+    <header id="main-header" class="border-b border-cyan-500/20 bg-[#121a2d]/90 backdrop-blur-md sticky top-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-[#00d2ff]/20 flex items-center justify-center border border-[#00d2ff] neon-border-blue overflow-hidden">
+                    <img src="media/juegos.png" alt="Logo de la mascota" class="w-full h-full object-cover">
+                </div>
+                <h1 class="font-orbitron text-xl md:text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#00d2ff] to-[#ff2a85]">
+                    Torneo de videojuegos
+                </h1>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold uppercase tracking-wider text-slate-300 mr-32">
+                <a href="index.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-house"></i> Inicio</a>
+                <a href="clash.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-crown"></i> Torneo</a>
+                <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pt-2 pb-10 flex-grow w-full">
+
+        <!-- Título -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+            <div>
+                <a href="clash.html" class="text-xs font-bold font-orbitron px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/40 rounded uppercase hover:bg-amber-500/30">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Volver al torneo
+                </a>
+                <h2 class="font-orbitron text-3xl md:text-4xl font-black mt-3 text-slate-100 uppercase">
+                    Configurar <span class="text-[#00d2ff] neon-text-blue">Fases</span>
+                </h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    El orden define el número de fase. <span class="text-amber-400 font-bold">La última fase siempre corona al campeón.</span>
+                </p>
+            </div>
+            <span id="estado-guardado" class="font-orbitron text-xs font-bold uppercase tracking-wider"></span>
+        </div>
+
+        <!-- Barra de acciones -->
+        <div class="flex flex-wrap gap-2 mb-6 bg-[#121a2d] border border-slate-800 rounded-2xl p-3">
+            <button id="btn-guardar" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow-md">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+            </button>
+            <button id="btn-agregar" class="flex items-center gap-2 bg-[#00d2ff]/20 border border-[#00d2ff]/50 text-[#00d2ff] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[#00d2ff]/30">
+                <i class="fa-solid fa-plus"></i> Agregar fase
+            </button>
+            <div class="flex flex-wrap gap-2 sm:ml-auto">
+                <button id="btn-exportar" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
+                    <i class="fa-solid fa-download text-cyan-400"></i> Exportar
+                </button>
+                <label for="input-importar" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold cursor-pointer">
+                    <i class="fa-solid fa-upload text-emerald-400"></i> Importar
+                    <input type="file" id="input-importar" accept=".json" class="hidden">
+                </label>
+                <button id="btn-restablecer" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
+                    <i class="fa-solid fa-rotate-left text-rose-400"></i> Restablecer
+                </button>
+            </div>
+        </div>
+
+        <!-- Errores de validación -->
+        <div id="panel-errores" class="hidden mb-6 border border-rose-500/40 bg-rose-500/10 rounded-xl p-4 text-sm text-rose-300"></div>
+
+        <!-- Tarjetas de fases (generadas por JS) -->
+        <div id="lista-fases" class="space-y-4"></div>
+    </main>
+
+    <script type="module" src="clashito/config-fases.js"></script>
+</body>
+</html>

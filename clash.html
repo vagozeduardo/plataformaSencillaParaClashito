@@ -50,7 +50,12 @@
                     Torneo <span class="text-[#00d2ff] neon-text-blue">Clash Royale</span>
                 </h2>
             </div>
-            <i class="fa-solid fa-crown text-4xl text-amber-400 neon-text-gold"></i>
+            <div class="flex items-center gap-4">
+                <a href="config-fases.html" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-amber-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Agregar, quitar o editar fases">
+                    <i class="fa-solid fa-sliders text-amber-400"></i> <span class="hidden sm:inline">Configurar Fases</span>
+                </a>
+                <i class="fa-solid fa-crown text-4xl text-amber-400 neon-text-gold"></i>
+            </div>
         </div>
 
         <!-- CONTENEDOR DE FASES -->
@@ -58,7 +63,7 @@
             
             <!-- 1. Menú de Pestañas (Fases) -->
             <div id="tabs-fases" class="flex overflow-x-auto border-b border-slate-800 bg-slate-900/50 custom-scrollbar">
-                <!-- Las pestañas se generan desde clashito/torneo-config.js -->
+                <!-- Las pestañas se generan desde la configuración (config-fases.html) -->
             </div>
 
             <!-- 2. Cabecera y Controles de la Fase Actual -->
