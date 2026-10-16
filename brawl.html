@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="dark tema-brawl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="temas/brawl.css">
 </head>
 <body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
 
@@ -26,7 +27,7 @@
                 <a href="juegos.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Juegos</a>
                 <a href="registro.html" class="hover:text-[#00d2ff] flex items-center gap-2"><i class="fa-solid fa-user-plus"></i> Registro</a>
             </nav>
-            <a href="fases.html" class="bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
+            <a href="fases.html" class="btn-juego btn-primario bg-gradient-to-r from-[#00d2ff] to-[#2563eb] hover:from-cyan-400 hover:to-blue-600 text-slate-900 font-bold px-4 py-2 rounded-lg font-orbitron text-xs tracking-wider shadow-lg">
                 <i class="fa-solid fa-trophy mr-1"></i> VER TORNEOS
             </a>
         </div>
@@ -46,13 +47,13 @@
                 </h2>
             </div>
             <div class="flex items-center gap-2 md:gap-4">
-                <a href="config-fases.html?juego=bs" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-[#ff2a85]/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Agregar, quitar o editar fases y modos">
+                <a href="config-fases.html?juego=bs" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-[#ff2a85]/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Agregar, quitar o editar fases y modos">
                     <i class="fa-solid fa-sliders text-[#ff2a85]"></i> <span class="hidden sm:inline">Configurar Fases</span>
                 </a>
-                <button id="btn-reiniciar" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Reiniciar fases o torneo">
+                <button id="btn-reiniciar" class="btn-juego btn-peligro flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-orbitron font-bold transition-all" title="Reiniciar fases o torneo">
                     <i class="fa-solid fa-power-off text-rose-400"></i> <span class="hidden sm:inline">Reiniciar</span>
                 </button>
-                <i class="fa-solid fa-star text-4xl text-[#ff2a85] neon-text-pink"></i>
+                <img src="media/emblemas/brawl-emblema.svg" alt="Emblema de Brawl Stars" class="emblema w-14 h-14 md:w-[4.5rem] md:h-[4.5rem] shrink-0">
             </div>
         </div>
 
@@ -73,13 +74,13 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3 md:justify-end shrink-0">
-                        <button id="btn-sortear" class="hidden flex items-center justify-center gap-2 bg-[#ff2a85]/20 border border-[#ff2a85]/50 text-[#ff2a85] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#ff2a85]/30 transition-colors"></button>
+                        <button id="btn-sortear" class="btn-juego btn-aviso hidden flex items-center justify-center gap-2 bg-[#ff2a85]/20 border border-[#ff2a85]/50 text-[#ff2a85] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#ff2a85]/30 transition-colors"></button>
 
-                        <button id="btn-avanzar-fase" class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md">
+                        <button id="btn-avanzar-fase" class="btn-juego btn-primario flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-md">
                             <i class="fa-solid fa-forward font-bold"></i> Avanzar de Fase
                         </button>
 
-                        <button id="btn-filtrar" class="flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                        <button id="btn-filtrar" class="btn-juego btn-secundario flex items-center justify-center gap-2 bg-slate-800 border border-slate-700 text-slate-300 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
                             <i class="fa-solid fa-filter"></i> Ocultar Eliminados
                         </button>
                     </div>

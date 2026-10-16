@@ -29,8 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function htmlCampeon(equipo, jugadores) {
         return `
             <div class="md:col-span-2 py-12 px-6 rounded-2xl bg-gradient-to-b from-[#ff2a85]/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(255,42,133,0.25)] flex flex-col items-center justify-center">
-                <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center border-2 border-amber-400 mb-4 shadow-[0_0_20px_#fbbf24]">
-                    <i class="fa-solid fa-trophy text-4xl text-amber-400"></i>
+                <div class="flex items-end gap-3 mb-4">
+                    <img src="media/emblemas/brawl-gema.svg" alt="" class="w-10 h-11 -rotate-12">
+                    <img src="media/emblemas/brawl-emblema.svg" alt="Estrella del campeón" class="emblema w-24 h-24">
+                    <img src="media/emblemas/brawl-gema.svg" alt="" class="w-10 h-11 rotate-12">
                 </div>
                 <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">¡EQUIPO CAMPEÓN DEL TORNEO!</span>
                 <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-[#ff2a85] to-amber-400 uppercase tracking-wider mb-2">${equipo.nombre}</h2>
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tituloFaseEl.innerHTML = tituloFase(fase);
         descFaseEl.innerHTML = descripcionFaseHTML(fase, 'text-[#ff2a85]');
         modosFaseEl.innerHTML = modosDeFase(fase).map(m => `
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 border border-[#ff2a85]/30 text-xs font-bold text-slate-200 uppercase tracking-wide">
+            <span class="chip-modo inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/80 border border-[#ff2a85]/30 text-xs font-bold text-slate-200 uppercase tracking-wide">
                 <i class="fa-solid ${m.icono} text-[#ff2a85]"></i> ${m.nombre}
             </span>`).join('');
     }
@@ -95,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="flex items-center gap-4 shrink-0">
                     <div class="text-center">
-                        <p class="text-[10px] ${deshabilitado ? 'text-slate-500' : 'text-slate-400'}">Pts</p>
+                        <p class="text-[10px] ${deshabilitado ? 'text-slate-500' : 'text-slate-400'}"><i class="fa-solid fa-star text-amber-400"></i> Pts</p>
                         <p class="font-bold ${deshabilitado ? 'text-slate-500' : (lider ? 'text-[#ff2a85]' : 'text-slate-300')}">${pts}</p>
                     </div>
                     <div class="flex gap-1">
-                        <button onclick="sumarPunto('${nombreSeguro}', 1)" ${bloqueo} title="Sumar punto" class="w-7 h-7 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white transition-all text-xs ${estiloBloqueo}"><i class="fa-solid fa-plus"></i></button>
-                        <button onclick="sumarPunto('${nombreSeguro}', -1)" ${bloqueo} title="Restar punto" class="w-7 h-7 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 hover:bg-amber-500 hover:text-white transition-all text-xs ${estiloBloqueo}"><i class="fa-solid fa-minus"></i></button>
-                        <button onclick="alternarEquipo('${nombreSeguro}')" title="Deshabilitar/Habilitar" class="w-7 h-7 rounded transition-all text-xs ${deshabilitado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-slate-800 text-slate-500 border border-slate-700 hover:bg-rose-500 hover:text-white'}"><i class="fa-solid fa-xmark"></i></button>
+                        <button onclick="sumarPunto('${nombreSeguro}', 1)" ${bloqueo} title="Sumar punto" class="btn-juego btn-mini btn-exito w-7 h-7 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500 hover:text-white transition-all text-xs ${estiloBloqueo}"><i class="fa-solid fa-plus"></i></button>
+                        <button onclick="sumarPunto('${nombreSeguro}', -1)" ${bloqueo} title="Restar punto" class="btn-juego btn-mini btn-aviso w-7 h-7 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 hover:bg-amber-500 hover:text-white transition-all text-xs ${estiloBloqueo}"><i class="fa-solid fa-minus"></i></button>
+                        <button onclick="alternarEquipo('${nombreSeguro}')" title="Deshabilitar/Habilitar" class="btn-juego btn-mini btn-peligro w-7 h-7 rounded transition-all text-xs ${deshabilitado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-slate-800 text-slate-500 border border-slate-700 hover:bg-rose-500 hover:text-white'}"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                 </div>
             </div>`;

@@ -91,28 +91,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const HTMLJugador = `
                 <div class="${divClases}">
-                    <div class="flex items-center gap-4">
-                        <span class="font-orbitron font-bold text-${posicion <= 3 ? 'amber-400' : 'slate-300'} w-6 text-center">#${posicion}</span>
-                        <div>
-                            <p class="${textoNombreClases}">${jugador.gamertag}</p>
-                            <p class="${badgeClases}">${badgeTexto}</p>
+                    <div class="flex items-center gap-2 sm:gap-4 min-w-0">
+                        <span class="shrink-0 font-orbitron font-bold text-${posicion <= 3 ? 'amber-400' : 'slate-300'} w-6 text-center">#${posicion}</span>
+                        <div class="min-w-0">
+                            <p class="${textoNombreClases} truncate">${jugador.gamertag}</p>
+                            <p class="${badgeClases} truncate">${badgeTexto}</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 sm:gap-6 shrink-0">
                         <div class="text-center">
-                            <p class="text-xs text-slate-400">Victorias</p>
+                            <p class="text-xs text-slate-400"><i class="fa-solid fa-trophy text-amber-400 sm:mr-1"></i><span class="hidden sm:inline">Victorias</span></p>
                             <p class="font-bold text-${estaDeshabilitado ? 'slate-500' : '[#00d2ff]'}">${victoriasActuales}</p>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="sumarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 ${estadoBotones}" ${estaDeshabilitado ? 'disabled' : ''} title="Sumar victoria">
+                        <div class="flex gap-1.5 sm:gap-2">
+                            <button onclick="sumarVictoria('${jugador.id}')" class="btn-juego btn-mini btn-exito w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 ${estadoBotones}" ${estaDeshabilitado ? 'disabled' : ''} title="Sumar victoria">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
 
-                            <button onclick="restarVictoria('${jugador.id}')" class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 ${estadoBotonRestar}" ${estaDeshabilitado ? 'disabled' : ''} title="Restar victoria">
+                            <button onclick="restarVictoria('${jugador.id}')" class="btn-juego btn-mini btn-aviso w-8 h-8 rounded bg-amber-500/20 text-amber-400 border border-amber-500/50 ${estadoBotonRestar}" ${estaDeshabilitado ? 'disabled' : ''} title="Restar victoria">
                                 <i class="fa-solid fa-minus"></i>
                             </button>
 
-                            <button onclick="eliminarJugador('${jugador.id}')" class="w-8 h-8 rounded ${estaDeshabilitado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-rose-500/20 text-rose-400 border border-rose-500/50 hover:bg-rose-500 hover:text-white'} transition-all" title="Deshabilitar/Habilitar">
+                            <button onclick="eliminarJugador('${jugador.id}')" class="btn-juego btn-mini btn-peligro w-8 h-8 rounded ${estaDeshabilitado ? 'bg-rose-500 text-white border border-rose-500' : 'bg-rose-500/20 text-rose-400 border border-rose-500/50 hover:bg-rose-500 hover:text-white'} transition-all" title="Deshabilitar/Habilitar">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>

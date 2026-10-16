@@ -10,9 +10,7 @@ export function renderizarTabsFases(contenedor, opciones) {
 export function htmlCampeon(campeon, extra = '') {
     return `
         <div class="py-12 px-6 rounded-2xl bg-gradient-to-b from-amber-500/10 via-[#121a2d] to-[#0a0f1d] border-2 border-amber-400/60 text-center shadow-[0_0_35px_rgba(251,191,36,0.25)] flex flex-col items-center justify-center my-4">
-            <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center border-2 border-amber-400 mb-4 shadow-[0_0_20px_#fbbf24]">
-                <i class="fa-solid fa-trophy text-4xl text-amber-400"></i>
-            </div>
+            <img src="media/emblemas/clash-cofre.svg" alt="Cofre del campeón" class="emblema w-28 h-24 mb-4">
             <span class="text-xs font-bold font-orbitron text-amber-400 uppercase tracking-[0.3em] mb-1">¡CAMPEÓN ABSOLUTO DEL TORNEO!</span>
             <h2 class="text-4xl md:text-5xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 uppercase tracking-wider mb-2">${campeon.gamertag}</h2>
             <p class="text-sm text-slate-300 font-mono bg-slate-900/80 px-4 py-1 rounded-full border border-slate-700/60 mb-6">

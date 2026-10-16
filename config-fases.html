@@ -7,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="temas/clash.css">
+    <link rel="stylesheet" href="temas/brawl.css">
+    <!-- Tema visual del juego que se edita (antes de pintar para evitar parpadeo) -->
+    <script>document.documentElement.classList.add(new URLSearchParams(location.search).get('juego') === 'bs' ? 'tema-brawl' : 'tema-clash');</script>
 </head>
 <body class="bg-[#0a0f1d] font-rajdhani min-h-screen flex flex-col">
 
@@ -56,21 +60,21 @@
 
         <!-- Barra de acciones -->
         <div class="flex flex-wrap gap-2 mb-6 bg-[#121a2d] border border-slate-800 rounded-2xl p-3">
-            <button id="btn-guardar" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow-md">
+            <button id="btn-guardar" class="btn-juego btn-primario flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow-md">
                 <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
             </button>
-            <button id="btn-agregar" class="flex items-center gap-2 bg-[#00d2ff]/20 border border-[#00d2ff]/50 text-[#00d2ff] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[#00d2ff]/30">
+            <button id="btn-agregar" class="btn-juego btn-secundario flex items-center gap-2 bg-[#00d2ff]/20 border border-[#00d2ff]/50 text-[#00d2ff] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[#00d2ff]/30">
                 <i class="fa-solid fa-plus"></i> Agregar fase
             </button>
             <div class="flex flex-wrap gap-2 sm:ml-auto">
-                <button id="btn-exportar" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
+                <button id="btn-exportar" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
                     <i class="fa-solid fa-download text-cyan-400"></i> Exportar
                 </button>
-                <label for="input-importar" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold cursor-pointer">
+                <label for="input-importar" class="btn-juego btn-secundario flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold cursor-pointer">
                     <i class="fa-solid fa-upload text-emerald-400"></i> Importar
                     <input type="file" id="input-importar" accept=".json" class="hidden">
                 </label>
-                <button id="btn-restablecer" class="flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
+                <button id="btn-restablecer" class="btn-juego btn-peligro flex items-center gap-2 bg-slate-800 border border-slate-700 hover:border-rose-500/50 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold">
                     <i class="fa-solid fa-rotate-left text-rose-400"></i> Restablecer
                 </button>
             </div>

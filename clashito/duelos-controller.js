@@ -7,10 +7,10 @@ import { obtenerJugadores, guardarJugadores } from './storage-utils.js';
 import { obtenerFases, obtenerFase, tituloFase } from './torneo-config.js';
 import { renderizarTabsFases, htmlVacio } from './fases-ui.js';
 
-const CLASE_BTN_SORTEAR = "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-2 transition-all cursor-pointer";
-const CLASE_BTN_BLOQUEADO = "bg-slate-800 border border-slate-700 text-slate-500 font-orbitron font-bold px-5 py-2.5 rounded-xl opacity-60 cursor-not-allowed flex items-center gap-2";
-const CLASE_BTN_RONDA = "bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/50 font-orbitron font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2 mt-4 md:mt-0";
-const CLASE_BTN_RONDA_FIN = "bg-slate-800 border border-slate-700 text-slate-500 font-orbitron font-bold px-4 py-2 rounded-lg opacity-50 cursor-not-allowed mt-4 md:mt-0";
+const CLASE_BTN_SORTEAR = "btn-juego btn-primario bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-900 font-orbitron font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,210,255,0.4)] flex items-center gap-2 transition-all cursor-pointer";
+const CLASE_BTN_BLOQUEADO = "btn-juego btn-bloqueado bg-slate-800 border border-slate-700 text-slate-500 font-orbitron font-bold px-5 py-2.5 rounded-xl opacity-60 cursor-not-allowed flex items-center gap-2";
+const CLASE_BTN_RONDA = "btn-juego btn-exito bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/50 font-orbitron font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2 mt-4 md:mt-0";
+const CLASE_BTN_RONDA_FIN = "btn-juego btn-bloqueado bg-slate-800 border border-slate-700 text-slate-500 font-orbitron font-bold px-4 py-2 rounded-lg opacity-50 cursor-not-allowed mt-4 md:mt-0";
 
 document.addEventListener('DOMContentLoaded', () => {
     const contenedor = document.getElementById('contenedor-duelos');

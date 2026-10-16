@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 104" role="img" aria-label="Cofre">
+  <defs>
+    <linearGradient id="md" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c46a2b"/><stop offset="1" stop-color="#7a3a12"/></linearGradient>
+    <linearGradient id="or" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#ffcc33"/><stop offset="1" stop-color="#e08a00"/></linearGradient>
+  </defs>
+  <path d="M14 48 V36 C14 19 30 10 60 10 C90 10 106 19 106 36 V48 Z" fill="url(#md)" stroke="#2b1405" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="10" y="46" width="100" height="50" rx="7" fill="url(#md)" stroke="#2b1405" stroke-width="5"/>
+  <path d="M14 48 H106" stroke="url(#or)" stroke-width="7"/>
+  <rect x="25" y="12" width="13" height="84" fill="url(#or)" stroke="#2b1405" stroke-width="3"/>
+  <rect x="82" y="12" width="13" height="84" fill="url(#or)" stroke="#2b1405" stroke-width="3"/>
+  <rect x="49" y="38" width="22" height="26" rx="4" fill="url(#or)" stroke="#2b1405" stroke-width="4"/>
+  <path d="M60 46 v9" stroke="#2b1405" stroke-width="4" stroke-linecap="round"/>
+</svg>

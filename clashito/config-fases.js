@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const acento = document.getElementById('titulo-acento');
     if (ES_BRAWL) acento.className = 'text-[#ff2a85] neon-text-pink';
     const btnAgregar = document.getElementById('btn-agregar');
-    if (ES_BRAWL) btnAgregar.className = 'flex items-center gap-2 bg-[#ff2a85]/20 border border-[#ff2a85]/50 text-[#ff2a85] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[#ff2a85]/30';
+    if (ES_BRAWL) btnAgregar.className = 'btn-juego btn-secundario flex items-center gap-2 bg-[#ff2a85]/20 border border-[#ff2a85]/50 text-[#ff2a85] font-bold px-4 py-2 rounded-lg text-sm hover:bg-[#ff2a85]/30';
     document.title = `Configurar Fases - ${ES_BRAWL ? 'Brawl Stars' : 'Clash Royale'}`;
 
     const configInicial = T.cargarConfig();
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const botonIcono = (accion, icono, titulo, deshabilitado = false, color = `hover:text-[${ACENTO}] hover:border-[${ACENTO}]/50`) => `
             <button data-accion="${accion}" data-i="${i}" ${deshabilitado ? 'disabled' : ''} title="${titulo}"
-                class="w-8 h-8 rounded bg-slate-800 border border-slate-700 text-slate-400 ${color} disabled:opacity-30 disabled:cursor-not-allowed">
+                class="btn-juego btn-mini ${accion === 'eliminar' ? 'btn-peligro' : 'btn-secundario'} w-8 h-8 rounded bg-slate-800 border border-slate-700 text-slate-400 ${color} disabled:opacity-30 disabled:cursor-not-allowed">
                 <i class="fa-solid ${icono}"></i>
             </button>`;
 
